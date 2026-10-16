@@ -1,5 +1,5 @@
 /**
- * RutaScan API client (ported from web/js/api.js).
+ * RutaScan API client.
  * JWT session persisted in localStorage with automatic refresh-on-401.
  */
 

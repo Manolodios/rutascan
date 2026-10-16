@@ -24,6 +24,7 @@ EXPOSE 8000
 HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=5 \
     CMD curl -fsS http://localhost:8000/health || exit 1
 
-# Creates tables + seeds demo data (idempotent), then serves the API and the
-# web dashboard (mounted from /app/../web at the "/" route via WEB_DIR env).
+# Creates tables + seeds demo data (idempotent), then serves the API.
+# The web panel is not baked into the image: run `npm run build:web` in
+# dashboard/ and mount <project>/web (WEB_DIR) to serve it at "/".
 CMD ["sh", "-c", "python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port 8000"]

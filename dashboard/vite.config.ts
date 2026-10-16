@@ -5,10 +5,11 @@ import { defineConfig } from 'vite'
 
 const BACKEND = process.env.RUTASCAN_BACKEND ?? 'http://127.0.0.1:8000'
 
-// `vite build --mode deploy` targets the RutaScan backend, which serves this
-// app at http://127.0.0.1:8000/app/ (see scripts/copy-to-web.mjs).
-export default defineConfig(({ mode }) => ({
-  base: mode === 'deploy' ? '/app/' : '/',
+// `npm run build:web` copies the build into <project>/web, which is what the
+// RutaScan backend (WEB_DIR=<project>/web) serves at http://127.0.0.1:8000/.
+// The panel uses hash routing (#/rutas), so everything lives under "/".
+export default defineConfig({
+  base: '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
@@ -26,4 +27,4 @@ export default defineConfig(({ mode }) => ({
       '/health': BACKEND,
     },
   },
-}))
+})

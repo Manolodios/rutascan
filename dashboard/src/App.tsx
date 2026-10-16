@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { toast } from "sonner";
 import { AppShell } from "@/components/app-shell";
 import { LoginForm } from "@/components/login-form";
+import { PlatformApp } from "@/components/platform/platform-app";
 import { RsDashboard } from "@/components/rs-dashboard";
 import { LicenseView } from "@/components/views/license-view";
+import { MapView } from "@/components/views/map-view";
 import { ProductsView } from "@/components/views/products-view";
 import { ReportsView } from "@/components/views/reports-view";
 import { RoutesView } from "@/components/views/routes-view";
@@ -23,6 +25,7 @@ type Route = {
 
 const ROUTES: Record<string, Route> = {
 	"#/": { title: "Panel", render: () => <RsDashboard /> },
+	"#/mapa": { title: "Mapa en vivo", render: () => <MapView /> },
 	"#/rutas": { title: "Rutas", render: () => <RoutesView /> },
 	"#/productos": { title: "Productos", render: () => <ProductsView /> },
 	"#/camiones": { title: "Camiones", render: () => <TrucksView /> },
@@ -32,13 +35,20 @@ const ROUTES: Record<string, Route> = {
 	"#/licencia": { title: "Licencia", adminOnly: true, render: () => <LicenseView /> },
 };
 
+/** Hash of the SaaS-operator panel, which uses its own key (not a company login). */
+const PLATFORM_HASH = "#/plataforma";
+
 function App() {
 	const { logged } = useAuth();
+	const hash = useHash();
+	const platformMode = hash === PLATFORM_HASH;
 
 	return (
 		<>
 			<TooltipProvider>
-				{logged ? (
+				{platformMode ? (
+					<PlatformApp />
+				) : logged ? (
 					<AppShell>
 						<Router />
 					</AppShell>

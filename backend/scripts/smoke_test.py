@@ -8,6 +8,7 @@ Run:  python -m scripts.smoke_test
 from __future__ import annotations
 
 import os
+import re
 import sys
 import tempfile
 import uuid
@@ -241,13 +242,21 @@ def main() -> int:
         routes = r.json()
         check("admin routes list", r.status_code == 200 and len(routes) == 1, str(routes)[:100])
 
-        # --- web dashboard static serving ------------------------------------------------
+        # --- web panel static serving (needs `npm run build:web` in dashboard/) ---------
         r = client.get("/")
-        check("web dashboard served at /", r.status_code == 200 and "RutaScan" in r.text, str(r.status_code))
-        r = client.get("/js/main.js")
-        check("web js assets served", r.status_code == 200 and "renderDashboard" in r.text)
-        r = client.get("/css/app.css")
-        check("web css served", r.status_code == 200 and ".btn-primary" in r.text)
+        if r.status_code == 200:
+            check("panel served at /", "RutaScan" in r.text, str(r.status_code))
+            match = re.search(r'src="(/assets/[^"]+\.js)"', r.text)
+            check("index.html references a js bundle", match is not None, r.text[:120])
+            if match:
+                asset = client.get(match.group(1))
+                check(
+                    "panel js bundle served",
+                    asset.status_code == 200 and len(asset.text) > 10_000,
+                    str(asset.status_code),
+                )
+        else:
+            check("panel not built -> / redirects to docs", r.status_code in (302, 307), str(r.status_code))
         r = client.get("/docs")
         check("OpenAPI docs", r.status_code == 200)
 

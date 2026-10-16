@@ -45,8 +45,9 @@ node_modules/
 dist/
 *.tsbuildinfo
 
-# --- Panel nuevo (build generado) --------------------------------------
-web/app/
+# --- Panel web (build generado) ----------------------------------------
+# <project>/web es 100% generado por `npm run build:web` (dashboard/).
+web/
 
 # --- Desktop app (Electron) -------------------------------------------
 desktop/node_modules/

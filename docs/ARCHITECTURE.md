@@ -7,7 +7,9 @@ app móvil Flutter, con licenciamiento anti-piratería y operación offline-firs
 
 ```
 backend/    API FastAPI (Python 3.11+) — SQLAlchemy + Pydantic v2
-web/        Dashboard HTML5 + Tailwind + JavaScript vanilla (sin build step)
+dashboard/  Panel web (React 19 + Vite + Tailwind + shadcn/ui)
+web/        Build del panel que sirve el backend (generado, no versionado)
+desktop/    App de escritorio Windows (Electron)
 mobile/     App Flutter (Android) para CONDUCTOR y BODEGA
 docs/       API.md (contrato) + este documento
 docker-compose.yml
@@ -106,11 +108,12 @@ del token/licencia; nunca de parámetros del cliente.
 
 ## Dashboard web
 
-SPA estática servida por el backend (`/` → `web/`). 100 % vanilla JS
-(módulos ES) + Tailwind CDN; llama a `/api/v1/admin/*` con Bearer.
-Módulos: dashboard, mapa en vivo, rutas (planificar/asignar/importar/despachar),
+SPA de React (Vite) + Tailwind + shadcn/ui, enrutada por hash. El backend sirve su
+build desde `web/` en `/` (lo genera `npm run build:web` dentro de `dashboard/`),
+y el panel llama a `/api/v1/admin/*` con Bearer JWT.
+Módulos: panel, mapa en vivo, rutas (planificar/asignar/importar/despachar),
 productos (+QR PDF), camiones, usuarios, reportes (Excel/PDF), licencia,
-seguridad.
+seguridad y panel de plataforma (`#/plataforma`, header `X-Platform-Key`).
 
 ## App móvil (Flutter)
 

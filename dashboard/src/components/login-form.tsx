@@ -35,7 +35,7 @@ export function LoginForm() {
 			<div className="w-full max-w-sm space-y-6 rounded-xl border bg-card p-8 shadow-sm">
 				<div className="space-y-2 text-center">
 					<div className="flex justify-center">
-						<Logo className="h-7 text-foreground" />
+						<Logo className="text-2xl text-foreground" />
 					</div>
 					<p className="text-muted-foreground text-sm">
 						Panel de control de entregas
@@ -90,6 +90,13 @@ export function LoginForm() {
 					<p>Administrador: 1000000001 · PIN 1234</p>
 					<p>Bodega: 1000000002 · PIN 2345</p>
 				</div>
+
+				<a
+					className="block text-center text-muted-foreground text-xs underline-offset-4 hover:underline"
+					href="#/plataforma"
+				>
+					Soy el operador de RutaScan (panel de plataforma)
+				</a>
 			</div>
 		</div>
 	);

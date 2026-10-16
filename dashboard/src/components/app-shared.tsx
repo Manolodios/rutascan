@@ -3,13 +3,14 @@ import {
 	FileSpreadsheetIcon,
 	KeyRoundIcon,
 	LayoutGridIcon,
+	MapPinIcon,
 	PackageIcon,
 	RouteIcon,
+	ServerIcon,
 	ShieldAlertIcon,
 	TruckIcon,
 	UsersIcon,
 } from "lucide-react";
-import { CLASSIC_PANEL_URL } from "@/lib/links";
 
 export type SidebarNavItem = {
 	title: string;
@@ -31,6 +32,7 @@ export const navGroups: SidebarNavGroup[] = [
 		label: "Operación",
 		items: [
 			{ title: "Panel", path: "#/", icon: <LayoutGridIcon /> },
+			{ title: "Mapa en vivo", path: "#/mapa", icon: <MapPinIcon /> },
 			{ title: "Rutas", path: "#/rutas", icon: <RouteIcon /> },
 			{ title: "Productos", path: "#/productos", icon: <PackageIcon /> },
 			{ title: "Camiones", path: "#/camiones", icon: <TruckIcon /> },
@@ -49,9 +51,9 @@ export const navGroups: SidebarNavGroup[] = [
 
 export const footerNavLinks: SidebarNavItem[] = [
 	{
-		title: "Panel clásico",
-		path: CLASSIC_PANEL_URL,
-		icon: <LayoutGridIcon />,
+		title: "Panel de plataforma",
+		path: "#/plataforma",
+		icon: <ServerIcon />,
 	},
 ];
 
