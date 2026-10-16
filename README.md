@@ -103,6 +103,10 @@ Ejecute antes `PREPARAR CELULAR.bat` (abre el puerto 8000 en el firewall y le
 muestra la IP). El APK queda en
 `mobile/build/app/outputs/flutter-apk/app-release.apk`.
 
+> En la app, la dirección del servidor se puede cambiar sin recompilar:
+> pantalla de inicio de sesión → `Servidor: …`, o **Ajustes → Cambiar
+> dirección**.
+
 ## Qué incluye
 
 ### Licenciamiento y anti-piratería

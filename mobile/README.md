@@ -62,6 +62,13 @@ Android pedirá autorizar "instalar apps de origen desconocido" la primera vez.
 3. Compile/instale el APK con `API_BASE_URL=http://<IP-LAN-del-PC>:8000`
    (el propio `.bat` le muestra la IP).
 
+> **No hace falta recompilar si cambia la IP o el servidor.** La dirección se
+> puede editar dentro de la app: en la pantalla de inicio de sesión toque
+> `Servidor: …` (abajo del todo) o, ya dentro, **Ajustes → Cambiar dirección**.
+> Acepta `192.168.1.139`, `192.168.1.139:8000` o `https://su-dominio.com`; a una
+> IP sola le agrega el puerto 8000. "Restablecer" vuelve a la de fábrica
+> (`API_BASE_URL`).
+
 > `pubspec.lock` **sí** se versiona: fija las versiones exactas de los plugins
 > (`geolocator 12.0.0`, `mobile_scanner 5.2.3`, …) con las que compila el APK.
 
