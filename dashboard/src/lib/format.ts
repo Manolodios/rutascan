@@ -79,7 +79,42 @@ export const SECURITY_EVENT_LABEL: Record<string, string> = {
 	DEVICE_LIMIT: "Límite de dispositivos",
 	CROSS_TENANT: "Licencia cruzada",
 	MANIFEST_MISMATCH: "Fuera del manifiesto",
+	DUPLICATE_SCAN: "Escaneo duplicado",
+	OTHER: "Otro",
 };
+
+export const ROLE_LABEL: Record<string, string> = {
+	ADMIN: "Administrador",
+	WAREHOUSE: "Bodega",
+	DRIVER: "Conductor",
+};
+
+export const DETAIL_STATUS_LABEL: Record<string, string> = {
+	PENDING: "Pendiente",
+	LOADED: "Cargado",
+	IN_TRUCK: "En camión",
+	DELIVERED: "Entregado",
+	REJECTED: "Rechazado",
+};
+
+/** Today's date as yyyy-mm-dd in the browser's local timezone. */
+export function todayISO(): string {
+	const now = new Date();
+	const offset = now.getTimezoneOffset();
+	return new Date(now.getTime() - offset * 60000).toISOString().slice(0, 10);
+}
+
+/** yyyy-mm-dd → "16 oct 2026". */
+export function formatDate(value: string | null | undefined): string {
+	if (!value) return "—";
+	const date = new Date(`${value}T12:00:00`);
+	if (Number.isNaN(date.getTime())) return value;
+	return date.toLocaleDateString(LOCALE, {
+		day: "numeric",
+		month: "short",
+		year: "numeric",
+	});
+}
 
 /** Turns the raw DeliveryLog flags into human-readable notes (skips informational ones). */
 export function formatFlags(flags: Record<string, unknown> | null | undefined): string[] {

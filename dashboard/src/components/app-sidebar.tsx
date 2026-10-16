@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { LogoIcon } from "@/components/logo";
 import {
@@ -11,10 +12,27 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import { footerNavLinks, navGroups } from "@/components/app-shared";
+import { filterNavGroups, footerNavLinks } from "@/components/app-shared";
 import { NavGroup } from "@/components/nav-group";
+import { useAuth } from "@/lib/auth";
+import { useHash } from "@/lib/use-hash";
 
 export function AppSidebar() {
+	const { user } = useAuth();
+	const hash = useHash();
+
+	const groups = useMemo(
+		() =>
+			filterNavGroups(user?.role).map((group) => ({
+				...group,
+				items: group.items.map((item) => ({
+					...item,
+					isActive: hash === item.path,
+				})),
+			})),
+		[user?.role, hash],
+	);
+
 	return (
 		<Sidebar
 			className={cn(
@@ -34,7 +52,7 @@ export function AppSidebar() {
 				</SidebarMenuButton>
 			</SidebarHeader>
 			<SidebarContent>
-				{navGroups.map((group, index) => (
+				{groups.map((group, index) => (
 					<NavGroup key={`sidebar-group-${index}`} {...group} />
 				))}
 			</SidebarContent>

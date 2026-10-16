@@ -109,14 +109,11 @@ async function refreshTokens(): Promise<string> {
 	return data.access_token;
 }
 
-/**
- * api("/api/v1/admin/dashboard/summary")
- * api("/auth/login", { method: "POST", body: { cedula, pin } })
- */
-export async function api<T = unknown>(
+/** Raw fetch with the bearer token + single-flight refresh-on-401. */
+async function request(
 	path: string,
-	{ method = "GET", body = null, form = null, expect = "json" }: ApiOptions = {},
-): Promise<T> {
+	{ method = "GET", body = null, form = null }: ApiOptions = {},
+): Promise<Response> {
 	const headers: Record<string, string> = {};
 	if (session?.access_token) headers.Authorization = `Bearer ${session.access_token}`;
 
@@ -142,28 +139,75 @@ export async function api<T = unknown>(
 		res = await fetch(path, { method, headers, body: payload });
 	}
 
-	if (!res.ok) {
-		let data: { detail?: unknown; code?: string; errors?: Array<{ msg?: string }> } | null = null;
-		try {
-			data = await res.json();
-		} catch {
-			/* not json */
-		}
-		let message = `Error ${res.status}`;
-		if (data) {
-			if (typeof data.detail === "string") message = data.detail;
-			else if (data.detail && typeof data.detail === "object" && "detail" in data.detail)
-				message = String((data.detail as { detail?: unknown }).detail ?? message);
-			else if (Array.isArray(data.errors) && data.errors[0]?.msg) message = data.errors[0].msg;
-		}
-		if (res.status === 401) clearSession();
-		throw new ApiError(res.status, message, data?.code ?? null);
+	return res;
+}
+
+/** Turns a failed response into an ApiError, reading the backend's message. */
+async function toApiError(res: Response): Promise<ApiError> {
+	let data: { detail?: unknown; code?: string; errors?: Array<{ msg?: string }> } | null = null;
+	try {
+		data = await res.json();
+	} catch {
+		/* not json */
 	}
+	let message = `Error ${res.status}`;
+	if (data) {
+		if (typeof data.detail === "string") message = data.detail;
+		else if (data.detail && typeof data.detail === "object" && "detail" in data.detail)
+			message = String((data.detail as { detail?: unknown }).detail ?? message);
+		else if (Array.isArray(data.errors) && data.errors[0]?.msg) message = data.errors[0].msg;
+	}
+	if (res.status === 401) clearSession();
+	return new ApiError(res.status, message, data?.code ?? null);
+}
+
+/**
+ * api("/api/v1/admin/dashboard/summary")
+ * api("/auth/login", { method: "POST", body: { cedula, pin } })
+ */
+export async function api<T = unknown>(
+	path: string,
+	{ expect = "json", ...opts }: ApiOptions = {},
+): Promise<T> {
+	const res = await request(path, opts);
+	if (!res.ok) throw await toApiError(res);
 
 	if (expect === "blob") return (await res.blob()) as T;
 	if (expect === "none" || res.status === 204) return null as T;
 	const text = await res.text();
 	return (text ? JSON.parse(text) : null) as T;
+}
+
+/** Downloads a server-generated file, honouring its Content-Disposition name. */
+export async function downloadFile(path: string, fallbackName: string): Promise<string> {
+	const res = await request(path, {});
+	if (!res.ok) throw await toApiError(res);
+
+	const blob = await res.blob();
+	const disposition = res.headers.get("Content-Disposition") || "";
+	const match = /filename="?([^";]+)"?/.exec(disposition);
+	const name = match ? match[1] : fallbackName;
+
+	const url = URL.createObjectURL(blob);
+	const anchor = document.createElement("a");
+	anchor.href = url;
+	anchor.download = name;
+	document.body.appendChild(anchor);
+	anchor.click();
+	anchor.remove();
+	setTimeout(() => URL.revokeObjectURL(url), 5000);
+	return name;
+}
+
+/** Opens a server-generated binary (e.g. a QR PNG) in a new tab. */
+export async function openBlobInTab(path: string): Promise<void> {
+	const res = await request(path, {});
+	if (!res.ok) throw await toApiError(res);
+
+	const blob = await res.blob();
+	const url = URL.createObjectURL(blob);
+	window.open(url, "_blank", "noopener");
+	setTimeout(() => URL.revokeObjectURL(url), 60_000);
 }
 
 export async function login(cedula: string, pin: string): Promise<Session> {
@@ -246,11 +290,117 @@ export type LiveMap = { date: string; trucks: LiveMapTruck[] };
 
 export type LicenseInfo = {
 	license_key: string;
+	company_name: string;
+	tax_id: string;
 	subscription_status: string;
 	expiration_date: string;
 	days_remaining: number;
+	expiring_soon: boolean;
+	expired: boolean;
 	max_trucks: number;
+	active_devices: number;
+	device_ttl_days: number;
+	devices: DeviceOut[];
+};
+
+/* ------------------------- admin resource types -------------------------- */
+
+export type UserBrief = {
+	id: string;
+	user_cedula: string;
+	full_name: string;
+	role: Role;
+};
+
+export type TruckBrief = {
+	id: string;
+	license_plate: string;
+	model: string | null;
 	is_active: boolean;
-	active_devices?: number;
-	devices?: Array<{ id: string; device_uuid: string; platform: string; is_blocked: boolean }>;
+};
+
+export type TruckOut = TruckBrief & {
+	assigned_driver: UserBrief | null;
+	has_route_today: boolean;
+	route_status_today: string | null;
+};
+
+export type UserOut = UserBrief & {
+	is_active: boolean;
+	last_login_at: string | null;
+	created_at: string;
+};
+
+export type ProductOut = {
+	id: string;
+	barcode_qr: string;
+	description: string;
+	unit: string;
+	weight: number;
+	is_active: boolean;
+	created_at: string;
+};
+
+export type RouteCounts = {
+	lines: number;
+	assigned_units: number;
+	delivered_units: number;
+	rejected_lines: number;
+	in_truck_lines: number;
+	completion_pct: number;
+};
+
+export type RouteOut = {
+	id: string;
+	route_date: string;
+	status: string;
+	notes: string | null;
+	started_at: string | null;
+	completed_at: string | null;
+	created_at: string;
+	truck: TruckBrief | null;
+	driver: UserBrief | null;
+	counts: RouteCounts;
+};
+
+export type RouteDetailItem = {
+	id: string;
+	product: { id: string; barcode_qr: string; description: string; unit: string; weight: number };
+	status: string;
+	assigned_quantity: number;
+	delivered_quantity: number;
+	return_required: boolean;
+	rejection_reason: string | null;
+	last_scan_at: string | null;
+};
+
+export type RouteFullOut = RouteOut & { details: RouteDetailItem[] };
+
+export type ImportResult = {
+	total_rows: number;
+	created: number;
+	updated: number;
+	errors: string[];
+};
+
+export type DeviceOut = {
+	id: string;
+	device_uuid: string;
+	platform: string | null;
+	app_version: string | null;
+	is_active: boolean;
+	first_seen_at: string | null;
+	last_seen_at: string | null;
+	user: UserBrief | null;
+};
+
+export type SecurityEventOut = {
+	id: string;
+	event_type: string;
+	created_at: string;
+	device_uuid: string | null;
+	latitude: number | null;
+	longitude: number | null;
+	detail: Record<string, unknown> | null;
+	user: UserBrief | null;
 };

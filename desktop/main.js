@@ -6,17 +6,33 @@
  */
 const { app, BrowserWindow, Menu, shell } = require('electron');
 const { spawn } = require('child_process');
+const fs = require('fs');
 const path = require('path');
 const http = require('http');
 
 const PORT = 8000;
-const HOME = `http://127.0.0.1:${PORT}/`;
+const ORIGIN = `http://127.0.0.1:${PORT}`;
+const CLASSIC_HOME = `${ORIGIN}/`;
+/** New React panel (built into web/app by `npm run build:web`). */
+const NEW_PANEL = `${ORIGIN}/app/`;
 const PROJECT =
   process.env.RUTASCAN_PROJECT ||
   'C:\\Users\\Usuario\\Documents\\Default Project';
 
 let server = null;
 let win = null;
+
+/**
+ * Opens the new React panel when it has been built, and falls back to the
+ * classic panel otherwise (so the desktop app never shows a blank screen).
+ */
+function resolveHome() {
+  const index = path.join(PROJECT, 'web', 'app', 'index.html');
+  try {
+    if (fs.existsSync(index)) return NEW_PANEL;
+  } catch (e) {}
+  return CLASSIC_HOME;
+}
 
 const LOADING = `<!doctype html><html><head><meta charset="utf-8"><style>
 html,body{height:100%;margin:0}
@@ -86,6 +102,25 @@ function createWindow() {
     win = null;
   });
   win.webContents.setWindowOpenHandler(({ url }) => {
+    // Internal links (classic panel, /app/ sections) stay inside the window.
+    if (url.startsWith(ORIGIN)) {
+      win.loadURL(url);
+      return { action: 'deny' };
+    }
+    // Generated binaries (QR labels) open in a small viewer window.
+    if (url.startsWith('blob:') || url.startsWith('data:')) {
+      const viewer = new BrowserWindow({
+        width: 460,
+        height: 560,
+        parent: win,
+        autoHideMenuBar: true,
+        title: 'RutaScan - Etiqueta QR',
+      });
+      viewer.setMenuBarVisibility(false);
+      viewer.loadURL(url);
+      return { action: 'deny' };
+    }
+    // Anything else (maps, docs) opens in the default browser.
     shell.openExternal(url);
     return { action: 'deny' };
   });
@@ -95,7 +130,7 @@ function createWindow() {
 function poll(tries) {
   healthCheck((ok) => {
     if (ok || tries <= 0) {
-      if (win) win.loadURL(HOME);
+      if (win) win.loadURL(resolveHome());
       return;
     }
     setTimeout(() => poll(tries - 1), 500);

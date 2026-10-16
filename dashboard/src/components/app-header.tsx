@@ -1,16 +1,25 @@
+import { useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DecorIcon } from "@/components/decor-icon";
 import { AppBreadcrumbs } from "@/components/app-breadcrumbs";
-import { navLinks } from "@/components/app-shared";
+import { visibleNavLinks } from "@/components/app-shared";
 import { CustomSidebarTrigger } from "@/components/custom-sidebar-trigger";
 import { NavUser } from "@/components/nav-user";
+import { useAuth } from "@/lib/auth";
+import { useHash } from "@/lib/use-hash";
 import { SendIcon, BellIcon } from "lucide-react";
 
-const activeItem = navLinks.find((item) => item.isActive);
-
 export function AppHeader() {
+	const { user } = useAuth();
+	const hash = useHash();
+
+	const activeItem = useMemo(
+		() => visibleNavLinks(user?.role).find((item) => item.path === hash) ?? null,
+		[hash, user?.role],
+	);
+
 	return (
 		<header
 			className={cn(
