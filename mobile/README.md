@@ -10,6 +10,17 @@ offline de 3 días.
 - Un dispositivo o emulador Android
 - El backend RutaScan corriendo (ver `../README.md`)
 
+### Toolchain instalado en este PC (Windows)
+
+| Qué | Dónde | Versión |
+| --- | --- | --- |
+| Flutter SDK | `C:\src\flutter` (en el PATH) | 3.47.7 stable · Dart 3.13.5 |
+| JDK | `C:\Program Files\Microsoft\jdk-17.0.20.101-hotspot` (`JAVA_HOME`) | OpenJDK 17 LTS |
+| Android SDK | `C:\Android\Sdk` (`ANDROID_HOME`) | platform 35/36, build-tools 36.0.0 |
+| adb | `C:\Android\Sdk\platform-tools` (en el PATH) | r37 |
+
+Verificar con `flutter doctor` (debe salir ✔ en *Android toolchain*).
+
 ## Puesta en marcha
 
 ```bash
@@ -31,13 +42,28 @@ flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8000
 flutter run --dart-define=API_BASE_URL=http://192.168.1.50:8000
 ```
 
-Compilar APK de producción:
+### Compilar el APK en este PC
 
-```bash
-flutter build apk --release --dart-define=API_BASE_URL=https://api.tuempresa.com
+```powershell
+cd mobile
+flutter build apk --release --dart-define=API_BASE_URL=http://192.168.1.139:8000
 ```
 
 > El APK queda en `build/app/outputs/flutter-apk/app-release.apk`.
+
+Para instalarlo: copie ese archivo al teléfono (cable o WhatsApp/Drive) y ábralo;
+Android pedirá autorizar "instalar apps de origen desconocido" la primera vez.
+
+**Para que el teléfono alcance el PC** (misma red WiFi):
+
+1. Ejecute `..\PREPARAR CELULAR.bat` (abre el puerto 8000 en el firewall, pide
+   permiso de administrador) — solo hace falta una vez.
+2. Abra RutaScan en el PC (el backend ya escucha en toda la red local).
+3. Compile/instale el APK con `API_BASE_URL=http://<IP-LAN-del-PC>:8000`
+   (el propio `.bat` le muestra la IP).
+
+> `pubspec.lock` **sí** se versiona: fija las versiones exactas de los plugins
+> (`geolocator 12.0.0`, `mobile_scanner 5.2.3`, …) con las que compila el APK.
 
 ### Verificación del AndroidManifest
 
@@ -63,10 +89,10 @@ android:usesCleartextTraffic="true"   <!-- solo para desarrollo con http:// -->
 
 | Rol        | Cédula       | PIN  |
 | ---------- | ------------ | ---- |
-| DRIVER     | `1000000003` | 3456 |
-| WAREHOUSE  | `1000000002` | 2345 |
+| DRIVER     | `52987641`   | 3456 |
+| WAREHOUSE  | `79458123`   | 2345 |
 
-Clave de licencia: `RUTA-DEMO-2026-0001`.
+Clave de licencia: `RUTA-4F7Q-2MX9-BN38`.
 
 ## Flujo de uso
 

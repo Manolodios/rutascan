@@ -22,7 +22,7 @@ class ApiClient {
   final SessionStore session;
   final http.Client _client = http.Client();
 
-  Uri _uri(String path) => Uri.parse('${AppConfig.apiBaseUrl}$path');
+  Uri _uri(String path) => Uri.parse('${session.effectiveServerUrl}$path');
 
   Map<String, String> _headers({bool auth = true, bool json = true}) {
     final headers = <String, String>{

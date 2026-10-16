@@ -45,7 +45,7 @@ echo    PARA CERRAR RutaScan: cierra esta ventana negra.
 echo   ----------------------------------------------------------
 echo.
 
-"%PY%" -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+"%PY%" -m uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 echo.
 echo   El servidor se ha detenido.

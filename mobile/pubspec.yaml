@@ -26,7 +26,7 @@ dependencies:
   connectivity_plus: ^6.0.3
   # Feedback (beeps + vibration)
   audioplayers: ^6.1.0
-  vibration: ^2.0.0
+  vibration: ^3.2.1
   # Proof of delivery
   signature: ^5.4.1
   # Misc

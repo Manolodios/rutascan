@@ -57,10 +57,8 @@ class LocationService {
     Position? position;
     try {
       position = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(
-          accuracy: LocationAccuracy.high,
-          timeLimit: Duration(seconds: 25),
-        ),
+        desiredAccuracy: LocationAccuracy.high,
+        timeLimit: const Duration(seconds: 25),
       );
     } on TimeoutException {
       position = await Geolocator.getLastKnownPosition();

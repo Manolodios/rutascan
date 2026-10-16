@@ -43,7 +43,7 @@ class FeedbackService {
       _player = null; // audio is best-effort, never block scanning
     }
     try {
-      _vibratorAvailable = (await Vibration.hasVibrator()) ?? false;
+      _vibratorAvailable = await Vibration.hasVibrator();
     } catch (_) {
       _vibratorAvailable = false;
     }

@@ -303,7 +303,7 @@ function TruckEditorDialog({
 							className="uppercase"
 							id="tr-plate"
 							onChange={(event) => setPlate(event.target.value)}
-							placeholder="ABC-123"
+							placeholder="WKL-482"
 							value={plate}
 						/>
 					</div>

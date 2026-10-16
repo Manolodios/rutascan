@@ -11,6 +11,11 @@ const http = require('http');
 
 const PORT = 8000;
 const ORIGIN = `http://127.0.0.1:${PORT}`;
+/**
+ * Bind on every interface so the Android app can reach the backend over the
+ * local network. Set RUTASCAN_BIND=127.0.0.1 to keep it PC-only.
+ */
+const BIND = process.env.RUTASCAN_BIND || '0.0.0.0';
 /** The React panel is served at the root by the RutaScan backend. */
 const HOME = `${ORIGIN}/`;
 const PROJECT =
@@ -55,7 +60,7 @@ function startServer() {
   const backend = path.join(PROJECT, 'backend');
   server = spawn(
     py,
-    ['-m', 'uvicorn', 'app.main:app', '--host', '127.0.0.1', '--port', String(PORT)],
+    ['-m', 'uvicorn', 'app.main:app', '--host', BIND, '--port', String(PORT)],
     {
       cwd: backend,
       env: Object.assign({}, process.env, {

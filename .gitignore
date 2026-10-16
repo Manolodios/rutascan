@@ -12,6 +12,8 @@ venv/
 .env
 .env.*
 !.env.example
+# Notas locales con claves y usuarios de demostración.
+CLAVES.txt
 
 # --- Backend runtime --------------------------------------------------
 backend/uploads/
@@ -25,7 +27,8 @@ mobile/.packages
 mobile/build/
 mobile/.flutter-plugins
 mobile/.flutter-plugins-dependencies
-mobile/pubspec.lock
+# mobile/pubspec.lock SI se versiona: fija las versiones de los plugins con las
+# que se compilo el APK (las apps si deben fijar su lockfile).
 mobile/android/.gradle/
 mobile/android/app/debug/
 mobile/android/app/profile/

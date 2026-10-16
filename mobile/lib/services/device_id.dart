@@ -13,7 +13,7 @@ class DeviceIdService {
   DeviceIdService._();
 
   static const _kDeviceUuid = 'rs_device_uuid';
-  static final FlutterSecureStorage _storage = const FlutterSecureStorage();
+  static const FlutterSecureStorage _storage = FlutterSecureStorage();
 
   static Future<String> getOrCreate() async {
     try {

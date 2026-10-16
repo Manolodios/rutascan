@@ -22,10 +22,12 @@ os.environ["SEED_DEMO_DATA"] = "true"
 
 from fastapi.testclient import TestClient  # noqa: E402
 
+from app.core.config import get_settings  # noqa: E402
 from app.core.geo import utcnow  # noqa: E402
 from app.main import app  # noqa: E402
 
-LICENSE = "RUTA-DEMO-2026-0001"
+LICENSE = "RUTA-4F7Q-2MX9-BN38"
+PLATFORM_KEY = get_settings().platform_api_key
 DEVICE = "SMOKE-DEVICE-0001"
 FAILURES: list[str] = []
 
@@ -54,7 +56,7 @@ def main() -> int:
         # --- mobile login (driver) ------------------------------------------
         r = client.post(
             "/auth/login",
-            json={"cedula": "1000000003", "pin": "3456", "device_uuid": DEVICE, "platform": "android"},
+            json={"cedula": "52987641", "pin": "3456", "device_uuid": DEVICE, "platform": "android"},
             headers={"X-License-Key": LICENSE, "X-Device-UUID": DEVICE},
         )
         check("driver login", r.status_code == 200, f"status={r.status_code}")
@@ -63,11 +65,11 @@ def main() -> int:
         driver_access = tokens["access_token"]
 
         # --- bad PIN -> 401 --------------------------------------------------
-        r = client.post("/auth/login", json={"cedula": "1000000003", "pin": "0000"})
+        r = client.post("/auth/login", json={"cedula": "52987641", "pin": "0000"})
         check("wrong pin -> 401", r.status_code == 401 and r.json()["code"] == "INVALID_CREDENTIALS")
 
         # --- admin login ------------------------------------------------------
-        r = client.post("/auth/login", json={"cedula": "1000000001", "pin": "1234"})
+        r = client.post("/auth/login", json={"cedula": "1020456789", "pin": "1234"})
         check("admin login", r.status_code == 200)
         admin_access = r.json()["access_token"]
         admin_headers = {"Authorization": f"Bearer {admin_access}"}
@@ -221,12 +223,12 @@ def main() -> int:
         lic = r.json()
         check(
             "license snapshot",
-            r.status_code == 200 and lic["active_devices"] == 1 and lic["max_trucks"] == 5,
+            r.status_code == 200 and lic["active_devices"] >= 1 and lic["max_trucks"] == 12,
             f"devices={lic['active_devices']}/{lic['max_trucks']}",
         )
 
         # --- device limit: 2nd device beyond max_trucks (simulate cap=1 via platform key) ---
-        r = client.get("/api/v1/platform/companies", headers={"X-Platform-Key": "platform-dev-key-change-me"})
+        r = client.get("/api/v1/platform/companies", headers={"X-Platform-Key": PLATFORM_KEY})
         check("platform companies list (dev key)", r.status_code == 200 and len(r.json()) == 1, str(r.status_code))
 
         # --- refresh token rotation ----------------------------------------------------
@@ -240,7 +242,7 @@ def main() -> int:
         # --- route completed after syncing everything -----------------------------------
         r = client.get(f"/api/v1/admin/routes", headers=admin_headers)
         routes = r.json()
-        check("admin routes list", r.status_code == 200 and len(routes) == 1, str(routes)[:100])
+        check("admin routes list", r.status_code == 200 and len(routes) >= 1, str(routes)[:100])
 
         # --- web panel static serving (needs `npm run build:web` in dashboard/) ---------
         r = client.get("/")

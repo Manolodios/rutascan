@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+import '../core/config.dart';
 import 'models.dart';
 
 /// Persistent session: license key, device UUID, JWT pair and the cached
@@ -25,6 +26,7 @@ class SessionStore {
   static const _kGraceToken = 'rs_grace_token';
   static const _kGraceExpiresAt = 'rs_grace_expires_at';
   static const _kLastLicenseCheck = 'rs_last_license_check';
+  static const _kServerUrl = 'rs_server_url';
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
@@ -41,7 +43,13 @@ class SessionStore {
   DateTime? graceExpiresAt;
   DateTime? lastLicenseCheckAt;
 
+  /// Custom backend address; `null` means "use the compiled default".
+  String? serverUrl;
+
   bool get isLoggedIn => accessToken != null && user != null;
+
+  /// Address actually used for API calls.
+  String get effectiveServerUrl => serverUrl ?? AppConfig.apiBaseUrl;
 
   /// Whether the cached 3-day offline permit is still valid.
   bool get offlinePermitValid {
@@ -76,6 +84,7 @@ class SessionStore {
     graceToken = await _read(_kGraceToken);
     graceExpiresAt = _parseDate(await _read(_kGraceExpiresAt));
     lastLicenseCheckAt = _parseDate(await _read(_kLastLicenseCheck));
+    serverUrl = await _read(_kServerUrl);
   }
 
   Future<void> setLicenseKey(String value) async {
@@ -87,6 +96,36 @@ class SessionStore {
     deviceUuid = value;
     await _write(_kDeviceUuid, value);
   }
+
+  /// Overrides the backend address. Empty/null restores the compiled default.
+  Future<void> setServerUrl(String? value) async {
+    serverUrl = normalizeServerUrl(value);
+    await _write(_kServerUrl, serverUrl);
+  }
+
+  /// Accepts `192.168.1.5`, `192.168.1.5:8000`, `http://host:8000/` or a full
+  /// https URL. Returns `null` when the input is empty or not a URL (meaning
+  /// "use the compiled default").
+  static String? normalizeServerUrl(String? raw) {
+    var value = (raw ?? '').trim();
+    if (value.isEmpty) return null;
+    if (value.contains(RegExp(r'\s'))) return null;
+
+    final hadScheme = value.contains('://');
+    if (!hadScheme) value = 'http://$value';
+    while (value.endsWith('/')) {
+      value = value.substring(0, value.length - 1);
+    }
+    final uri = Uri.tryParse(value);
+    if (uri == null || uri.host.isEmpty) return null;
+    // A bare LAN IP almost always means the demo server on port 8000.
+    if (!hadScheme && !uri.hasPort && _ipv4.hasMatch(uri.host)) {
+      return '${uri.scheme}://${uri.host}:8000';
+    }
+    return value;
+  }
+
+  static final RegExp _ipv4 = RegExp(r'^\d{1,3}(\.\d{1,3}){3}$');
 
   /// Applies the body of POST /auth/login (a TokenPair).
   Future<void> saveLogin(Map<String, dynamic> response) async {

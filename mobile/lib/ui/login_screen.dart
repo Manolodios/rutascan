@@ -8,6 +8,7 @@ import '../data/repository.dart';
 import '../data/session_store.dart';
 import '../data/sync_engine.dart';
 import 'home_screen.dart';
+import 'server_url_dialog.dart';
 
 /// Cedula + 4-digit PIN login. The license key is remembered between logins.
 class LoginScreen extends StatefulWidget {
@@ -94,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
     } on ApiException catch (e) {
       var message = e.detail;
       if (e.isNetwork) {
-        message = 'Sin conexión con el servidor. Verifique la red e intente de nuevo.';
+        message = 'Sin conexión con el servidor. Verifique la red y la dirección del servidor.';
       } else if (e.code == 'PIN_LOCKOUT' && e.retryAfterSeconds != null) {
         message =
             'Demasiados intentos fallidos. Espere ${e.retryAfterSeconds} segundos.';
@@ -108,6 +109,11 @@ class _LoginScreenState extends State<LoginScreen> {
     } finally {
       if (mounted) setState(() => _loading = false);
     }
+  }
+
+  Future<void> _editServer() async {
+    final changed = await showServerUrlDialog(context, widget.session);
+    if (changed && mounted) setState(() {});
   }
 
   @override
@@ -223,6 +229,15 @@ class _LoginScreenState extends State<LoginScreen> {
                     'Dispositivo: ${widget.session.deviceUuid ?? '—'}',
                     textAlign: TextAlign.center,
                     style: const TextStyle(fontSize: 11, color: Colors.black38),
+                  ),
+                  TextButton.icon(
+                    onPressed: _editServer,
+                    style: TextButton.styleFrom(foregroundColor: Colors.black45),
+                    icon: const Icon(Icons.dns_outlined, size: 16),
+                    label: Text(
+                      'Servidor: ${widget.session.effectiveServerUrl}',
+                      style: const TextStyle(fontSize: 11.5),
+                    ),
                   ),
                 ],
               ),

@@ -194,7 +194,7 @@ export function NewCompanyDialog({
 						<Input
 							id="nc-tax"
 							onChange={(event) => setTaxId(event.target.value)}
-							placeholder="900123456-7"
+							placeholder="901458772-3"
 							value={taxId}
 						/>
 					</div>
@@ -236,7 +236,7 @@ export function NewCompanyDialog({
 							id="nc-cedula"
 							inputMode="numeric"
 							onChange={(event) => setAdminCedula(event.target.value)}
-							placeholder="1000000001"
+							placeholder="1020456789"
 							value={adminCedula}
 						/>
 					</div>

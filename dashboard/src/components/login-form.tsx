@@ -11,6 +11,7 @@ export function LoginForm() {
 	const [pin, setPin] = useState("");
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
+	const [showDemo, setShowDemo] = useState(false);
 
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -53,7 +54,7 @@ export function LoginForm() {
 							id="cedula"
 							inputMode="numeric"
 							onChange={(e) => setCedula(e.target.value)}
-							placeholder="1000000001"
+							placeholder="1020456789"
 							value={cedula}
 						/>
 					</div>
@@ -85,10 +86,22 @@ export function LoginForm() {
 					</Button>
 				</form>
 
-				<div className="space-y-1 rounded-lg bg-muted px-4 py-3 text-muted-foreground text-xs">
-					<p className="font-medium text-foreground">Acceso de demostración</p>
-					<p>Administrador: 1000000001 · PIN 1234</p>
-					<p>Bodega: 1000000002 · PIN 2345</p>
+				<div className="space-y-2 text-center text-xs">
+					<button
+						className="text-muted-foreground underline-offset-4 hover:underline"
+						onClick={() => setShowDemo((value) => !value)}
+						type="button"
+					>
+						{showDemo ? "Ocultar" : "Ver"} credenciales de demostración
+					</button>
+					{showDemo ? (
+						<div className="space-y-1 rounded-lg bg-muted px-4 py-3 text-left text-muted-foreground">
+							<p className="font-medium text-foreground">Acceso de demostración</p>
+							<p>Administrador: 1020456789 · PIN 1234</p>
+							<p>Bodega: 79458123 · PIN 2345</p>
+							<p>Conductor: 52987641 · PIN 3456</p>
+						</div>
+					) : null}
 				</div>
 
 				<a

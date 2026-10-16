@@ -9,6 +9,7 @@ import '../data/repository.dart';
 import '../data/session_store.dart';
 import '../data/sync_engine.dart';
 import 'login_screen.dart';
+import 'server_url_dialog.dart';
 import 'widgets.dart';
 
 /// Account, license, device and server information + logout.
@@ -58,6 +59,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
         backgroundColor: ok ? AppColors.success : AppColors.danger,
       ),
     );
+  }
+
+  Future<void> _editServer() async {
+    final changed = await showServerUrlDialog(context, widget.session);
+    if (changed && mounted) setState(() {});
   }
 
   Future<void> _logout() async {
@@ -163,7 +169,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
             children: [
               _row('ID de dispositivo', session.deviceUuid ?? '—'),
               _row('Versión de app', AppConfig.appVersion),
-              _row('Servidor', AppConfig.apiBaseUrl),
+              _row('Servidor', session.effectiveServerUrl),
+              Align(
+                alignment: Alignment.centerRight,
+                child: TextButton.icon(
+                  onPressed: _editServer,
+                  icon: const Icon(Icons.edit, size: 16),
+                  label: const Text('Cambiar dirección'),
+                ),
+              ),
             ],
           ),
         ),

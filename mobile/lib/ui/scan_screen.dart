@@ -379,7 +379,7 @@ class _ScanScreenState extends State<ScanScreen> {
               controller: _controller,
               fit: BoxFit.cover,
               onDetect: _onDetect,
-              errorBuilder: (context, error) => _CameraError(
+              errorBuilder: (context, error, child) => _CameraError(
                 message: 'No se pudo abrir la cámara (${error.errorCode.name}). '
                     'Verifique los permisos de la aplicación.',
               ),

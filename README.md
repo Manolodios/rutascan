@@ -25,6 +25,7 @@ ventana.
 | --- | --- |
 | **RutaScan** (Escritorio / Inicio) | abre la app de escritorio (ventana propia) |
 | `ABRIR RutaScan.bat` | igual que el acceso directo (sin instalación) |
+| `PREPARAR CELULAR.bat` | abre el puerto 8000 en el firewall y muestra la IP del PC (una vez) |
 | `CERRAR RutaScan.bat` | cierra backend y ventanas |
 
 Los dos lanzadores compilan el panel la primera vez si `web\` todavía no existe:
@@ -53,12 +54,14 @@ El backend crea el esquema y siembra datos demo automáticamente al arrancar
 
 | Rol | Cédula | PIN | Uso |
 | --- | ------ | --- | --- |
-| ADMIN | `1000000001` | 1234 | Dashboard web |
-| WAREHOUSE | `1000000002` | 2345 | Dashboard / app |
-| DRIVER | `1000000003` | 3456 | App móvil |
+| ADMIN | `1020456789` | 1234 | Dashboard web |
+| WAREHOUSE | `79458123` | 2345 | Dashboard / app |
+| DRIVER | `52987641` | 3456 | App móvil |
+| DRIVER | `1032459876` | 4567 | App móvil |
+| DRIVER | `71745238` | 5678 | App móvil |
 
-- Licencia: `RUTA-DEMO-2026-0001` · Camión: `ABC-123`
-- Productos demo: `PRD-0001` … `PRD-0008`
+- Licencia: `RUTA-4F7Q-2MX9-BN38` · Camiones: `WKL-482`, `SJR-116`, `TSM-907`, `PBN-245`
+- Productos demo: 12 referencias con código de barras `7702001000xxx`
 - Clave de plataforma (operador SaaS): `PLATFORM_API_KEY` del `.env`
 
 ## Desarrollo local (sin Docker)
@@ -87,7 +90,18 @@ python -m pytest -q                      # 15 pruebas unitarias/integración
 PYTHONPATH=. python -m scripts.smoke_test  # E2E con TestClient (SQLite)
 ```
 
-App móvil: ver `mobile/README.md` (Flutter 3.19+, `--dart-define=API_BASE_URL=…`).
+App móvil: ver `mobile/README.md`. En este PC ya quedó instalado el toolchain
+completo (Flutter 3.47.7, JDK 17, Android SDK 36). Para el teléfono en la misma
+WiFi:
+
+```powershell
+cd mobile
+flutter build apk --release --dart-define=API_BASE_URL=http://<IP-del-PC>:8000
+```
+
+Ejecute antes `PREPARAR CELULAR.bat` (abre el puerto 8000 en el firewall y le
+muestra la IP). El APK queda en
+`mobile/build/app/outputs/flutter-apk/app-release.apk`.
 
 ## Qué incluye
 
