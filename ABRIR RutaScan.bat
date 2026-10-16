@@ -1,0 +1,48 @@
+@echo off
+setlocal EnableExtensions
+title RutaScan - NO CIERRES ESTA VENTANA
+cd /d "%~dp0"
+set "ROOT=%~dp0"
+set "PY=%ROOT%.venv\Scripts\python.exe"
+if not exist "%PY%" set "PY=python"
+
+echo.
+echo   ==========================================================
+echo      RutaScan  -  Sistema de rastreo de carga
+echo   ==========================================================
+echo.
+
+REM Si ya esta corriendo, solo abre el navegador
+powershell -NoProfile -Command "try{ (Invoke-RestMethod -Uri 'http://127.0.0.1:8000/health' -TimeoutSec 2) | Out-Null; exit 0 }catch{ exit 1 }"
+if "%errorlevel%"=="0" goto ya_corre
+
+echo   Iniciando el servidor... (tarda unos segundos)
+echo   El navegador se va a abrir solo cuando este listo.
+echo.
+
+REM Abre el navegador en cuanto el servidor responda
+start "" /min powershell -NoProfile -Command "for($i=0;$i -lt 90;$i++){ Start-Sleep -Seconds 1; try{ $r = Invoke-RestMethod -Uri 'http://127.0.0.1:8000/health' -TimeoutSec 2; if($r.status -eq 'ok'){ Start-Process 'http://127.0.0.1:8000'; break } } catch {} }"
+
+cd /d "%ROOT%backend"
+set "DATABASE_URL=sqlite+pysqlite:///./rutascan_demo.db"
+set "SEED_DEMO_DATA=true"
+set "WEB_DIR=%ROOT%web"
+set "PYTHONPATH=%ROOT%backend"
+
+echo   ----------------------------------------------------------
+echo    PARA CERRAR RutaScan: cierra esta ventana negra.
+echo   ----------------------------------------------------------
+echo.
+
+"%PY%" -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+
+echo.
+echo   El servidor se ha detenido.
+pause
+exit /b
+
+:ya_corre
+echo   RutaScan ya estaba abierto. Abriendo el navegador...
+start "" "http://127.0.0.1:8000"
+timeout /t 3 >nul
+exit /b

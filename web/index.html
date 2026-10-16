@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RutaScan · Panel de control</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚚</text></svg>" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef6ff', 100: '#d9eaff', 200: '#bcdaff', 300: '#8ec3ff',
+              400: '#59a1ff', 500: '#2f7ef7', 600: '#1a5fe4', 700: '#164bc7',
+              800: '#183ea1', 900: '#19377f'
+            }
+          },
+          fontFamily: { sans: ['Inter', 'system-ui', 'Segoe UI', 'sans-serif'] }
+        }
+      }
+    };
+  </script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="./css/app.css" />
+</head>
+<body class="h-full bg-slate-100 text-slate-800 antialiased">
+  <div id="root" class="h-full"></div>
+  <div id="modal-root"></div>
+  <div id="toast-root" class="fixed bottom-4 right-4 z-[1200] space-y-2 max-w-sm"></div>
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>

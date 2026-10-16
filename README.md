@@ -1,0 +1,132 @@
+# RutaScan
+
+SaaS B2B de rastreo de carga con **licenciamiento anti-piratería** y operación
+**offline-first**: dashboard web para administración, backend FastAPI y app
+Flutter para conductores/bodega.
+
+| Módulo | Tecnología | Carpeta |
+| ------ | ---------- | ------- |
+| API + licencias | Python 3.11+ · FastAPI · SQLAlchemy 2 · Pydantic v2 · PostgreSQL | `backend/` |
+| Dashboard | HTML5 + Tailwind + JavaScript vanilla (sin build step) | `web/` |
+| App móvil | Flutter (Android) — QR, GPS, cola offline, firma/foto | `mobile/` |
+| Orquestación | Docker Compose (Postgres 16 + Redis 7 + API) | raíz |
+
+## Arranque rápido (Docker)
+
+```bash
+cp .env.example .env      # edite SECRET_KEY y claves
+docker compose up --build
+```
+
+- Dashboard web: http://localhost:8000/
+- API (OpenAPI/Swagger): http://localhost:8000/docs
+- Healthcheck: http://localhost:8000/health
+
+El backend crea el esquema y siembra datos demo automáticamente al arrancar
+(`SEED_DEMO_DATA=true`).
+
+### Credenciales de demo
+
+| Rol | Cédula | PIN | Uso |
+| --- | ------ | --- | --- |
+| ADMIN | `1000000001` | 1234 | Dashboard web |
+| WAREHOUSE | `1000000002` | 2345 | Dashboard / app |
+| DRIVER | `1000000003` | 3456 | App móvil |
+
+- Licencia: `RUTA-DEMO-2026-0001` · Camión: `ABC-123`
+- Productos demo: `PRD-0001` … `PRD-0008`
+- Clave de plataforma (operador SaaS): `PLATFORM_API_KEY` del `.env`
+
+## Desarrollo local (sin Docker)
+
+Backend (Python 3.11+; se probó también en 3.12–3.14):
+
+```bash
+python -m venv .venv
+# Windows:  .venv\Scripts\activate      Linux/macOS:  source .venv/bin/activate
+pip install -r backend/requirements.txt
+
+cd backend
+# apunte DATABASE_URL a un Postgres o use el compose solo para db/redis:
+#   docker compose up -d db redis
+uvicorn app.main:app --reload --port 8000
+```
+
+> Sin PostgreSQL, `database` en `/health` seguirá `down`; los tests y el smoke
+> test no lo necesitan (usan SQLite en memoria).
+
+Pruebas:
+
+```bash
+# desde backend/
+python -m pytest -q                      # 15 pruebas unitarias/integración
+PYTHONPATH=. python -m scripts.smoke_test  # E2E con TestClient (SQLite)
+```
+
+App móvil: ver `mobile/README.md` (Flutter 3.19+, `--dart-define=API_BASE_URL=…`).
+
+## Qué incluye
+
+### Licenciamiento y anti-piratería
+
+- `/api/v1/mobile/*` guardado por `LicenseGuardMiddleware`:
+  400 sin cabeceras · 402 licencia inválida/vencida/suspendida ·
+  403 `DEVICE_LIMIT_REACHED` si un UUID nuevo excede `max_trucks`.
+- Vinculación de dispositivo (cada instalación tiene su UUID) + TTL de
+  dispositivo (`DEVICE_TTL_DAYS`).
+- **Grace token** firmado de 3 días para operar sin conexión.
+- Login cédula + PIN de 4 dígitos (bcrypt) con rate limit y bloqueo temporal.
+- Multi-tenant estricto: toda consulta filtra por `company_id` del token.
+
+### Anti-fraude en escaneos
+
+- GPS simulado → bloqueo (422 `MOCK_LOCATION_DETECTED`) + evento de seguridad.
+- Heurísticas: velocidad imposible, reloj adelantado, escaneo offline antiguo.
+- `scan_uuid` como clave de idempotencia (reintentos jamás duplican).
+
+### Offline-first
+
+- Cola local SQLite en el móvil (`pending_scans`, `pod_pending`) y flush
+  atómico con `POST /api/v1/mobile/deliveries/sync-batch` (SAVEPOINT por ítem,
+  resultado por ítem).
+- Manifiesto cacheado; la app funciona sin señal dentro del periodo de gracia.
+- Evidencias de entrega (firma PNG / foto) subidas y adjuntadas
+  automáticamente al recuperar la conexión.
+
+### Dashboard (roles ADMIN / WAREHOUSE)
+
+- KPIs, mapa en vivo, rutas (planificar, asignar, importar, despachar),
+  productos (+ importación y hoja PDF de QR), camiones, usuarios,
+  reportes Excel/PDF, licencia/dispositivos y eventos de seguridad.
+
+## Estructura del repo
+
+```
+backend/
+  app/
+    api/v1/        # auth, mobile/*, admin/*, platform
+    services/      # scans, licensing, manifest, reports, qrpdf, imports…
+    models/        # SQLAlchemy (companies, users, trucks, products,
+                   # routes, route_details, delivery_logs, sync_batches,
+                   # devices, security_events)
+    middleware/    # LicenseGuardMiddleware
+    core/          # config, JWT/bcrypt, cache, geo
+    db/            # session + init_db (auto-create + seed demo)
+  tests/           # pytest
+  scripts/         # smoke_test.py (E2E)
+web/               # dashboard SPA (index.html, js/views/*, css)
+mobile/            # app Flutter
+docs/              # API.md (contrato) + ARCHITECTURE.md
+docker-compose.yml
+```
+
+## Despliegue
+
+1. `SECRET_KEY` fuerte (`openssl rand -hex 32`), `PLATFORM_API_KEY`, claves de
+   Postgres y `ENVIRONMENT=production` en el entorno.
+2. `DATABASE_URL` compatible con Supabase/Neon (agregue `?sslmode=require`).
+3. `CORS_ORIGINS` restringido a su dominio del dashboard.
+4. Compile el APK móvil con `--dart-define=API_BASE_URL=https://api.sudominio.com`.
+
+Documentación: `docs/API.md` (endpoints y códigos de error) y
+`docs/ARCHITECTURE.md` (diseño interno, modelo de datos, seguridad).

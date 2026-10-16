@@ -1,0 +1,53 @@
+# --- Python ---------------------------------------------------------
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# --- Environment / secrets -------------------------------------------
+.env
+.env.*
+!.env.example
+
+# --- Backend runtime --------------------------------------------------
+backend/uploads/
+uploads/
+*.db
+*.sqlite3
+
+# --- Flutter / Dart -----------------------------------------------------
+mobile/.dart_tool/
+mobile/.packages
+mobile/build/
+mobile/.flutter-plugins
+mobile/.flutter-plugins-dependencies
+mobile/pubspec.lock
+mobile/android/.gradle/
+mobile/android/app/debug/
+mobile/android/app/profile/
+mobile/android/app/release/
+mobile/android/local.properties
+mobile/android/key.properties
+mobile/ios/Pods/
+mobile/ios/.symlinks/
+mobile/ios/Flutter/Flutter.framework
+mobile/ios/Flutter/Flutter.podspec
+*.iml
+.idea/
+.vscode/
+
+# --- Desktop app (Electron) -------------------------------------------
+desktop/node_modules/
+desktop/dist/
+desktop/out/
+desktop/*.log
+npm-debug.log*
+
+# --- OS / editor -------------------------------------------------------
+.DS_Store
+Thumbs.db
+desktop.ini

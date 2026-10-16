@@ -1,0 +1,17 @@
+{
+  "name": "rutascan",
+  "productName": "RutaScan",
+  "version": "1.0.0",
+  "description": "RutaScan - Panel de control de rastreo de carga",
+  "main": "main.js",
+  "author": "RutaScan",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-packager . RutaScan --platform=win32 --arch=x64 --out=dist --icon=build/icon.ico --overwrite"
+  },
+  "devDependencies": {
+    "@electron/packager": "^18.4.4",
+    "electron": "^41.7.1"
+  }
+}
