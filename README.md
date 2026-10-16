@@ -7,9 +7,33 @@ Flutter para conductores/bodega.
 | Módulo | Tecnología | Carpeta |
 | ------ | ---------- | ------- |
 | API + licencias | Python 3.11+ · FastAPI · SQLAlchemy 2 · Pydantic v2 · PostgreSQL | `backend/` |
-| Dashboard | HTML5 + Tailwind + JavaScript vanilla (sin build step) | `web/` |
+| Panel nuevo | React 19 + Vite + Tailwind v4 + shadcn/ui | `dashboard/` |
+| Panel clásico | HTML5 + Tailwind + JavaScript vanilla (sin build step) | `web/` |
+| Programa Windows | Electron (ventana propia, abre el panel y arranca el backend) | `desktop/` |
 | App móvil | Flutter (Android) — QR, GPS, cola offline, firma/foto | `mobile/` |
 | Orquestación | Docker Compose (Postgres 16 + Redis 7 + API) | raíz |
+
+## Uso diario en Windows
+
+El programa **RutaScan** se instala en el PC y abre en su propia ventana el panel
+nuevo (<http://127.0.0.1:8000/app/>), arrancando el backend solo y apagándolo al
+cerrar la ventana.
+
+| Acceso directo | Qué hace |
+| --- | --- |
+| **RutaScan** (Escritorio / Inicio) | abre la app de escritorio (panel nuevo) |
+| `ABRIR RutaScan.bat` | igual que el acceso directo (sin instalación) |
+| `ABRIR Panel Nuevo.bat` | compila si hace falta y abre el panel en el navegador |
+| `CERRAR RutaScan.bat` | cierra backend y ventanas |
+
+Si el panel nuevo aún no se ha compilado (`web/app/`), la app abre
+automáticamente el panel clásico. Para compilarlo:
+
+```bash
+cd dashboard && npm install && npm run build:web
+```
+
+Para volver a empaquetar e instalar la app de Windows, ver `desktop/README.md`.
 
 ## Arranque rápido (Docker)
 
@@ -18,7 +42,8 @@ cp .env.example .env      # edite SECRET_KEY y claves
 docker compose up --build
 ```
 
-- Dashboard web: http://localhost:8000/
+- Panel nuevo (React): http://localhost:8000/app/
+- Panel clásico: http://localhost:8000/
 - API (OpenAPI/Swagger): http://localhost:8000/docs
 - Healthcheck: http://localhost:8000/health
 
@@ -95,9 +120,11 @@ App móvil: ver `mobile/README.md` (Flutter 3.19+, `--dart-define=API_BASE_URL=�
 
 ### Dashboard (roles ADMIN / WAREHOUSE)
 
-- KPIs, mapa en vivo, rutas (planificar, asignar, importar, despachar),
-  productos (+ importación y hoja PDF de QR), camiones, usuarios,
-  reportes Excel/PDF, licencia/dispositivos y eventos de seguridad.
+- Panel nuevo (React, recomendado) y panel clásico (HTML puro) sobre la misma API:
+  KPIs, camiones en ruta, rutas (planificar, manifiesto, importar, despachar),
+  productos (+ importación y hoja PDF de QR), camiones, usuarios, reportes
+  Excel/PDF, licencia/dispositivos y eventos de seguridad.
+- Usuarios y licencia solo se muestran al rol ADMIN; el menú se filtra por rol.
 
 ## Estructura del repo
 
@@ -114,7 +141,9 @@ backend/
     db/            # session + init_db (auto-create + seed demo)
   tests/           # pytest
   scripts/         # smoke_test.py (E2E)
-web/               # dashboard SPA (index.html, js/views/*, css)
+web/               # panel clásico (index.html, js/views/*, css) y web/app (build del panel nuevo)
+dashboard/         # panel nuevo (React + Vite + shadcn/ui)
+desktop/           # app de escritorio (Electron) + empaquetado
 mobile/            # app Flutter
 docs/              # API.md (contrato) + ARCHITECTURE.md
 docker-compose.yml
