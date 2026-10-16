@@ -40,6 +40,14 @@ mobile/ios/Flutter/Flutter.podspec
 .idea/
 .vscode/
 
+# --- Node / JS ---------------------------------------------------------
+node_modules/
+dist/
+*.tsbuildinfo
+
+# --- Panel nuevo (build generado) --------------------------------------
+web/app/
+
 # --- Desktop app (Electron) -------------------------------------------
 desktop/node_modules/
 desktop/dist/
