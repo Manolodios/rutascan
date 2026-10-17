@@ -5,33 +5,47 @@ Esta guía deja RutaScan funcionando en un enlace fijo
 mostrar a una empresa desde cualquier computador o celular, siempre encendido.
 
 Todo el código ya está preparado (commit con `render.yaml` y el panel compilado
-en `./web`). Solo faltan dos registros gratuitos: **Supabase** (base de datos en
-la nube) y **Render** (servidor donde corre la aplicación).
+en `./web`). La base de datos **Supabase ya quedó creada y preparada** por el
+asistente (esquema, seguridad y verificación). Solo faltan dos pasos suyos:
+**pegar la dirección de conexión de Supabase** en el chat (Parte 1) y
+**crear el servicio en Render** (Parte 2).
 
 > Tiempo total: ~10 minutos, casi todo esperando. No hace falta tarjeta.
 
 ---
 
-## Parte 1 - Supabase (la base de datos)
+## Parte 1 - Supabase (la base de datos) - YA ESTÁ LISTA
 
-1. Entre a <https://supabase.com> y pulse **Start your project**.
-2. Elija **Continue with GitHub** (es la forma más rápida; autorice con su
-   cuenta de GitHub).
-3. Pulse **New project** y complete:
-   - **Name**: `rutascan`
-   - **Database Password**: cree una contraseña y **guárdela** (o péguela en
-     `CLAVES.txt`).
-   - **Region**: la más cercana (por ejemplo `East US` o `São Paulo`).
-4. Espere 1-2 minutos a que el proyecto quede listo (*Project is ready*).
-5. En la parte superior pulse el botón **Connect**.
-6. En la ventana que se abre busque la sección **Session pooler** (no la de
-   "*Direct connection*" ni "*Transaction pooler*").
-7. Copie el texto que empieza con `postgresql://postgres.xxxx:...:5432/postgres`
-   y **péguelo en el chat** (y opcionalmente en `CLAVES.txt`).
+El proyecto `rutascan` existe en Supabase (ref `hkdustypbnkycrcctctg`) y el
+asistente ya creó y verificó todo por usted con las migraciones:
 
-Con esa dirección el backend crea las tablas y siembra los datos de
-demostración automáticamente al arrancar. (Este paso permite además probar la
-conexión desde el PC antes de tocar Render.)
+| Migración | Qué hace |
+| --- | --- |
+| `rutascan_initial_schema` | Crea las 10 tablas (empresas, usuarios, camiones, rutas, escaneos…) |
+| `rutascan_revoke_public_api_grants` | Cierra el acceso de la API pública de Supabase (`anon`/`authenticated`): solo entra la aplicación |
+| `rutascan_add_fk_indexes` | Índices que recomendó el asesor de rendimiento |
+
+El esquema exacto quedó guardado en `docs/supabase_schema.sql`. Los datos de
+demostración se siembran solos al arrancar (en Render o en el PC).
+
+**Lo único que falta**: copiar la dirección de conexión (una sola vez).
+
+1. Entre a <https://supabase.com/dashboard/project/hkdustypbnkycrcctctg>.
+2. Pulse el botón **Connect** (arriba a la derecha).
+3. Elija la pestaña **Session pooler** (no "*Direct connection*" ni
+   "*Transaction pooler*").
+4. Copie la cadena que empieza por
+   `postgresql://postgres.hkdustypbnkycrcctctg:...:5432/postgres` y
+   **reemplace `[YOUR-PASSWORD]` por la contraseña** que creó al crear el
+   proyecto.
+5. Péguela en el chat (y, si quiere, en `CLAVES.txt`).
+
+> ¿No guardó la contraseña? En **Project Settings → Database → Reset database
+> password** genere una nueva, guárdela en `CLAVES.txt` y use esa en el paso 4.
+> No se rompe nada: la aplicación todavía no está conectada.
+
+Con esa dirección el asistente prueba la conexión desde su PC (esquema + datos
+de demostración) antes de tocar Render.
 
 ## Parte 2 - Render (el servidor)
 
@@ -77,6 +91,11 @@ El APK también se puede descargar desde el túnel local
   demostración.
 - **Supabase pausa** proyectos gratuitos tras ~7 días sin uso. Si pasa, entre a
   supabase.com y pulse **Restore**; no se pierden datos.
+- **La base está blindada**: las tablas no son accesibles por la API pública de
+  Supabase (se revocaron los permisos de `anon`/`authenticated`); solo entra la
+  aplicación con su cadena de conexión, que vive únicamente en Render (variable
+  segura) y en `CLAVES.txt` en su PC. Los asesores de seguridad de Supabase no
+  reportan hallazgos.
 - Las **fotos de evidencia** que sube el celular quedan en el disco temporal de
   Render: se pierden si Render reinicia el servicio. Los datos (empresa,
   usuarios, escaneos) viven en Supabase y no se pierden.
@@ -96,6 +115,8 @@ El APK también se puede descargar desde el túnel local
 
 | Dato | Valor |
 | --- | --- |
+| Base de datos | Supabase `hkdustypbnkycrcctctg` |
+| Esquema | `docs/supabase_schema.sql` (migraciones `rutascan_*`) |
 | Servicio | `rutascan` (runtime python, plan free) |
 | Env obligatorias | `DATABASE_URL`, `PLATFORM_API_KEY` |
 | Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `WEB_DIR=../web` |

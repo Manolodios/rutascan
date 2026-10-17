@@ -15,7 +15,10 @@ settings = get_settings()
 # SQLite (tests) does not accept pool sizing args, so only pass them for SQL.
 engine_kwargs: dict = {"pool_pre_ping": True, "future": True}
 if not settings.database_url.startswith("sqlite"):
-    engine_kwargs.update(pool_size=10, max_overflow=20, pool_recycle=1800)
+    # Small on purpose: the SQLAlchemy pool must fit inside the Supabase
+    # Supavisor session pool (15 client connections per user/db by default)
+    # even during request bursts from the panel.
+    engine_kwargs.update(pool_size=5, max_overflow=5, pool_recycle=1800)
 
 engine = create_engine(settings.database_url, **engine_kwargs)
 

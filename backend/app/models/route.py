@@ -40,7 +40,9 @@ class Route(UUIDMixin, TenantMixin, TimestampMixin, Base):
     completed_at: Mapped[datetime | None] = mapped_column(sa.DateTime(timezone=True))
     notes: Mapped[str | None] = mapped_column(sa.String(500))
     created_by_id: Mapped[uuid.UUID | None] = mapped_column(
-        sa.Uuid(as_uuid=True), sa.ForeignKey("users.id", ondelete="SET NULL")
+        sa.Uuid(as_uuid=True),
+        sa.ForeignKey("users.id", ondelete="SET NULL"),
+        index=True,
     )
 
     company: Mapped["Company"] = relationship(back_populates="routes")

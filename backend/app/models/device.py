@@ -29,7 +29,10 @@ class Device(UUIDMixin, TenantMixin, TimestampMixin, Base):
 
     device_uuid: Mapped[str] = mapped_column(sa.String(64), nullable=False, index=True)
     user_id: Mapped[uuid.UUID | None] = mapped_column(
-        sa.Uuid(as_uuid=True), sa.ForeignKey("users.id", ondelete="SET NULL"), nullable=True
+        sa.Uuid(as_uuid=True),
+        sa.ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
     )
     platform: Mapped[str | None] = mapped_column(sa.String(32))
     app_version: Mapped[str | None] = mapped_column(sa.String(32))

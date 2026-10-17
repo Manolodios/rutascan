@@ -23,7 +23,10 @@ class SecurityEvent(UUIDMixin, TenantMixin, TimestampMixin, Base):
         SecurityEventType, nullable=False, index=True
     )
     user_id: Mapped[uuid.UUID | None] = mapped_column(
-        sa.Uuid(as_uuid=True), sa.ForeignKey("users.id", ondelete="SET NULL"), nullable=True
+        sa.Uuid(as_uuid=True),
+        sa.ForeignKey("users.id", ondelete="SET NULL"),
+        nullable=True,
+        index=True,
     )
     device_uuid: Mapped[str | None] = mapped_column(sa.String(64), index=True)
     latitude: Mapped[float | None] = mapped_column(sa.Float)

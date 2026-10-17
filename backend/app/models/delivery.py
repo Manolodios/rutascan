@@ -79,6 +79,7 @@ class DeliveryLog(UUIDMixin, TenantMixin, TimestampMixin, Base):
         sa.Uuid(as_uuid=True),
         sa.ForeignKey("sync_batches.id", ondelete="SET NULL"),
         nullable=True,
+        index=True,
     )
 
     route_detail: Mapped["RouteDetail"] = relationship(back_populates="delivery_logs")
@@ -95,7 +96,10 @@ class SyncBatch(UUIDMixin, TenantMixin, TimestampMixin, Base):
     __tablename__ = "sync_batches"
 
     user_id: Mapped[uuid.UUID] = mapped_column(
-        sa.Uuid(as_uuid=True), sa.ForeignKey("users.id", ondelete="RESTRICT"), nullable=False
+        sa.Uuid(as_uuid=True),
+        sa.ForeignKey("users.id", ondelete="RESTRICT"),
+        nullable=False,
+        index=True,
     )
     device_uuid: Mapped[str] = mapped_column(sa.String(64), nullable=False, index=True)
     received_count: Mapped[int] = mapped_column(sa.Integer, nullable=False, default=0)
