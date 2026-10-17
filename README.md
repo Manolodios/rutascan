@@ -26,15 +26,39 @@ ventana.
 | **RutaScan** (Escritorio / Inicio) | abre la app de escritorio (ventana propia) |
 | `ABRIR RutaScan.bat` | igual que el acceso directo (sin instalación) |
 | `PREPARAR CELULAR.bat` | abre el puerto 8000 en el firewall y muestra la IP del PC (una vez) |
-| `CERRAR RutaScan.bat` | cierra backend y ventanas |
+| `PUBLICAR RutaScan en Internet.bat` | enlace público HTTPS (Cloudflare Tunnel) para usar la app desde cualquier red |
+| `CERRAR RutaScan.bat` | cierra backend, túnel y ventanas |
 
-Los dos lanzadores compilan el panel la primera vez si `web\` todavía no existe:
+Los lanzadores compilan el panel la primera vez si `web\` todavía no existe:
 
 ```bash
 cd dashboard && npm install && npm run build:web
 ```
 
 Para volver a empaquetar e instalar la app de Windows, ver `desktop/README.md`.
+
+### Publicar en internet (gratis, sin tocar el router)
+
+`PUBLICAR RutaScan en Internet.bat` levanta el servidor si hace falta y abre un
+túnel de Cloudflare (`cloudflared`, se descarga solo la primera vez) que entrega
+un enlace HTTPS público del tipo `https://xxx-yyy-zzz.trycloudflare.com`:
+
+- El panel queda accesible desde cualquier red: `https://…/`
+- El celular usa esa misma dirección en la app (login → **Servidor**), así que
+  ya no depende de la WiFi de la casa.
+- El APK instalable también se sirve desde el enlace:
+  `https://…/uploads/RutaScan-Celular.apk` (se copia desde el Escritorio).
+- El enlace queda en el Escritorio (`URL PUBLICA RutaScan.txt`) y en el
+  portapapeles. **Cambia** si se reinicia el PC o se ejecuta
+  `CERRAR RutaScan.bat`: vuelva a abrir el `.bat` y use el enlace nuevo.
+- Mientras el túnel esté activo, quien tenga el enlace puede entrar; por eso las
+  credenciales demo viven detrás de un botón plegable en el login
+  (`dashboard/src/components/login-form.tsx`).
+- El backend sigue corriendo en este PC (SQLite local): el túnel solo lo expone.
+
+Archivos: `PUBLICAR RutaScan en Internet.bat` y `tools/publicar_internet.ps1`.
+El binario `cloudflared.exe` vive fuera del repositorio, en
+`%LOCALAPPDATA%\RutaScan\tools\`.
 
 ## Arranque rápido (Docker)
 
