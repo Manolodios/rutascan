@@ -5,10 +5,9 @@ Esta guía deja RutaScan funcionando en un enlace fijo
 mostrar a una empresa desde cualquier computador o celular, siempre encendido.
 
 Todo el código ya está preparado (commit con `render.yaml` y el panel compilado
-en `./web`). La base de datos **Supabase ya quedó creada y preparada** por el
-asistente (esquema, seguridad y verificación). Solo faltan dos pasos suyos:
-**pegar la dirección de conexión de Supabase** en el chat (Parte 1) y
-**crear el servicio en Render** (Parte 2).
+en `./web`). La base de datos **Supabase ya quedó creada, conectada y probada**
+por el asistente. Solo queda **un paso suyo: crear el servicio en Render**
+(Parte 2) para tener el enlace fijo.
 
 > Tiempo total: ~10 minutos, casi todo esperando. No hace falta tarjeta.
 
@@ -28,24 +27,17 @@ asistente ya creó y verificó todo por usted con las migraciones:
 El esquema exacto quedó guardado en `docs/supabase_schema.sql`. Los datos de
 demostración se siembran solos al arrancar (en Render o en el PC).
 
-**Lo único que falta**: copiar la dirección de conexión (una sola vez).
+**Conexión: ya está hecha y probada ✅.** La aplicación no usa el usuario total
+de la base: se creó un usuario dedicado `rutascan_app` con permisos justos
+(leer y escribir tablas, nada más). La cadena de conexión completa está en
+`CLAVES.txt`, sección 6 — es la misma que se pega en Render.
 
-1. Entre a <https://supabase.com/dashboard/project/hkdustypbnkycrcctctg>.
-2. Pulse el botón **Connect** (arriba a la derecha).
-3. Elija la pestaña **Session pooler** (no "*Direct connection*" ni
-   "*Transaction pooler*").
-4. Copie la cadena que empieza por
-   `postgresql://postgres.hkdustypbnkycrcctctg:...:5432/postgres` y
-   **reemplace `[YOUR-PASSWORD]` por la contraseña** que creó al crear el
-   proyecto.
-5. Péguela en el chat (y, si quiere, en `CLAVES.txt`).
+Se probó desde el PC el 17/10/2026: conexión OK, esquema verificado, datos de
+demostración sembrados en la nube (empresa, usuarios, camiones, rutas y 258
+escaneos) y login de administrador funcionando con esa base.
 
-> ¿No guardó la contraseña? En **Project Settings → Database → Reset database
-> password** genere una nueva, guárdela en `CLAVES.txt` y use esa en el paso 4.
-> No se rompe nada: la aplicación todavía no está conectada.
-
-Con esa dirección el asistente prueba la conexión desde su PC (esquema + datos
-de demostración) antes de tocar Render.
+> Para consultar o administrar la base directamente:
+> <https://supabase.com/dashboard/project/hkdustypbnkycrcctctg>
 
 ## Parte 2 - Render (el servidor)
 
@@ -55,8 +47,8 @@ de demostración) antes de tocar Render.
 2. En el panel de Render: **New +** -> **Blueprint**.
 3. Seleccione el repositorio **`Manolodios/rutascan`** y pulse **Connect**.
 4. Render lee `render.yaml` y muestra el servicio `rutascan` con dos campos:
-   - **DATABASE_URL** → pegue la dirección de Supabase del paso 1.
-   - **PLATFORM_API_KEY** → pegue `RS-PLAT-...` (está en `CLAVES.txt`).
+   - **DATABASE_URL** → pegue la *cadena de conexión* de `CLAVES.txt`, sección 6.
+   - **PLATFORM_API_KEY** → pegue `RS-PLAT-...` (también está en `CLAVES.txt`).
 5. Pulse **Apply** y espere 3-5 minutos (la primera vez instala dependencias).
 
 Cuando termine, arriba verá la dirección del servicio, del estilo
@@ -118,7 +110,7 @@ El APK también se puede descargar desde el túnel local
 | Base de datos | Supabase `hkdustypbnkycrcctctg` |
 | Esquema | `docs/supabase_schema.sql` (migraciones `rutascan_*`) |
 | Servicio | `rutascan` (runtime python, plan free) |
-| Env obligatorias | `DATABASE_URL`, `PLATFORM_API_KEY` |
+| Env obligatorias | `DATABASE_URL` y `PLATFORM_API_KEY` (ver `CLAVES.txt`, sección 6) |
 | Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `WEB_DIR=../web` |
 | Python | 3.12.7 (`PYTHON_VERSION`) |
 | Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
