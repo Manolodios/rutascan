@@ -8,11 +8,12 @@ app móvil Flutter, con licenciamiento anti-piratería y operación offline-firs
 ```
 backend/    API FastAPI (Python 3.11+) — SQLAlchemy + Pydantic v2
 dashboard/  Panel web (React 19 + Vite + Tailwind + shadcn/ui)
-web/        Build del panel que sirve el backend (generado, no versionado)
+web/        Build del panel (versionado) que sirve el backend y Render en la nube
 desktop/    App de escritorio Windows (Electron)
 mobile/     App Flutter (Android) para CONDUCTOR y BODEGA
-docs/       API.md (contrato) + este documento
+docs/       API.md (contrato) + ARCHITECTURE.md + DESPLIEGUE-NUBE.md
 docker-compose.yml
+render.yaml # despliegue en la nube gratis (Render + Supabase)
 ```
 
 ## Backend
