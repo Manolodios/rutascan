@@ -13,6 +13,9 @@ services:
     name: rutascan
     runtime: python
     plan: free
+    # Virginia (us-east-1): la region mas cercana a Colombia y la misma de
+    # Supabase, para que el panel responda rapido.
+    region: virginia
     branch: main
     buildCommand: pip install -r backend/requirements.txt
     startCommand: cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT
