@@ -12,8 +12,9 @@ Flutter para conductores/bodega.
 | App móvil | Flutter (Android) — QR, GPS, cola offline, firma/foto | `mobile/` |
 | Orquestación | Docker Compose (Postgres 16 + Redis 7 + API) | raíz |
 
-> `web/` **no se versiona**: es el build del panel (`npm run build:web` dentro de
-> `dashboard/`) que el backend sirve en la raíz `/`.
+> `web/` **sí se versiona**: es el build del panel (`npm run build:web` dentro de
+> `dashboard/`), lo sirve el backend en la raíz `/` y lo sirve Render en la nube
+> sin necesitar Node.js.
 
 ## Uso diario en Windows
 
@@ -59,6 +60,10 @@ un enlace HTTPS público del tipo `https://xxx-yyy-zzz.trycloudflare.com`:
 Archivos: `PUBLICAR RutaScan en Internet.bat` y `tools/publicar_internet.ps1`.
 El binario `cloudflared.exe` vive fuera del repositorio, en
 `%LOCALAPPDATA%\RutaScan\tools\`.
+
+Para un enlace **fijo** que no dependa de este PC (gratis, con Supabase +
+Render) siga `docs/DESPLIEGUE-NUBE.md`; el repositorio ya incluye `render.yaml`
+y el panel compilado en `web/`.
 
 ## Arranque rápido (Docker)
 

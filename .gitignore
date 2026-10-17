@@ -49,8 +49,11 @@ dist/
 *.tsbuildinfo
 
 # --- Panel web (build generado) ----------------------------------------
-# <project>/web es 100% generado por `npm run build:web` (dashboard/).
-web/
+# <project>/web es generado por `npm run build:web` (dashboard/) y SI se
+# versiona: en la nube (Render) el backend lo sirve tal cual (WEB_DIR=../web)
+# sin necesitar Node.js. Tras cambiar el panel:
+#   cd dashboard && npm run build:web && git add web && git commit
+# dashboard/dist/ sigue ignorado.
 
 # --- Desktop app (Electron) -------------------------------------------
 desktop/node_modules/

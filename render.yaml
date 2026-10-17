@@ -1,0 +1,34 @@
+# RutaScan - despliegue gratis en Render (https://render.com)
+# ---------------------------------------------------------------------------
+# Uso: Render Dashboard -> "New +" -> "Blueprint" -> elegir este repositorio.
+# Render lee este archivo y crea el servicio web automaticamente. Solo pedira
+# dos valores en pantalla:
+#   - DATABASE_URL      : la cadena de conexion de Supabase (Session pooler)
+#   - PLATFORM_API_KEY  : la clave de plataforma (ver CLAVES.txt)
+#
+# El panel web ya viene compilado en ./web (WEB_DIR=../web), asi el build en la
+# nube no depende de Node.js. Guia paso a paso: docs/DESPLIEGUE-NUBE.md
+services:
+  - type: web
+    name: rutascan
+    runtime: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.7"
+      - key: ENVIRONMENT
+        value: production
+      - key: SECRET_KEY
+        generateValue: true
+      - key: PLATFORM_API_KEY
+        sync: false          # pegar RS-PLAT-... (CLAVES.txt)
+      - key: DATABASE_URL
+        sync: false          # pegar la URI de Supabase (Session pooler)
+      - key: SEED_DEMO_DATA
+        value: "true"
+      - key: WEB_DIR
+        value: ../web
