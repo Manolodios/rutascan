@@ -1,15 +1,21 @@
 # RutaScan en la nube (gratis): Supabase + Render
 
-Esta guía deja RutaScan funcionando en un enlace fijo
-(`https://rutascan-algo.onrender.com`) que **no depende de tu PC**: se puede
-mostrar a una empresa desde cualquier computador o celular, siempre encendido.
+Esta guía dejó RutaScan funcionando en un enlace fijo que **no depende de tu
+PC**: ya está **completado y verificado**.
 
-Todo el código ya está preparado (commit con `render.yaml` y el panel compilado
-en `./web`). La base de datos **Supabase ya quedó creada, conectada y probada**
-por el asistente. Solo queda **un paso suyo: crear el servicio en Render**
-(Parte 2) para tener el enlace fijo.
-
-> Tiempo total: ~10 minutos, casi todo esperando. No hace falta tarjeta.
+> ## ✅ <https://rutascan.onrender.com>
+>
+> | Prueba | Resultado |
+> | --- | --- |
+> | `/health` | `200` · `database: up` · `environment: production` |
+> | Login ADMIN demo | `200` — Ana María Restrepo (ADMIN) |
+> | Panel web | `200` (HTML + JS + CSS servidos desde la nube) |
+> | APK del celular | `200` — 64,3 MB descargables |
+> | Datos demo | 3 rutas del día · 4 camiones · 30 entregas asignadas (11 entregadas, 2 rechazos) · 36,7 % |
+> | Licencia | `RUTA-4F7Q-2MX9-BN38` ACTIVA hasta 17/10/2027 |
+> | Primer despliegue | 1 min 40 s |
+>
+> No hizo falta tarjeta: todo en plan gratuito (Render + Supabase).
 
 ---
 
@@ -39,39 +45,71 @@ escaneos) y login de administrador funcionando con esa base.
 > Para consultar o administrar la base directamente:
 > <https://supabase.com/dashboard/project/hkdustypbnkycrcctctg>
 
-## Parte 2 - Render (el servidor)
+## Parte 2 - Render (el servidor) - YA ESTÁ LISTA
 
-1. Entre a <https://render.com> y pulse **Get Started** -> **GitHub**.
-   Autorice a Render el acceso al repositorio **`rutascan`** (puede darle
-   acceso solo a ese repositorio).
-2. En el panel de Render: **New +** -> **Blueprint**.
-3. Seleccione el repositorio **`Manolodios/rutascan`** y pulse **Connect**.
-4. Render lee `render.yaml` y muestra el servicio `rutascan` con dos campos:
-   - **DATABASE_URL** → pegue la *cadena de conexión* de `CLAVES.txt`, sección 6.
-   - **PLATFORM_API_KEY** → pegue `RS-PLAT-...` (también está en `CLAVES.txt`).
-5. Pulse **Apply** y espere 3-5 minutos (la primera vez instala dependencias).
+El servicio `rutascan` quedó creado en la cuenta de Render con esta
+configuración (la misma que describe `render.yaml`):
 
-Cuando termine, arriba verá la dirección del servicio, del estilo
-`https://rutascan-abcd.onrender.com`. **Ese es el enlace fijo de RutaScan.**
+| Ajuste | Valor |
+| --- | --- |
+| Repositorio | `Manolodios/rutascan` (privado), rama `main` |
+| Runtime · plan · región | `python` · `free` · Virginia (misma región que Supabase) |
+| Build | `pip install -r backend/requirements.txt` |
+| Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
+| Healthcheck | `/health` |
+| Auto-despliegue | activado: cada `push` a `main` reconstruye el sitio solo |
+| URL | <https://rutascan.onrender.com> |
+| Panel del servicio | <https://dashboard.render.com/web/srv-dba060qjnfac73droohg> |
 
-## Parte 3 - Comprobar
+Variables cargadas: `PYTHON_VERSION=3.12.7`, `ENVIRONMENT=production`,
+`SECRET_KEY` (aleatoria), `SEED_DEMO_DATA=true`, `WEB_DIR=../web`, más
+`PLATFORM_API_KEY` y `DATABASE_URL` (los dos secretos viven en `CLAVES.txt`,
+secciones 6 y 7 — nunca en el repositorio).
 
-1. Abra el enlace: debe aparecer el panel de login.
+> ⚠️ Requisito que costó un paso extra: además de autorizar la aplicación de
+> GitHub, Render exige una **credencial de Git** en
+> *Account settings → Account Security → **Git Deployment Credentials** →
+> Add credential → GitHub*, autorizando el repositorio. Sin ella la API responde
+> `passed in repository URL is invalid or unfetchable`.
+
+## Parte 3 - Comprobar (ya comprobado ✅)
+
+1. Abra <https://rutascan.onrender.com>: aparece el panel de login.
 2. Entre con las credenciales de demostración (ver `CLAVES.txt` o el botón
    "Ver credenciales de demostración" en el login).
 3. Verifique Panel / Productos / Seguridad / Licencia y el menú **Plataforma**
    (`#/plataforma`) con la clave de plataforma.
 
+Comprobaciones realizadas el 17/10/2026 **desde fuera de la red del PC**:
+
+| Endpoint | Resultado |
+| --- | --- |
+| `GET /health` | `200` · `{"status":"ok","database":"up","environment":"production"}` |
+| `POST /auth/login` (ADMIN) | `200` — token válido (Ana María Restrepo) |
+| `GET /` (panel) | `200` — HTML + `assets/*.js` + `*.css` |
+| `HEAD /uploads/RutaScan-Celular.apk` | `200` — 64,3 MB |
+| `GET /api/v1/admin/dashboard/summary` | `200` — 3 rutas del día, 4 camiones, 30 entregas asignadas (11 entregadas, 2 rechazos), 36,7 % |
+| `GET /api/v1/admin/license` | `200` — `RUTA-4F7Q-2MX9-BN38`, ACTIVA hasta 17/10/2027 |
+
 ## Parte 4 - El celular
 
-En la app del celular (la que ya está instalada o el APK del Escritorio):
+El APK se descarga directo de la nube (también sirve para actualizarlo):
+
+```
+https://rutascan.onrender.com/uploads/RutaScan-Celular.apk
+```
+
+En la app instalada:
 
 1. En la pantalla de inicio de sesión toque **Servidor**.
-2. Pegue el enlace de Render (`https://rutascan-abcd.onrender.com`).
-3. Inicie sesión con un usuario DRIVER.
+2. Escriba `https://rutascan.onrender.com` y guarde (o **Ajustes → Cambiar
+   dirección**).
+3. Inicie sesión con un usuario DRIVER (`52987641` / `3456`).
 
-El APK también se puede descargar desde el túnel local
-(`PUBLICAR RutaScan en Internet.bat` → `https://…/uploads/RutaScan-Celular.apk`).
+> El APK viaja al servidor **dentro del repositorio**
+> (`backend/uploads/RutaScan-Celular.apk`). Como esa carpeta está excluida por
+> seguridad, una versión nueva se publica con
+> `git add -f backend/uploads/RutaScan-Celular.apk` + commit + push.
 
 ---
 
@@ -89,28 +127,37 @@ El APK también se puede descargar desde el túnel local
   segura) y en `CLAVES.txt` en su PC. Los asesores de seguridad de Supabase no
   reportan hallazgos.
 - Las **fotos de evidencia** que sube el celular quedan en el disco temporal de
-  Render: se pierden si Render reinicia el servicio. Los datos (empresa,
-  usuarios, escaneos) viven en Supabase y no se pierden.
-- `render.yaml` genera `SECRET_KEY` de forma aleatoria y guarda los dos valores
-  que usted pegue; no hay claves en el repositorio.
+  Render: se pierden si Render reinicia el servicio (el APK sí queda, porque
+  viene del repositorio). Los datos (empresa, usuarios, escaneos) viven en
+  Supabase y no se pierden.
+- **Sin Redis**: `cache_backend` queda en `memory` (suficiente para la demo). El
+  rate-limit del login funciona igual.
+- No hay claves en el repositorio: `SECRET_KEY` la genera Render y los dos
+  secretos se cargan como variables de entorno.
 
 ## Actualizar la nube
 
-- **Backend**: `git push` a `main` → Render reconstruye solo.
-- **Panel web**: en el PC, `cd dashboard && npm run build:web`, luego
-  `git add web && git commit -m "panel" && git push` (el panel vive versionado
-  en `./web` justamente para no depender de Node.js en la nube).
-- **Borrar y volver a crear**: si algo quedara mal, `git push --force` no es
-  necesario: en Render basta **Manual Deploy → Clear build cache & deploy**.
+- **Cualquier cambio** (backend, panel ya compilado en `web/`, APK):
+  `git push` a `main` → Render reconstruye solo (**~2 minutos**, medido).
+- **Panel web**: en el PC, `cd dashboard && npm run build:web` (copia el build a
+  `web/`), luego `git add web && git commit -m "panel" && git push`.
+- **A mano desde el panel**: <https://dashboard.render.com/web/srv-dba060qjnfac73droohg>
+  → **Manual Deploy → Deploy latest commit** (o **Clear build cache & deploy**
+  si algo quedara raro).
+- **Ver los registros** (para diagnosticar): mismo panel del servicio →
+  pestaña **Logs**.
 
 ## Referencia rápida
 
 | Dato | Valor |
 | --- | --- |
-| Base de datos | Supabase `hkdustypbnkycrcctctg` |
+| URL pública | <https://rutascan.onrender.com> |
+| APK del celular | <https://rutascan.onrender.com/uploads/RutaScan-Celular.apk> |
+| Base de datos | Supabase `hkdustypbnkycrcctctg` (usuario dedicado `rutascan_app`) |
 | Esquema | `docs/supabase_schema.sql` (migraciones `rutascan_*`) |
-| Servicio | `rutascan` (runtime python, plan free) |
-| Env obligatorias | `DATABASE_URL` y `PLATFORM_API_KEY` (ver `CLAVES.txt`, sección 6) |
+| Servicio Render | `rutascan` · `srv-dba060qjnfac73droohg` · python · free · Virginia |
+| Panel del servicio | <https://dashboard.render.com/web/srv-dba060qjnfac73droohg> |
+| Env obligatorias | `DATABASE_URL` y `PLATFORM_API_KEY` (ver `CLAVES.txt`, secciones 6-7) |
 | Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `WEB_DIR=../web` |
 | Python | 3.12.7 (`PYTHON_VERSION`) |
 | Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |

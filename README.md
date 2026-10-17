@@ -16,6 +16,26 @@ Flutter para conductores/bodega.
 > `dashboard/`), lo sirve el backend en la raíz `/` y lo sirve Render en la nube
 > sin necesitar Node.js.
 
+## 🌐 En línea (demostración para empresas)
+
+RutaScan ya está publicado y funcionando 24/7, **sin depender de ningún PC**
+(plan gratuito):
+
+| Qué | Enlace |
+| --- | --- |
+| Panel web (PC / tablet) | <https://rutascan.onrender.com> |
+| App del celular (APK) | <https://rutascan.onrender.com/uploads/RutaScan-Celular.apk> |
+
+- **Entrada de demo:** botón *"Ver credenciales de demostración"* en el login, o
+  la tabla de credenciales de más abajo.
+- **Servidor:** Render (`rutascan`, plan free, región Virginia). Duerme tras
+  15 minutos sin visitas y despierta en ~30-60 s; ábralo un minuto antes de una
+  demostración.
+- **Base de datos:** Supabase (`hkdustypbnkycrcctctg`) con el usuario dedicado
+  `rutascan_app` y la API pública cerrada.
+- **Actualizar:** cada `git push` a `main` reconstruye el sitio solo (~2 min).
+  Guía completa y detalles: `docs/DESPLIEGUE-NUBE.md`.
+
 ## Uso diario en Windows
 
 El programa **RutaScan** se instala en el PC y abre en su propia ventana el panel
@@ -61,9 +81,11 @@ Archivos: `PUBLICAR RutaScan en Internet.bat` y `tools/publicar_internet.ps1`.
 El binario `cloudflared.exe` vive fuera del repositorio, en
 `%LOCALAPPDATA%\RutaScan\tools\`.
 
-Para un enlace **fijo** que no dependa de este PC (gratis, con Supabase +
-Render) siga `docs/DESPLIEGUE-NUBE.md`; el repositorio ya incluye `render.yaml`
-y el panel compilado en `web/`.
+Para un enlace **fijo** que no dependa de este PC ya está montado (gratis, con
+Supabase + Render): **<https://rutascan.onrender.com>** ✅. El túnel de Cloudflare
+sigue sirviendo como respaldo (y para operar con la base SQLite local); el
+servidor de la nube usa la base de datos de Supabase.
+`docs/DESPLIEGUE-NUBE.md` explica cómo se montó y cómo actualizarlo.
 
 ## Arranque rápido (Docker)
 
@@ -195,7 +217,7 @@ backend/
     db/            # session + init_db (auto-create + seed demo)
   tests/           # pytest
   scripts/         # smoke_test.py (E2E)
-web/               # (generado, no versionado) build del panel que sirve el backend
+web/               # build del panel (versionado) que sirve el backend y Render
 dashboard/         # panel web (React + Vite + shadcn/ui) + scripts/copy-to-web.mjs
 desktop/           # app de escritorio (Electron) + empaquetado
 mobile/            # app Flutter
@@ -204,6 +226,11 @@ docker-compose.yml
 ```
 
 ## Despliegue
+
+> El despliegue en la nube **ya está hecho y verificado**:
+> <https://rutascan.onrender.com> (Supabase + Render, plan gratuito). Guía
+> completa: `docs/DESPLIEGUE-NUBE.md`. Los pasos siguientes son la referencia
+> para levantar otro entorno/servidor.
 
 1. `SECRET_KEY` fuerte (`openssl rand -hex 32`), `PLATFORM_API_KEY`, claves de
    Postgres y `ENVIRONMENT=production` en el entorno.
