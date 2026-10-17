@@ -93,11 +93,24 @@ Comprobaciones realizadas el 17/10/2026 **desde fuera de la red del PC**:
 
 ## Parte 4 - El celular
 
-El APK se descarga directo de la nube (también sirve para actualizarlo):
+El APK se descarga directo de la nube. Hay dos versiones, según el teléfono
+(se compilan con `--split-per-abi`: mucho más livianas que el APK universal de
+64 MB, que tarda más en descargar e instalar):
 
+| Teléfono | Enlace | Tamaño |
+| --- | --- | --- |
+| Normal (arm64, casi todos) | <https://rutascan.onrender.com/uploads/RutaScan-Celular.apk> | 23 MB |
+| Antiguo / 32 bits | <https://rutascan.onrender.com/uploads/RutaScan-Celular-32bits.apk> | 19 MB |
+
+Compilación (desde `mobile/`, dejando la nube como servidor por defecto):
+
+```powershell
+flutter build apk --release --split-per-abi `
+  --dart-define=API_BASE_URL=https://rutascan.onrender.com
 ```
-https://rutascan.onrender.com/uploads/RutaScan-Celular.apk
-```
+
+> La app exige **Android 7 (API 24) o superior**. Si el teléfono es más antiguo,
+> el instalador no puede completar la instalación.
 
 En la app instalada:
 
