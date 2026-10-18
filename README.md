@@ -48,11 +48,13 @@ ventana.
 
 | Acceso directo | Qué hace |
 | --- | --- |
-| **RutaScan** (Escritorio / Inicio) | abre la app de escritorio (ventana propia) |
+| **RutaScan** (Escritorio / Inicio) | abre la app de escritorio (ventana propia, ícono de camión) |
+| `INSTALAR RutaScan.bat` | (re)crea el acceso directo, el ícono y la entrada de desinstalación |
 | `ABRIR RutaScan.bat` | igual que el acceso directo (sin instalación) |
 | `PREPARAR CELULAR.bat` | abre el puerto 8000 en el firewall y muestra la IP del PC (una vez) |
 | `PUBLICAR RutaScan en Internet.bat` | enlace público HTTPS (Cloudflare Tunnel) para usar la app desde cualquier red |
 | `CERRAR RutaScan.bat` | cierra backend, túnel y ventanas |
+| `DESINSTALAR RutaScan.bat` | quita la app de Windows (el proyecto y los datos quedan intactos) |
 
 Los lanzadores compilan el panel la primera vez si `web\` todavía no existe:
 
