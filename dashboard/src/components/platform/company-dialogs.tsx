@@ -99,7 +99,7 @@ export function NewCompanyDialog({
 			return;
 		}
 		if (taxId.trim().length < 3) {
-			toast.error("El NIT/RUC es obligatorio");
+			toast.error("El RIF es obligatorio");
 			return;
 		}
 		if (!Number.isFinite(trucks) || trucks < 1) {
@@ -190,11 +190,11 @@ export function NewCompanyDialog({
 						/>
 					</div>
 					<div className="grid gap-1.5">
-						<Label htmlFor="nc-tax">NIT / RUC *</Label>
+						<Label htmlFor="nc-tax">RIF *</Label>
 						<Input
 							id="nc-tax"
 							onChange={(event) => setTaxId(event.target.value)}
-							placeholder="901458772-3"
+							placeholder="J-30845672-1"
 							value={taxId}
 						/>
 					</div>

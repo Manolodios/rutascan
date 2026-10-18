@@ -58,7 +58,7 @@ def _generate_license_key(db: Session) -> str:
 def create_company(payload: CompanyCreateRequest, db: Session = Depends(get_db)) -> CompanyCreatedOut:
     if db.scalar(sa.select(Company).where(Company.tax_id == payload.tax_id.strip())) is not None:
         raise HTTPException(
-            409, detail={"detail": "Ya existe una empresa con ese NIT/RUC.", "code": "TAX_ID_EXISTS"}
+            409, detail={"detail": "Ya existe una empresa con ese RIF.", "code": "TAX_ID_EXISTS"}
         )
     if db.scalar(sa.select(User).where(User.user_cedula == payload.admin_cedula.strip())) is not None:
         raise HTTPException(

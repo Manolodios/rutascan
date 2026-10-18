@@ -440,7 +440,7 @@ function PlatformDashboard({ onExit }: { onExit: () => void }) {
 										<Input
 											className="h-8 w-56 ps-8"
 											onChange={(event) => setSearch(event.target.value)}
-											placeholder="Buscar empresa, NIT o licencia"
+											placeholder="Buscar empresa, RIF o licencia"
 											value={search}
 										/>
 										<BuildingIcon className="absolute start-2.5 top-2 size-3.5 text-muted-foreground" />
@@ -502,7 +502,7 @@ function PlatformDashboard({ onExit }: { onExit: () => void }) {
 												<TableCell className="ps-4">
 													<div className="font-medium">{company.name}</div>
 													<div className="text-muted-foreground text-xs">
-														NIT/RUC {company.tax_id}
+														RIF {company.tax_id}
 													</div>
 												</TableCell>
 												<TableCell className="font-mono text-xs">

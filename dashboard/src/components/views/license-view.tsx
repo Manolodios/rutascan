@@ -110,7 +110,7 @@ export function LicenseView() {
 						<div className="sm:col-span-2">
 							<div className="font-semibold text-lg">{license.company_name}</div>
 							<div className="text-muted-foreground text-xs">
-								NIT/RUC: {license.tax_id}
+								RIF: {license.tax_id}
 							</div>
 						</div>
 						<div>
