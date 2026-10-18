@@ -77,7 +77,14 @@ if (Test-Path $icon) {
   Info "AVISO: no se encontro $icon"
 }
 
-# --- 3. accesos directos -------------------------------------------------
+# --- 3. configuracion (la app tiene que encontrar el proyecto) -----------
+Step "Ubicacion del proyecto"
+$cfgDir = Join-Path $env:LOCALAPPDATA 'RutaScan'
+New-Item -ItemType Directory -Force -Path $cfgDir | Out-Null
+Set-Content -Path (Join-Path $cfgDir 'project.txt') -Value $Project -Encoding ASCII
+Ok "guardada la carpeta del proyecto en $cfgDir\project.txt"
+
+# --- 4. accesos directos -------------------------------------------------
 Step "Accesos directos"
 $shell = New-Object -ComObject WScript.Shell
 $shortcuts = @(
@@ -94,7 +101,7 @@ foreach ($lnk in $shortcuts) {
   Ok $lnk
 }
 
-# --- 4. desinstalacion desde Windows -------------------------------------
+# --- 5. desinstalacion desde Windows -------------------------------------
 Step "Desinstalacion (Configuracion > Aplicaciones)"
 $uninstaller = Join-Path $Project 'tools\desinstalar_escritorio.ps1'
 $key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Uninstall\RutaScan'

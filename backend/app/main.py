@@ -38,7 +38,7 @@ async def lifespan(app: FastAPI):
     try:
         from app.db.init_db import init_db  # local import: avoids engine work at import time
 
-        init_db(seed=settings.seed_demo_data)
+        init_db(seed=settings.seed_demo_data, refresh_demo=settings.demo_auto_refresh)
     except Exception:
         logger.exception("DB initialization failed - check DATABASE_URL / connectivity")
         if settings.is_production:

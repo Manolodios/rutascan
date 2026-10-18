@@ -54,6 +54,9 @@ class Settings(BaseSettings):
 
     # --- Demo data --------------------------------------------------
     seed_demo_data: bool = True
+    # Move the demo tenant's dates to "today" on every startup. Only touches the
+    # demo licence (DEMO_LICENSE_KEY); a real customer's data is never modified.
+    demo_auto_refresh: bool = False
 
     # ------------------------------------------------------------------
     @property
