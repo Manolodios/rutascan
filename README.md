@@ -156,6 +156,14 @@ El backend crea el esquema y siembra datos demo automáticamente al arrancar
 - Productos demo: 12 referencias con código de barras `7702001000xxx`
 - Clave de plataforma (operador SaaS): `PLATFORM_API_KEY` del `.env`
 
+### ¿Vas a mostrárselo a una empresa?
+
+Guion de demostración de 5 minutos, con el orden de las pantallas, qué decir en
+cada una y las respuestas a las preguntas difíciles (precio, seguridad, ¿y sin
+internet?): **`docs/GUION-DEMO.md`** y la versión imprimible
+**`docs/GUION-DEMO-RutaScan.pdf`** (se regenera con
+`python tools/guion_demo_pdf.py`).
+
 ## Desarrollo local (sin Docker)
 
 Backend (Python 3.11+; se probó también en 3.12–3.14):
@@ -263,7 +271,7 @@ dashboard/         # panel web (React + Vite + shadcn/ui) + scripts/copy-to-web.
 desktop/           # app de escritorio (Electron) + empaquetado
 mobile/            # app Flutter
 tools/             # instaladores de Windows, capturas del panel, publicación
-docs/              # API.md + ARCHITECTURE.md + DESPLIEGUE-NUBE.md + capturas/
+docs/              # API.md + ARCHITECTURE.md + DESPLIEGUE-NUBE.md + GUION-DEMO + capturas/
 .github/workflows/ # CI: pruebas del backend + compilación del panel
 docker-compose.yml
 ```
