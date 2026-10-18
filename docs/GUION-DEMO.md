@@ -81,7 +81,7 @@
 
 | Pregunta | Respuesta (corta y honesta) |
 | --- | --- |
-| *"¿Cuánto vale?"* | *"Depende del número de camiones: 45.000 por camión al mes desde 3 camiones, y 35.000 desde 10. Incluye soporte y actualizaciones. Los primeros 30 días son gratis."* |
+| *"¿Cuánto vale?"* | *"Depende del número de camiones: 15 dólares por camión al mes desde 3 camiones, y 12 dólares desde 10. Incluye soporte y actualizaciones. Los primeros 30 días son gratis."* |
 | *"¿Funciona sin internet?"* | *"Sí, es lo primero que resolvimos: el conductor escanea sin señal y se sincroniza cuando vuelve la red. Puede trabajar hasta 3 días desconectado."* |
 | *"¿Y si me roban el celular o lo usan sin pagar?"* | *"Cada instalación es un dispositivo registrado y hay cupo por empresa; desde el panel se bloquea o se libera."* |
 | *"¿Dónde quedan mis datos? ¿Es seguro?"* | *"En servidores en la nube con conexión cifrada, base de datos administrada, claves con hash y cada empresa aislada: nadie ve los datos de otra. Fotos y firmas incluidas."* |
@@ -100,13 +100,18 @@
 | Plan | Para quién | Precio sugerido | Incluye |
 | --- | --- | --- | --- |
 | **Prueba** | 30 días | $0 | Hasta 5 camiones, todas las funciones |
-| **Ruta** | 3-9 camiones | 45.000 COP por camión/mes | Panel, app del conductor, reportes, soporte por WhatsApp |
-| **Flota** | 10+ camiones | 35.000 COP por camión/mes | Igual + puesta en marcha acompañada |
+| **Ruta** | 3-9 camiones | 15 USD por camión/mes | Panel, app del conductor, reportes, soporte por WhatsApp |
+| **Flota** | 10+ camiones | 12 USD por camión/mes | Igual + puesta en marcha acompañada |
 | **Anual** | cualquiera | 10 meses (2 gratis) | Igual, pagando el año completo |
 
 - Cobra **mensual por adelantado**; la **prueba gratis convierte más que un descuento**.
 - No regales meses: regala la **puesta en marcha** (te cuesta tiempo, no plata).
 - Si preguntan *"¿hay costo de instalación?"*: *"No, la puesta en marcha la hago yo con su gente."*
+- **Cómo cobrar (Venezuela):** lo más práctico es **Zelle, efectivo en dólares o Binance
+  (USDT)**; si el cliente solo paga en bolívares, Pago Móvil al cambio del día. Define
+  esto **antes** de la primera venta para no improvisar frente al cliente.
+- **Factura:** si el cliente es una empresa formal, te va a pedir factura fiscal.
+  Tenlo resuelto (o avisa desde el principio que trabajas con recibo) antes de cerrar.
 
 ## 6. Si quieren probarlo ellos mismos (autoservicio)
 

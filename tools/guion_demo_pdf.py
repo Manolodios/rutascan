@@ -285,7 +285,7 @@ for texto in [
 HISTORIA.append(h2("4. Preguntas difíciles y qué responder"))
 preguntas = [
     ("¿Cuánto vale?",
-     "Depende del número de camiones: 45.000 por camión al mes desde 3 camiones, y 35.000 desde 10. "
+     "Depende del número de camiones: 15 dólares por camión al mes desde 3 camiones, y 12 desde 10. "
      "Incluye soporte y actualizaciones. Los primeros 30 días son gratis."),
     ("¿Funciona sin internet?",
      "Sí, es lo primero que resolvimos: el conductor escanea sin señal y se sincroniza cuando vuelve "
@@ -324,8 +324,8 @@ filas = [[
 ]]
 for plan, quien, precio, incluye in [
     ("Prueba", "30 días", "$0", "Hasta 5 camiones, todas las funciones"),
-    ("Ruta", "3 a 9 camiones", "45.000 COP por camión/mes", "Panel, app del conductor, reportes y soporte por WhatsApp"),
-    ("Flota", "10 camiones o más", "35.000 COP por camión/mes", "Igual, más puesta en marcha acompañada"),
+    ("Ruta", "3 a 9 camiones", "15 USD por camión/mes", "Panel, app del conductor, reportes y soporte por WhatsApp"),
+    ("Flota", "10 camiones o más", "12 USD por camión/mes", "Igual, más puesta en marcha acompañada"),
     ("Anual", "cualquiera", "10 meses (2 gratis)", "Igual, pagando el año completo"),
 ]:
     filas.append([
@@ -339,6 +339,10 @@ HISTORIA.append(vineta("Cobra <b>mensual por adelantado</b>: la prueba gratis co
 HISTORIA.append(vineta("No regales meses: regala la <b>puesta en marcha</b>, que te cuesta tiempo y no plata."))
 HISTORIA.append(vineta("Si preguntan si hay costo de instalación: <i>&laquo;no, la puesta en marcha la hago yo "
                        "con su gente&raquo;</i>."))
+HISTORIA.append(vineta("<b>Cómo cobrar (Venezuela):</b> Zelle, efectivo en dólares o Binance (USDT); si el "
+                       "cliente solo paga en bolívares, Pago Móvil al cambio del día."))
+HISTORIA.append(vineta("<b>Factura:</b> si el cliente es una empresa formal te va a pedir factura fiscal; "
+                       "tenlo resuelto antes de cerrar."))
 
 # 6. Chuleta
 chuleta = [
