@@ -38,10 +38,24 @@ npm run pack         # genera dist/RutaScan-win32-x64
 
 ## Instalar / actualizar en el PC
 
-El programa instalado vive en `%LOCALAPPDATA%\Programs\RutaScan` y tiene accesos
-directos en el Escritorio y en el menú Inicio.
+**Lo más fácil:** doble clic en `INSTALAR RutaScan.bat` (raíz del proyecto), o:
 
-Para actualizarlo después de cambiar `main.js` (o el panel):
+```powershell
+# instala/repara accesos directos, icono y entrada de desinstalacion
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\instalar_escritorio.ps1
+
+# ademas vuelve a empaquetar la app (electron-packager) con el icono nuevo
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\instalar_escritorio.ps1 -Recompilar
+```
+
+El programa queda en `%LOCALAPPDATA%\Programs\RutaScan`, con acceso directo en el
+**Escritorio** y en el **menú Inicio** (ícono de camión,
+`desktop/build/icon.ico` — multi-tamaño 16…256 px) y con entrada en
+**Configuración → Aplicaciones** para desinstalarlo
+(`DESINSTALAR RutaScan.bat` / `tools\desinstalar_escritorio.ps1`). El script es
+idempotente: se puede repetir para reparar.
+
+Para actualizarlo a mano después de cambiar `main.js` (o el panel):
 
 ```powershell
 # 1) cierre la app si esta abierta

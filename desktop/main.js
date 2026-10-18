@@ -86,6 +86,7 @@ function createWindow() {
     backgroundColor: '#0f172a',
     title: 'RutaScan',
     autoHideMenuBar: true,
+    icon: path.join(__dirname, 'build', 'icon.png'),
   });
   win.setMenuBarVisibility(false);
   win.loadURL('data:text/html;charset=utf-8,' + encodeURIComponent(LOADING));
@@ -150,6 +151,7 @@ if (!app.requestSingleInstanceLock()) {
   });
 
   app.whenReady().then(() => {
+    if (process.platform === 'win32') app.setAppUserModelId('RutaScan');
     Menu.setApplicationMenu(null);
     healthCheck((ok) => {
       if (!ok) startServer();
