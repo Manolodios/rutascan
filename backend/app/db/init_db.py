@@ -25,6 +25,7 @@ from app.models import (
     Route,
     RouteDetail,
     SecurityEvent,
+    SyncBatch,
     Truck,
     User,
     DetailStatus,
@@ -417,10 +418,100 @@ def seed_demo() -> bool:
         return True
 
 
-def init_db(seed: bool = True) -> None:
+def _shift_dates(db: Session, company: Company, models: tuple, delta: timedelta) -> int:
+    """Suma `delta` a todas las columnas de fecha del tenant demo."""
+    rows = 0
+    targets = [(Company, True)] + [(model, False) for model in models if hasattr(model, "company_id")]
+    for model, single in targets:
+        date_keys = [
+            column.key
+            for column in model.__table__.columns
+            if isinstance(column.type, (sa.Date, sa.DateTime))
+        ]
+        if not date_keys:
+            continue
+        if single:
+            query = sa.select(model).where(model.id == company.id)
+        else:
+            query = sa.select(model).where(model.company_id == company.id)
+        for row in db.scalars(query):
+            for key in date_keys:
+                value = getattr(row, key)
+                if value is not None:
+                    setattr(row, key, value + delta)
+            rows += 1
+    return rows
+
+
+def refresh_demo_dates(target: date | None = None) -> int:
+    """Corre los datos de demostración hasta `target` (hoy por defecto).
+
+    Mueve **todas** las fechas del tenant demo (rutas, escaneos, eventos de
+    seguridad, dispositivos y la caducidad de la licencia) la misma cantidad de
+    días, de modo que una demostración en vivo siempre se vea al día, sin tocar
+    ids, cantidades ni los códigos QR ya impresos.
+
+    Solo actúa sobre la empresa demo (`DEMO_LICENSE_KEY`): los datos de un
+    cliente real nunca se tocan. Devuelve los días movidos (0 si ya estaba al día).
+    """
+    target = target or date.today()
+    models = (
+        Route,
+        RouteDetail,
+        DeliveryLog,
+        SyncBatch,
+        SecurityEvent,
+        Device,
+        User,
+        Truck,
+        Product,
+    )
+
+    with SessionLocal() as db:
+        company = db.scalar(
+            sa.select(Company).where(Company.license_key == DEMO_LICENSE_KEY)
+        )
+        if company is None:
+            logger.info("Demo refresh omitido: no existe la empresa demo.")
+            return 0
+
+        latest = db.scalar(
+            sa.select(sa.func.max(Route.route_date)).where(Route.company_id == company.id)
+        )
+        if latest is None:
+            return 0
+
+        days = (target - latest).days
+        if days == 0:
+            logger.info("Datos de demostración ya al día (%s).", latest.isoformat())
+            return 0
+
+        # Dos pasadas: primero todo muy lejos y después al destino. El orden de
+        # los UPDATE es arbitrario, y UNIQUE(truck_id, route_date) se revisa
+        # fila por fila: sin este rodeo, mover las fechas un solo día choca
+        # contra una ruta que todavía no se había movido.
+        move = timedelta(days=days)
+        far = timedelta(days=9000 if days > 0 else -9000)
+        _shift_dates(db, company, models, far)
+        db.commit()
+        rows = _shift_dates(db, company, models, move - far)
+        db.commit()
+
+        logger.info(
+            "Datos de demostración movidos %d día(s) hasta %s (%d filas).",
+            days,
+            target.isoformat(),
+            rows,
+        )
+        return days
+
+
+def init_db(seed: bool = True, refresh_demo: bool = False) -> None:
     create_tables()
     if seed:
         seed_demo()
+    if refresh_demo:
+        refresh_demo_dates()
 
 
 if __name__ == "__main__":  # pragma: no cover

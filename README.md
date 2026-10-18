@@ -1,5 +1,9 @@
 # RutaScan
 
+[![CI](https://github.com/Manolodios/rutascan/actions/workflows/ci.yml/badge.svg)](https://github.com/Manolodios/rutascan/actions/workflows/ci.yml)
+[![Licencia: AGPL-3.0](https://img.shields.io/badge/licencia-AGPL--3.0-blue.svg)](LICENSE)
+[![Demostración en vivo](https://img.shields.io/badge/demo-en%20vivo-brightgreen.svg)](https://rutascan.onrender.com)
+
 SaaS B2B de rastreo de carga con **licenciamiento anti-piratería** y operación
 **offline-first**: dashboard web para administración, backend FastAPI y app
 Flutter para conductores/bodega.
@@ -39,6 +43,36 @@ El APK ya viene **apuntando a la nube** (se compila con `--dart-define`) y pide
   `rutascan_app` y la API pública cerrada.
 - **Actualizar:** cada `git push` a `main` reconstruye el sitio solo (~2 min).
   Guía completa y detalles: `docs/DESPLIEGUE-NUBE.md`.
+- **La demo nunca se ve vacía:** la instancia tiene `DEMO_AUTO_REFRESH=true`, así
+  que al arrancar corre las fechas del tenant demo hasta hoy (rutas de hoy,
+  escaneos recientes, licencia vigente). Solo toca la empresa de demostración,
+  nunca a un cliente real. A mano:
+  `cd backend && python -m scripts.refrescar_demo`.
+
+## 📸 Capturas
+
+**Inicio de sesión** — con acceso rápido a las credenciales de demostración
+
+![Inicio de sesión](docs/capturas/00-inicio-de-sesion.png)
+
+**Panel de operación** — rutas del día, cumplimiento de entregas y actividad de escaneos
+
+![Panel de operación](docs/capturas/01-panel.png)
+
+**Mapa en vivo** — última posición de cada camión (Leaflet + OpenStreetMap)
+
+![Mapa en vivo](docs/capturas/02-mapa-en-vivo.png)
+
+**Reportes** — Excel y PDF generados por el servidor
+
+![Reportes](docs/capturas/05-reportes.png)
+
+**Seguridad** — GPS simulado, reloj adelantado y QR fuera de manifiesto
+
+![Seguridad](docs/capturas/06-seguridad.png)
+
+> Se regeneran solas contra la instancia publicada con
+> `powershell -File tools/capturas.ps1` (usa Microsoft Edge en modo oculto).
 
 ## Uso diario en Windows
 
@@ -227,7 +261,9 @@ web/               # build del panel (versionado) que sirve el backend y Render
 dashboard/         # panel web (React + Vite + shadcn/ui) + scripts/copy-to-web.mjs
 desktop/           # app de escritorio (Electron) + empaquetado
 mobile/            # app Flutter
-docs/              # API.md (contrato) + ARCHITECTURE.md
+tools/             # instaladores de Windows, capturas del panel, publicación
+docs/              # API.md + ARCHITECTURE.md + DESPLIEGUE-NUBE.md + capturas/
+.github/workflows/ # CI: pruebas del backend + compilación del panel
 docker-compose.yml
 ```
 
@@ -243,6 +279,18 @@ docker-compose.yml
 2. `DATABASE_URL` compatible con Supabase/Neon (agregue `?sslmode=require`).
 3. `CORS_ORIGINS` restringido a su dominio del dashboard.
 4. Compile el APK móvil con `--dart-define=API_BASE_URL=https://api.sudominio.com`.
+
+## Licencia
+
+RutaScan se publica bajo **AGPL-3.0** (archivo `LICENSE`): puede usarlo,
+estudiarlo y mejorarlo libremente, incluso dentro de una empresa. Si ofrece una
+versión modificada como servicio en red, debe publicar el código fuente de sus
+cambios.
+
+- Cómo contribuir: `CONTRIBUTING.md`
+- Reportar fallos de seguridad: `SECURITY.md`
+
+---
 
 Documentación: `docs/API.md` (endpoints y códigos de error) y
 `docs/ARCHITECTURE.md` (diseño interno, modelo de datos, seguridad).

@@ -5,7 +5,7 @@
   "description": "RutaScan - Panel de control de rastreo de carga",
   "main": "main.js",
   "author": "RutaScan",
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0-only",
   "scripts": {
     "start": "electron .",
     "pack": "electron-packager . RutaScan --platform=win32 --arch=x64 --out=dist --icon=build/icon.ico --overwrite"

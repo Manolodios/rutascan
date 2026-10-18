@@ -62,9 +62,18 @@ configuración (la misma que describe `render.yaml`):
 | Panel del servicio | <https://dashboard.render.com/web/srv-dba060qjnfac73droohg> |
 
 Variables cargadas: `PYTHON_VERSION=3.12.7`, `ENVIRONMENT=production`,
-`SECRET_KEY` (aleatoria), `SEED_DEMO_DATA=true`, `WEB_DIR=../web`, más
-`PLATFORM_API_KEY` y `DATABASE_URL` (los dos secretos viven en `CLAVES.txt`,
-secciones 6 y 7 — nunca en el repositorio).
+`SECRET_KEY` (aleatoria), `SEED_DEMO_DATA=true`, `DEMO_AUTO_REFRESH=true`,
+`WEB_DIR=../web`, más `PLATFORM_API_KEY` y `DATABASE_URL` (los dos secretos
+viven en `CLAVES.txt`, secciones 6 y 7 — nunca en el repositorio).
+
+> 🔄 **La demo nunca se ve vacía.** Con `DEMO_AUTO_REFRESH=true`, cada arranque
+> corre las fechas del tenant de demostración hasta **hoy** (rutas de hoy,
+> escaneos "hace un momento", licencia vigente) sin tocar ids, cantidades ni los
+> QR ya impresos. Solo actúa sobre la empresa demo (licencia
+> `RUTA-4F7Q-2MX9-BN38`); los datos de un cliente real jamás se modifican.
+> Para hacerlo a mano contra cualquier base:
+> `cd backend && python -m scripts.refrescar_demo` (con `DATABASE_URL` en el
+> entorno).
 
 > ⚠️ Requisito que costó un paso extra: además de autorizar la aplicación de
 > GitHub, Render exige una **credencial de Git** en
@@ -171,7 +180,7 @@ En la app instalada:
 | Servicio Render | `rutascan` · `srv-dba060qjnfac73droohg` · python · free · Virginia |
 | Panel del servicio | <https://dashboard.render.com/web/srv-dba060qjnfac73droohg> |
 | Env obligatorias | `DATABASE_URL` y `PLATFORM_API_KEY` (ver `CLAVES.txt`, secciones 6-7) |
-| Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `WEB_DIR=../web` |
+| Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `DEMO_AUTO_REFRESH=true`, `WEB_DIR=../web` |
 | Python | 3.12.7 (`PYTHON_VERSION`) |
 | Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 | Healthcheck | `/health` |

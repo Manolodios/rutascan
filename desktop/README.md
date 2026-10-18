@@ -19,8 +19,9 @@ etiquetas QR generadas se abren en una ventana pequeña y los enlaces externos
 
 | Qué | Ruta |
 | --- | --- |
-| Proyecto (por defecto) | `C:\Users\Usuario\Documents\Default Project` |
-| Variable para cambiarlo | `RUTASCAN_PROJECT` |
+| Proyecto | se detecta automáticamente (carpeta que contiene `backend/` y `.venv/`) |
+| Variable para forzarlo | `RUTASCAN_PROJECT` |
+| Lo guarda el instalador | `%LOCALAPPDATA%\RutaScan\project.txt` |
 | Python | `<proyecto>\.venv\Scripts\python.exe` |
 | Panel servido | `<proyecto>\web` (`WEB_DIR`) — lo genera `dashboard`: `npm run build:web` |
 
