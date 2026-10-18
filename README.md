@@ -32,7 +32,8 @@ RutaScan ya está publicado y funcionando 24/7, **sin depender de ningún PC**
 | App para teléfonos antiguos (32 bits, 19 MB) | <https://rutascan.onrender.com/uploads/RutaScan-Celular-32bits.apk> |
 
 El APK ya viene **apuntando a la nube** (se compila con `--dart-define`) y pide
-**Android 7 o superior**; no hay que configurar nada en el teléfono.
+**Android 7 o superior**; no hay que configurar nada en el teléfono. También
+está publicado en **[GitHub Releases](https://github.com/Manolodios/rutascan/releases)**.
 
 - **Entrada de demo:** botón *"Ver credenciales de demostración"* en el login, o
   la tabla de credenciales de más abajo.
