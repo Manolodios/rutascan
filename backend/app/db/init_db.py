@@ -54,41 +54,41 @@ def create_tables() -> None:
 
 
 # --------------------------------------------------------------- demo seed ---
-DEMO_COMPANY_NAME = "Comercializadora Andina S.A.S."
-DEMO_TAX_ID = "901.458.772-3"
+DEMO_COMPANY_NAME = "Distribuidora Costa Oriental, C.A."
+DEMO_TAX_ID = "J-30845672-1"
 DEMO_LICENSE_KEY = "RUTA-4F7Q-2MX9-BN38"
 DEMO_MAX_TRUCKS = 12
 DEMO_DEVICE_UUID = "DEMO-TABLET-0001"
 DEMO_RANDOM_SEED = 20261016
 
 DEMO_PRODUCTS = [
-    ("7702001000019", "Leche entera UHT 1L x12", "BOX", "12.500"),
-    ("7702001000026", "Agua mineral 600 ml x24", "PACK", "14.400"),
-    ("7702001000033", "Arroz premium 5 kg", "BAG", "5.000"),
-    ("7702001000040", "Aceite de girasol 1L x15", "BOX", "13.900"),
-    ("7702001000057", "Azúcar refinada 2.5 kg x10", "BAG", "2.500"),
-    ("7702001000064", "Café molido 500 g x20", "BOX", "10.000"),
-    ("7702001000071", "Galletas surtidas x30", "BOX", "6.300"),
-    ("7702001000088", "Jabón de baño x48", "BOX", "8.700"),
-    ("7702001000095", "Detergente en polvo 900 g x12", "BOX", "9.800"),
-    ("7702001000101", "Pasta dental 90 ml x24", "BOX", "7.400"),
-    ("7702001000118", "Papel higiénico x24 rollos", "PACK", "11.200"),
-    ("7702001000125", "Atún en aceite 170 g x24", "BOX", "8.900"),
+    ("7592001000019", "Leche entera UHT 1L x12", "BOX", "12.500"),
+    ("7592001000026", "Agua mineral 600 ml x24", "PACK", "14.400"),
+    ("7592001000033", "Arroz premium 5 kg", "BAG", "5.000"),
+    ("7592001000040", "Aceite de girasol 1L x15", "BOX", "13.900"),
+    ("7592001000057", "Azúcar refinada 2.5 kg x10", "BAG", "2.500"),
+    ("7592001000064", "Café molido 500 g x20", "BOX", "10.000"),
+    ("7592001000071", "Galletas surtidas x30", "BOX", "6.300"),
+    ("7592001000088", "Jabón de baño x48", "BOX", "8.700"),
+    ("7592001000095", "Detergente en polvo 900 g x12", "BOX", "9.800"),
+    ("7592001000101", "Harina de maíz precocida 1 kg x20", "BOX", "20.000"),
+    ("7592001000118", "Papel higiénico x24 rollos", "PACK", "11.200"),
+    ("7592001000125", "Atún en aceite 170 g x24", "BOX", "8.900"),
 ]
 
 DEMO_USERS = [
-    ("1020456789", "1234", "Ana María Restrepo", Role.ADMIN),
-    ("79458123", "2345", "Wendy Paola Gómez", Role.WAREHOUSE),
-    ("52987641", "3456", "Diego Armando Ramírez", Role.DRIVER),
-    ("1032459876", "4567", "Julián Esteban Torres", Role.DRIVER),
-    ("71745238", "5678", "Carlos Andrés Muñoz", Role.DRIVER),
+    ("13598742", "1234", "Yasmín Bracho", Role.ADMIN),
+    ("15874230", "2345", "Norkys Villalobos", Role.WAREHOUSE),
+    ("20148379", "3456", "Jhonny Pirela", Role.DRIVER),
+    ("18376452", "4567", "Ender Fuenmayor", Role.DRIVER),
+    ("14209876", "5678", "Alcides Urdaneta", Role.DRIVER),
 ]
 
 DEMO_TRUCKS = [
-    ("WKL-482", "Chevrolet NHR 2024", "52987641"),
-    ("SJR-116", "Renault Kangoo 2023", "1032459876"),
-    ("TSM-907", "JAC X200 2025", "71745238"),
-    ("PBN-245", "Toyota Hilux 2022", None),
+    ("P84LS6V", "Chevrolet NHR 2024", "20148379"),
+    ("B23MC7V", "Renault Kangoo 2023", "18376452"),
+    ("G56RD9V", "JAC X200 2025", "14209876"),
+    ("A91FB4V", "Toyota Hilux 2022", None),
 ]
 
 DEMO_REJECTION_REASONS = [
@@ -98,9 +98,9 @@ DEMO_REJECTION_REASONS = [
     RejectionReasonCode.WRONG_ITEM,
 ]
 
-# Bogotá (centro). Los desplazamientos reparten los escaneos por la ciudad.
-BOGOTA_LAT = 4.6533
-BOGOTA_LON = -74.0836
+# Cabimas (Zulia). Los desplazamientos reparten los escaneos por la ciudad.
+CABIMAS_LAT = 10.3964
+CABIMAS_LON = -71.4458
 
 
 class _ScanClock:
@@ -139,8 +139,8 @@ def _demo_scan(
             quantity=1,
             scan_timestamp_utc=when,
             server_timestamp_utc=when + timedelta(seconds=45 if clock.index % 5 == 0 else 6),
-            latitude=BOGOTA_LAT + offset,
-            longitude=BOGOTA_LON - offset,
+            latitude=CABIMAS_LAT + offset,
+            longitude=CABIMAS_LON - offset,
             gps_accuracy_m=round(4.5 + (clock.index % 5) * 1.6, 1),
             device_uuid=DEMO_DEVICE_UUID,
             synced_with_server=True,
@@ -291,7 +291,7 @@ def seed_demo() -> bool:
             products.append(product)
         db.flush()
 
-        created_by = users["79458123"]
+        created_by = users["15874230"]
         today = date.today()
         rng = random.Random(DEMO_RANDOM_SEED)
 
@@ -299,8 +299,8 @@ def seed_demo() -> bool:
         _demo_route(
             db,
             company_id=company.id,
-            truck=trucks["WKL-482"],
-            driver=users["52987641"],
+            truck=trucks["P84LS6V"],
+            driver=users["20148379"],
             created_by=created_by,
             products=products,
             route_date=today,
@@ -310,13 +310,13 @@ def seed_demo() -> bool:
             rejected=1,
             in_truck=4,
             catalogue_offset=0,
-            notes="Ruta Centro · 8 paradas, 3 entregas confirmadas, 1 rechazo.",
+            notes="Ruta Cabimas · 8 paradas, 3 entregas confirmadas, 1 rechazo.",
         )
         _demo_route(
             db,
             company_id=company.id,
-            truck=trucks["SJR-116"],
-            driver=users["1032459876"],
+            truck=trucks["B23MC7V"],
+            driver=users["18376452"],
             created_by=created_by,
             products=products,
             route_date=today,
@@ -326,13 +326,13 @@ def seed_demo() -> bool:
             rejected=1,
             in_truck=0,
             catalogue_offset=3,
-            notes="Ruta Norte · jornada cerrada sin novedades.",
+            notes="Ruta Maracaibo · jornada cerrada sin novedades.",
         )
         _demo_route(
             db,
             company_id=company.id,
-            truck=trucks["TSM-907"],
-            driver=users["71745238"],
+            truck=trucks["G56RD9V"],
+            driver=users["14209876"],
             created_by=created_by,
             products=products,
             route_date=today,
@@ -342,14 +342,14 @@ def seed_demo() -> bool:
             rejected=0,
             in_truck=6,
             catalogue_offset=6,
-            notes="Ruta Sur · carga programada para la tarde.",
+            notes="Ruta Costa Oriental · carga programada para la tarde.",
         )
 
         # --- 6 días anteriores (para reportes y gráficas) ----------------------
         for days_ago in range(1, 7):
             day = today - timedelta(days=days_ago)
-            for slot, plate in enumerate(("WKL-482", "SJR-116")):
-                cedula = "52987641" if slot == 0 else "1032459876"
+            for slot, plate in enumerate(("P84LS6V", "B23MC7V")):
+                cedula = "20148379" if slot == 0 else "18376452"
                 delivered = rng.randint(4, 7)
                 rejected = rng.choice([0, 1, 1, 2])
                 _demo_route(
@@ -377,7 +377,7 @@ def seed_demo() -> bool:
             Device(
                 company_id=company.id,
                 device_uuid=DEMO_DEVICE_UUID,
-                user_id=users["52987641"].id,
+                user_id=users["20148379"].id,
                 platform="android",
                 app_version="1.0.0",
                 first_seen_at=now - timedelta(days=26),
@@ -389,7 +389,7 @@ def seed_demo() -> bool:
         security_trail = [
             (SecurityEventType.MOCK_GPS, 95, {"motivo": "Ubicación simulada durante una entrega"}),
             (SecurityEventType.TIMESTAMP_SKEW, 610, {"desfase_segundos": 42}),
-            (SecurityEventType.MANIFEST_MISMATCH, 1500, {"qr_escaneado": "7702001000999"}),
+            (SecurityEventType.MANIFEST_MISMATCH, 1500, {"qr_escaneado": "7592001000999"}),
             (SecurityEventType.DUPLICATE_SCAN, 2900, {"intentos": 2}),
             (SecurityEventType.PIN_LOCKOUT, 4400, {"intentos_fallidos": 5}),
         ]
@@ -398,10 +398,10 @@ def seed_demo() -> bool:
                 SecurityEvent(
                     company_id=company.id,
                     event_type=event_type,
-                    user_id=users["52987641"].id,
+                    user_id=users["20148379"].id,
                     device_uuid=DEMO_DEVICE_UUID,
-                    latitude=BOGOTA_LAT + 0.012,
-                    longitude=BOGOTA_LON - 0.012,
+                    latitude=CABIMAS_LAT + 0.012,
+                    longitude=CABIMAS_LON - 0.012,
                     detail=payload,
                     created_at=now - timedelta(minutes=minutes_ago),
                 )

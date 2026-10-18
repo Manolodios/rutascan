@@ -36,7 +36,7 @@ npm start
 ```
 
 Sin configurar nada, el backend usa **SQLite** y siembra una empresa de
-demostración (`Comercializadora Andina S.A.S.`); las credenciales salen en la
+demostración (`Distribuidora Costa Oriental, C.A.`); las credenciales salen en la
 consola al arrancar y también en el botón *"Ver credenciales de demostración"*
 del login. Copia [`.env.example`](.env.example) a `.env` para usar PostgreSQL o
 Redis.

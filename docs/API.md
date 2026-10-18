@@ -116,14 +116,14 @@ Manifiesto del conductor para hoy:
 ```json
 {
   "route": { "id": "…", "route_date": "2026-10-16", "status": "IN_PROGRESS",
-             "truck": { "id": "…", "license_plate": "WKL-482", "model": "…" } },
+             "truck": { "id": "…", "license_plate": "P84LS6V", "model": "…" } },
   "counts": { "lines": 5, "assigned_units": 7, "delivered_units": 2,
               "rejected_lines": 0, "in_truck_lines": 3, "completion_pct": 28.6 },
   "items": [ { "route_detail_id": "…", "status": "IN_TRUCK",
                "assigned_quantity": 2, "delivered_quantity": 0,
                "return_required": false, "rejection_reason": null,
                "last_scan_at": null,
-               "product": { "id": "…", "barcode_qr": "7702001000019",
+               "product": { "id": "…", "barcode_qr": "7592001000019",
                             "description": "…", "unit": "BOX", "weight": 2.5 } } ],
   "message": null
 }
@@ -136,9 +136,9 @@ Sin ruta asignada: `route = null`, `items = []`, `message` explicativo.
 ```json
 {
   "scan_uuid": "uuid-v4-generado-en-el-dispositivo",
-  "qr_code": "7702001000019",
+  "qr_code": "7592001000019",
   "action": "LOAD | DELIVER | REJECT",
-  "latitude": 4.6533, "longitude": -74.0836, "gps_accuracy_m": 4.2,
+  "latitude": 10.3964, "longitude": -71.4458, "gps_accuracy_m": 4.2,
   "is_mocked_location": false,
   "scan_timestamp_utc": "2026-10-16T14:20:00Z",
   "rejection_reason": "DAMAGED", "rejection_notes": "Caja rota",

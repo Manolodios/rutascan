@@ -13,7 +13,7 @@ services:
     name: rutascan
     runtime: python
     plan: free
-    # Virginia (us-east-1): la region mas cercana a Colombia y la misma de
+    # Virginia (us-east-1): la region mas cercana a Venezuela y la misma de
     # Supabase, para que el panel responda rapido.
     region: virginia
     branch: main

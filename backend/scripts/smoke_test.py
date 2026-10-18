@@ -56,7 +56,7 @@ def main() -> int:
         # --- mobile login (driver) ------------------------------------------
         r = client.post(
             "/auth/login",
-            json={"cedula": "52987641", "pin": "3456", "device_uuid": DEVICE, "platform": "android"},
+            json={"cedula": "20148379", "pin": "3456", "device_uuid": DEVICE, "platform": "android"},
             headers={"X-License-Key": LICENSE, "X-Device-UUID": DEVICE},
         )
         check("driver login", r.status_code == 200, f"status={r.status_code}")
@@ -65,11 +65,11 @@ def main() -> int:
         driver_access = tokens["access_token"]
 
         # --- bad PIN -> 401 --------------------------------------------------
-        r = client.post("/auth/login", json={"cedula": "52987641", "pin": "0000"})
+        r = client.post("/auth/login", json={"cedula": "20148379", "pin": "0000"})
         check("wrong pin -> 401", r.status_code == 401 and r.json()["code"] == "INVALID_CREDENTIALS")
 
         # --- admin login ------------------------------------------------------
-        r = client.post("/auth/login", json={"cedula": "1020456789", "pin": "1234"})
+        r = client.post("/auth/login", json={"cedula": "13598742", "pin": "1234"})
         check("admin login", r.status_code == 200)
         admin_access = r.json()["access_token"]
         admin_headers = {"Authorization": f"Bearer {admin_access}"}
@@ -92,8 +92,8 @@ def main() -> int:
             "scan_uuid": str(uuid.uuid4()),
             "qr_code": target["product"]["barcode_qr"],
             "action": "DELIVER",
-            "latitude": 4.6533,
-            "longitude": -74.0836,
+            "latitude": 10.3964,
+            "longitude": -71.4458,
             "gps_accuracy_m": 4.2,
             "is_mocked_location": False,
             "scan_timestamp_utc": utcnow().isoformat(),
@@ -129,8 +129,8 @@ def main() -> int:
                     "scan_uuid": str(uuid.uuid4()),
                     "qr_code": item["product"]["barcode_qr"],
                     "action": "DELIVER",
-                    "latitude": 4.6620,
-                    "longitude": -74.0930,
+                    "latitude": 10.4102,
+                    "longitude": -71.4550,
                     "gps_accuracy_m": 8.0,
                     "is_mocked_location": False,
                     "scan_timestamp_utc": (utcnow() - timedelta(minutes=25)).isoformat(),

@@ -8,7 +8,7 @@ PC**: ya está **completado y verificado**.
 > | Prueba | Resultado |
 > | --- | --- |
 > | `/health` | `200` · `database: up` · `environment: production` |
-> | Login ADMIN demo | `200` — Ana María Restrepo (ADMIN) |
+> | Login ADMIN demo | `200` — Yasmín Bracho (ADMIN) |
 > | Panel web | `200` (HTML + JS + CSS servidos desde la nube) |
 > | APK del celular | `200` — 64,3 MB descargables |
 > | Datos demo | 3 rutas del día · 4 camiones · 30 entregas asignadas (11 entregadas, 2 rechazos) · 36,7 % |
@@ -94,7 +94,7 @@ Comprobaciones realizadas el 17/10/2026 **desde fuera de la red del PC**:
 | Endpoint | Resultado |
 | --- | --- |
 | `GET /health` | `200` · `{"status":"ok","database":"up","environment":"production"}` |
-| `POST /auth/login` (ADMIN) | `200` — token válido (Ana María Restrepo) |
+| `POST /auth/login` (ADMIN) | `200` — token válido (Yasmín Bracho) |
 | `GET /` (panel) | `200` — HTML + `assets/*.js` + `*.css` |
 | `HEAD /uploads/RutaScan-Celular.apk` | `200` — 64,3 MB |
 | `GET /api/v1/admin/dashboard/summary` | `200` — 3 rutas del día, 4 camiones, 30 entregas asignadas (11 entregadas, 2 rechazos), 36,7 % |
@@ -126,7 +126,7 @@ En la app instalada:
 1. En la pantalla de inicio de sesión toque **Servidor**.
 2. Escriba `https://rutascan.onrender.com` y guarde (o **Ajustes → Cambiar
    dirección**).
-3. Inicie sesión con un usuario DRIVER (`52987641` / `3456`).
+3. Inicie sesión con un usuario DRIVER (`20148379` / `3456`).
 
 > El APK viaja al servidor **dentro del repositorio**
 > (`backend/uploads/RutaScan-Celular.apk`). Como esa carpeta está excluida por

@@ -203,15 +203,15 @@ PASOS = [
     ]),
     ("0:40 - 1:20 &middot; Entrar (mostrar que es real, no un dibujo)", [
         vineta("<b>Haz:</b> abre el login, pulsa <b>Ver credenciales de demostración</b> y entra."),
-        di("&laquo;Esto ya está funcionando en internet, no es un dibujo. Esta es una empresa "
-           "de ejemplo para no mostrarle datos de otro cliente: usted tendría su empresa, "
-           "sus camiones y su nombre.&raquo;"),
+        di("&laquo;Esto ya está funcionando en internet, no es un dibujo. Esta es una empresa de "
+           "ejemplo de <b>Cabimas</b> &mdash; Distribuidora Costa Oriental &mdash; para no mostrarle "
+           "datos de otro cliente: usted tendría su empresa, sus camiones y su nombre.&raquo;"),
     ]),
     ("1:20 - 2:20 &middot; Panel: el parte del día en un solo lugar", [
         vineta("<b>Haz:</b> señala las cuatro tarjetas y la tabla <b>Camiones en ruta hoy</b>."),
         di("&laquo;Este es el día de hoy: <b>3 rutas</b>, 4 camiones, 30 unidades asignadas, "
-           "11 entregadas, 2 rechazos y <b>36.7 %</b> de cumplimiento. Fíjese: el WKL-482 está "
-           "<b>en ruta</b> con 33 %, el SJR-116 ya <b>completó</b> su jornada y el TSM-907 "
+           "11 entregadas, 2 rechazos y <b>36.7 %</b> de cumplimiento. Fíjese: el P84LS6V está "
+           "<b>en ruta</b> con 33 %, el B23MC7V ya <b>completó</b> su jornada y el G56RD9V "
            "todavía no sale.&raquo;"),
         di("&laquo;Y mire las <b>alertas</b> de 24 horas: tres cosas raras detectadas solitas. "
            "Ahí está la plata que hoy se pierde sin que usted se entere.&raquo;"),
@@ -221,6 +221,8 @@ PASOS = [
         di("&laquo;Esto se actualiza solo cada 10 segundos: la <b>última posición de cada "
            "camión</b> con la hora de la señal. Verde: señal reciente. Rojo: alguien intentó "
            "usar una <b>ubicación falsa</b>.&raquo;"),
+        di("&laquo;Y ahí están los cuatro camiones repartidos por <b>Cabimas</b> y la Costa "
+           "Oriental.&raquo;"),
     ]),
     ("3:00 - 3:50 &middot; Rutas y bodega: quién carga, quién entrega", [
         vineta("<b>Haz:</b> clic en <b>Rutas</b> y abre el <b>Manifiesto</b> de la ruta en curso."),
@@ -347,14 +349,15 @@ HISTORIA.append(vineta("<b>Factura:</b> si el cliente es una empresa formal te v
 # 6. Chuleta
 chuleta = [
     ("Panel", "https://rutascan.onrender.com"),
+    ("Empresa demo", "Distribuidora Costa Oriental, C.A. &middot; Cabimas, Zulia"),
     ("Pantallas directas", "#/mapa &middot; #/rutas &middot; #/reportes &middot; #/seguridad"),
     ("Panel de plataforma", "#/plataforma (la clave está en CLAVES.txt)"),
-    ("Administrador", "1020456789 / 1234"),
-    ("Bodega", "79458123 / 2345"),
-    ("Conductores", "52987641 / 3456 &middot; 1032459876 / 4567 &middot; 71745238 / 5678"),
+    ("Administrador", "13598742 / 1234"),
+    ("Bodega", "15874230 / 2345"),
+    ("Conductores", "20148379 / 3456 &middot; 18376452 / 4567 &middot; 14209876 / 5678"),
     ("App del celular", ".../uploads/RutaScan-Celular.apk (23 MB, Android 7 o superior)"),
     ("App para teléfonos antiguos", ".../uploads/RutaScan-Celular-32bits.apk (19 MB)"),
-    ("Licencia demo", "RUTA-4F7Q-2MX9-BN38, activa hasta 17/10/2027"),
+    ("Licencia demo", "RUTA-4F7Q-2MX9-BN38 (vigente por un año)"),
 ]
 filas = [[p("Dato", "celdaH"), p("Valor", "celdaH")]]
 for dato, valor in chuleta:

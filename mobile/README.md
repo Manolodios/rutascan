@@ -96,8 +96,8 @@ android:usesCleartextTraffic="true"   <!-- solo para desarrollo con http:// -->
 
 | Rol        | Cédula       | PIN  |
 | ---------- | ------------ | ---- |
-| DRIVER     | `52987641`   | 3456 |
-| WAREHOUSE  | `79458123`   | 2345 |
+| DRIVER     | `20148379`   | 3456 |
+| WAREHOUSE  | `15874230`   | 2345 |
 
 Clave de licencia: `RUTA-4F7Q-2MX9-BN38`.
 

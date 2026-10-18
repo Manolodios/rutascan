@@ -404,7 +404,7 @@ function ProductEditorDialog({
 							className="font-mono"
 							id="f-barcode"
 							onChange={(event) => setBarcode(event.target.value)}
-							placeholder="7702001000019"
+							placeholder="7592001000019"
 							value={barcode}
 						/>
 					</div>

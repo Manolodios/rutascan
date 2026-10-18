@@ -31,18 +31,19 @@
 ### 0:40 – 1:20 · Entrar (mostrar que es real, no un dibujo)
 
 - **Haz:** abre el login, pulsa **"Ver credenciales de demostración"** y entra.
-- **Di:** *"Esto ya está funcionando en internet, no es un prototipo. Esta es una empresa de ejemplo para no mostrarle datos de otro cliente: usted tendría su empresa, sus camiones y su nombre."*
+- **Di:** *"Esto ya está funcionando en internet, no es un prototipo. Esta es una empresa de ejemplo de **Cabimas** — *Distribuidora Costa Oriental* — para no mostrarle datos de otro cliente: usted tendría su empresa, sus camiones y su nombre."*
 
 ### 1:20 – 2:20 · Panel: el parte del día en un solo lugar
 
 - **Haz:** señala las 4 tarjetas y la tabla **"Camiones en ruta hoy"**.
-- **Di:** *"Este es el día de hoy: **3 rutas**, 4 camiones, 30 unidades asignadas, 11 entregadas, 2 rechazos y **36.7 %** de cumplimiento. Fíjese: el WKL-482 está **en ruta** con 33 %, el SJR-116 ya **completó** su jornada y el TSM-907 todavía no sale."*
+- **Di:** *"Este es el día de hoy: **3 rutas**, 4 camiones, 30 unidades asignadas, 11 entregadas, 2 rechazos y **36.7 %** de cumplimiento. Fíjese: el P84LS6V está **en ruta** con 33 %, el B23MC7V ya **completó** su jornada y el G56RD9V todavía no sale."*
 - **Di:** *"Y mire las **alertas** de 24 horas: tres cosas raras detectadas solitas. Ahí está la plata que hoy se pierde sin que usted se entere."*
 
 ### 2:20 – 3:00 · Mapa en vivo (el primer *"ah"*)
 
 - **Haz:** clic en **Mapa en vivo**.
 - **Di:** *"Esto se actualiza solo cada 10 segundos: la **última posición de cada camión** con la hora de la señal. Verde: señal reciente. Rojo: alguien intentó usar una **ubicación falsa**."*
+- **Di:** *"Y ahí están los cuatro camiones repartidos por **Cabimas** y la Costa Oriental."*
 
 ### 3:00 – 3:50 · Rutas y bodega: quién carga, quién entrega
 
@@ -141,14 +142,15 @@
 | Dato | Valor |
 | --- | --- |
 | Panel | <https://rutascan.onrender.com> |
+| Empresa de ejemplo | Distribuidora Costa Oriental, C.A. · Cabimas, Zulia |
 | Mapa · Rutas · Reportes · Seguridad | `#/mapa` · `#/rutas` · `#/reportes` · `#/seguridad` |
 | Panel de plataforma | `#/plataforma` (clave en `CLAVES.txt`) |
-| ADMIN | `1020456789` / `1234` |
-| BODEGA | `79458123` / `2345` |
-| CONDUCTOR | `52987641` / `3456` (también `1032459876`/`4567`, `71745238`/`5678`) |
+| ADMIN | `13598742` / `1234` |
+| BODEGA | `15874230` / `2345` |
+| CONDUCTOR | `20148379` / `3456` (también `18376452`/`4567`, `14209876`/`5678`) |
 | App del celular | `.../uploads/RutaScan-Celular.apk` (23 MB, Android 7+) |
 | App para teléfonos antiguos | `.../uploads/RutaScan-Celular-32bits.apk` (19 MB) |
-| Licencia demo | `RUTA-4F7Q-2MX9-BN38`, activa hasta 17/10/2027 |
+| Licencia demo | `RUTA-4F7Q-2MX9-BN38` (vigente por un año) |
 
 ---
 

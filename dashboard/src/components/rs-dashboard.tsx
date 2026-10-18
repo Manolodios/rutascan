@@ -41,7 +41,7 @@ export function RsDashboard() {
 					<p className="text-muted-foreground text-sm">
 						Datos del {summary.date}
 						{lastUpdated
-							? ` · actualizado ${lastUpdated.toLocaleTimeString("es-CO", {
+							? ` · actualizado ${lastUpdated.toLocaleTimeString("es-VE", {
 									hour: "2-digit",
 									minute: "2-digit",
 								})}`

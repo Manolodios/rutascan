@@ -236,7 +236,7 @@ export function NewCompanyDialog({
 							id="nc-cedula"
 							inputMode="numeric"
 							onChange={(event) => setAdminCedula(event.target.value)}
-							placeholder="1020456789"
+							placeholder="13598742"
 							value={adminCedula}
 						/>
 					</div>

@@ -108,6 +108,6 @@ def _parse_xlsx(content: bytes) -> list[dict]:
 
 CSV_TEMPLATE = (
     "barcode_qr,description,unit,weight\n"
-    "7702001000019,Leche entera UHT 1L x12,BOX,12.5\n"
-    "7702001000026,Agua mineral 600 ml x24,PACK,14.4\n"
+    "7592001000019,Leche entera UHT 1L x12,BOX,12.5\n"
+    "7592001000026,Agua mineral 600 ml x24,PACK,14.4\n"
 )

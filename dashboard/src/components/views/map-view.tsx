@@ -12,9 +12,9 @@ import { api, type LiveMap, type LiveMapTruck } from "@/lib/api";
 import { formatDateTime } from "@/lib/format";
 import { useAsyncData } from "@/lib/use-async";
 
-/** Colombia, used until there is at least one GPS point to fit. */
-const DEFAULT_CENTER: L.LatLngExpression = [4.711, -74.0721];
-const DEFAULT_ZOOM = 5;
+/** Cabimas (Zulia), used until there is at least one GPS point to fit. */
+const DEFAULT_CENTER: L.LatLngExpression = [10.3964, -71.4458];
+const DEFAULT_ZOOM = 12;
 const POLL_MS = 10_000;
 /** A position younger than this is drawn green ("live"). */
 const FRESH_MINUTES = 10;
@@ -208,7 +208,7 @@ export function MapView() {
 					<span>
 						Flota del {data?.date ?? "—"}
 						{updatedAt
-							? ` · actualizado ${updatedAt.toLocaleTimeString("es-CO", {
+							? ` · actualizado ${updatedAt.toLocaleTimeString("es-VE", {
 									hour: "2-digit",
 									minute: "2-digit",
 									second: "2-digit",

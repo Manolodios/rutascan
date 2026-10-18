@@ -7,13 +7,13 @@
 
   Uso:
     powershell -NoProfile -ExecutionPolicy Bypass -File tools\capturas.ps1
-    ... -Base https://rutascan.onrender.com -Cedula 1020456789 -Pin 1234
+    ... -Base https://rutascan.onrender.com -Cedula 13598742 -Pin 1234
 
   Requiere: Microsoft Edge instalado (viene con Windows 10/11).
 #>
 param(
   [string]$Base = 'https://rutascan.onrender.com',
-  [string]$Cedula = '1020456789',
+  [string]$Cedula = '13598742',
   [string]$Pin = '1234',
   [string]$OutDir = (Join-Path (Split-Path -Parent $PSScriptRoot) 'docs\capturas'),
   [int]$Width = 1600,

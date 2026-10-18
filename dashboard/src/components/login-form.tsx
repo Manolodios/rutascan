@@ -54,7 +54,7 @@ export function LoginForm() {
 							id="cedula"
 							inputMode="numeric"
 							onChange={(e) => setCedula(e.target.value)}
-							placeholder="1020456789"
+							placeholder="13598742"
 							value={cedula}
 						/>
 					</div>
@@ -97,9 +97,9 @@ export function LoginForm() {
 					{showDemo ? (
 						<div className="space-y-1 rounded-lg bg-muted px-4 py-3 text-left text-muted-foreground">
 							<p className="font-medium text-foreground">Acceso de demostración</p>
-							<p>Administrador: 1020456789 · PIN 1234</p>
-							<p>Bodega: 79458123 · PIN 2345</p>
-							<p>Conductor: 52987641 · PIN 3456</p>
+							<p>Administrador: 13598742 · PIN 1234</p>
+							<p>Bodega: 15874230 · PIN 2345</p>
+							<p>Conductor: 20148379 · PIN 3456</p>
 						</div>
 					) : null}
 				</div>

@@ -1,6 +1,6 @@
-/** Formatting helpers for RutaScan (Colombia / es-CO). */
+/** Formatting helpers for RutaScan (Venezuela / es-VE). */
 
-export const LOCALE = "es-CO";
+export const LOCALE = "es-VE";
 
 /** ISO date (yyyy-mm-dd) → "16 oct". */
 export function formatDayMonth(isoDate: string): string {

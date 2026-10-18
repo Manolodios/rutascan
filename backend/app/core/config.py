@@ -50,7 +50,7 @@ class Settings(BaseSettings):
     cors_origins: str = "*"
 
     # --- Reporting ---------------------------------------------------
-    report_timezone: str = "America/Bogota"  # IANA tz for report date math/display
+    report_timezone: str = "America/Caracas"  # IANA tz for report date math/display
 
     # --- Demo data --------------------------------------------------
     seed_demo_data: bool = True

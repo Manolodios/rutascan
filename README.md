@@ -146,14 +146,14 @@ El backend crea el esquema y siembra datos demo automáticamente al arrancar
 
 | Rol | Cédula | PIN | Uso |
 | --- | ------ | --- | --- |
-| ADMIN | `1020456789` | 1234 | Dashboard web |
-| WAREHOUSE | `79458123` | 2345 | Dashboard / app |
-| DRIVER | `52987641` | 3456 | App móvil |
-| DRIVER | `1032459876` | 4567 | App móvil |
-| DRIVER | `71745238` | 5678 | App móvil |
+| ADMIN | `13598742` | 1234 | Dashboard web |
+| WAREHOUSE | `15874230` | 2345 | Dashboard / app |
+| DRIVER | `20148379` | 3456 | App móvil |
+| DRIVER | `18376452` | 4567 | App móvil |
+| DRIVER | `14209876` | 5678 | App móvil |
 
-- Licencia: `RUTA-4F7Q-2MX9-BN38` · Camiones: `WKL-482`, `SJR-116`, `TSM-907`, `PBN-245`
-- Productos demo: 12 referencias con código de barras `7702001000xxx`
+- Licencia: `RUTA-4F7Q-2MX9-BN38` · Camiones: `P84LS6V`, `B23MC7V`, `G56RD9V`, `A91FB4V`
+- Productos demo: 12 referencias con código de barras `7592001000xxx`
 - Clave de plataforma (operador SaaS): `PLATFORM_API_KEY` del `.env`
 
 ### ¿Vas a mostrárselo a una empresa?
