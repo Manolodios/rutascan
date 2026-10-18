@@ -13,7 +13,7 @@ import { formatDateTime } from "@/lib/format";
 import { useAsyncData } from "@/lib/use-async";
 
 /** Cabimas (Zulia), used until there is at least one GPS point to fit. */
-const DEFAULT_CENTER: L.LatLngExpression = [10.3964, -71.4458];
+const DEFAULT_CENTER: L.LatLngExpression = [10.399, -71.436];
 const DEFAULT_ZOOM = 12;
 const POLL_MS = 10_000;
 /** A position younger than this is drawn green ("live"). */

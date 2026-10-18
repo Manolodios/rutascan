@@ -138,7 +138,7 @@ Sin ruta asignada: `route = null`, `items = []`, `message` explicativo.
   "scan_uuid": "uuid-v4-generado-en-el-dispositivo",
   "qr_code": "7592001000019",
   "action": "LOAD | DELIVER | REJECT",
-  "latitude": 10.3964, "longitude": -71.4458, "gps_accuracy_m": 4.2,
+  "latitude": 10.3990, "longitude": -71.4360, "gps_accuracy_m": 4.2,
   "is_mocked_location": false,
   "scan_timestamp_utc": "2026-10-16T14:20:00Z",
   "rejection_reason": "DAMAGED", "rejection_notes": "Caja rota",

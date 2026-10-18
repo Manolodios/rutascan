@@ -98,9 +98,11 @@ DEMO_REJECTION_REASONS = [
     RejectionReasonCode.WRONG_ITEM,
 ]
 
-# Cabimas (Zulia). Los desplazamientos reparten los escaneos por la ciudad.
-CABIMAS_LAT = 10.3964
-CABIMAS_LON = -71.4458
+# Cabimas (Zulia). Los desplazamientos reparten los escaneos por la ciudad,
+# tierra adentro: la costa del lago de Maracaibo queda al oeste, así que el
+# demo avanza hacia el sureste (lat-, lon+) para no "navegar" sobre el agua.
+CABIMAS_LAT = 10.3990
+CABIMAS_LON = -71.4360
 
 
 class _ScanClock:
@@ -139,8 +141,8 @@ def _demo_scan(
             quantity=1,
             scan_timestamp_utc=when,
             server_timestamp_utc=when + timedelta(seconds=45 if clock.index % 5 == 0 else 6),
-            latitude=CABIMAS_LAT + offset,
-            longitude=CABIMAS_LON - offset,
+            latitude=CABIMAS_LAT - offset,
+            longitude=CABIMAS_LON + offset,
             gps_accuracy_m=round(4.5 + (clock.index % 5) * 1.6, 1),
             device_uuid=DEMO_DEVICE_UUID,
             synced_with_server=True,
@@ -389,7 +391,7 @@ def seed_demo() -> bool:
         security_trail = [
             (SecurityEventType.MOCK_GPS, 95, {"motivo": "Ubicación simulada durante una entrega"}),
             (SecurityEventType.TIMESTAMP_SKEW, 610, {"desfase_segundos": 42}),
-            (SecurityEventType.MANIFEST_MISMATCH, 1500, {"qr_escaneado": "7592001000999"}),
+            (SecurityEventType.MANIFEST_MISMATCH, 1320, {"qr_escaneado": "7592001000999"}),
             (SecurityEventType.DUPLICATE_SCAN, 2900, {"intentos": 2}),
             (SecurityEventType.PIN_LOCKOUT, 4400, {"intentos_fallidos": 5}),
         ]
@@ -400,8 +402,8 @@ def seed_demo() -> bool:
                     event_type=event_type,
                     user_id=users["20148379"].id,
                     device_uuid=DEMO_DEVICE_UUID,
-                    latitude=CABIMAS_LAT + 0.012,
-                    longitude=CABIMAS_LON - 0.012,
+                    latitude=CABIMAS_LAT - 0.012,
+                    longitude=CABIMAS_LON + 0.012,
                     detail=payload,
                     created_at=now - timedelta(minutes=minutes_ago),
                 )

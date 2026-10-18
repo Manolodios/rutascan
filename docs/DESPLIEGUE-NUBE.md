@@ -12,7 +12,7 @@ PC**: ya está **completado y verificado**.
 > | Panel web | `200` (HTML + JS + CSS servidos desde la nube) |
 > | APK del celular | `200` — 64,3 MB descargables |
 > | Datos demo | 3 rutas del día · 4 camiones · 30 entregas asignadas (11 entregadas, 2 rechazos) · 36,7 % |
-> | Licencia | `RUTA-4F7Q-2MX9-BN38` ACTIVA hasta 17/10/2027 |
+> | Licencia | `RUTA-4F7Q-2MX9-BN38` ACTIVA hasta 18/10/2027 |
 > | Primer despliegue | 1 min 40 s |
 >
 > No hizo falta tarjeta: todo en plan gratuito (Render + Supabase).
@@ -98,7 +98,7 @@ Comprobaciones realizadas el 17/10/2026 **desde fuera de la red del PC**:
 | `GET /` (panel) | `200` — HTML + `assets/*.js` + `*.css` |
 | `HEAD /uploads/RutaScan-Celular.apk` | `200` — 64,3 MB |
 | `GET /api/v1/admin/dashboard/summary` | `200` — 3 rutas del día, 4 camiones, 30 entregas asignadas (11 entregadas, 2 rechazos), 36,7 % |
-| `GET /api/v1/admin/license` | `200` — `RUTA-4F7Q-2MX9-BN38`, ACTIVA hasta 17/10/2027 |
+| `GET /api/v1/admin/license` | `200` — `RUTA-4F7Q-2MX9-BN38`, ACTIVA hasta 18/10/2027 |
 
 ## Parte 4 - El celular
 
