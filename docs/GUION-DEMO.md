@@ -82,7 +82,8 @@
 
 | Pregunta | Respuesta (corta y honesta) |
 | --- | --- |
-| *"¿Cuánto vale?"* | *"Depende del número de camiones: 15 dólares por camión al mes desde 3 camiones, y 12 dólares desde 10. Incluye soporte y actualizaciones. Los primeros 30 días son gratis."* |
+| *"¿Cuánto vale?"* | *"15 dólares por camión al mes, todo incluido; desde 10 camiones baja a 12. Los primeros 30 días son gratis y no hay contrato."* |
+| *"¿Qué planes tienen? ¿Cuál es el básico?"* | *"No hay planes ni versiones recortadas: un solo precio con todo incluido. Lo único que cambia es cuántos camiones tiene usted."* |
 | *"¿Funciona sin internet?"* | *"Sí, es lo primero que resolvimos: el conductor escanea sin señal y se sincroniza cuando vuelve la red. Puede trabajar hasta 3 días desconectado."* |
 | *"¿Y si me roban el celular o lo usan sin pagar?"* | *"Cada instalación es un dispositivo registrado y hay cupo por empresa; desde el panel se bloquea o se libera."* |
 | *"¿Dónde quedan mis datos? ¿Es seguro?"* | *"En servidores en la nube con conexión cifrada, base de datos administrada, claves con hash y cada empresa aislada: nadie ve los datos de otra. Fotos y firmas incluidas."* |
@@ -93,20 +94,23 @@
 | *"¿Quién lo programó? ¿qué pasa si te desapareces?"* | *"El código está versionado y se puede auditar o dejar en garantía; el sistema opera solo, no depende de que yo esté presente."* |
 | *"¿Esto reemplaza mi facturación?"* | *"No: RutaScan controla la operación y la evidencia de entrega; la facturación sigue en su sistema."* |
 
-## 5. Precios sugeridos (para no improvisar)
+## 5. Precio: uno solo, todo incluido
 
-> **Punto de partida — ajústalo a tu realidad.** Lo importante es tener una
-> respuesta en 3 segundos; el precio exacto se cierra en la segunda visita.
+> **La regla:** una sola mensualidad, todo el sistema, sin planes ni letra
+> pequeña. Es lo más fácil de decir, lo más fácil de recordar y lo que menos
+> preguntas genera. Lo único que cambia es **cuántos camiones** tiene el cliente.
 
-| Plan | Para quién | Precio sugerido | Incluye |
-| --- | --- | --- | --- |
-| **Prueba** | 30 días | $0 | Hasta 5 camiones, todas las funciones |
-| **Ruta** | 3-9 camiones | 15 USD por camión/mes | Panel, app del conductor, reportes, soporte por WhatsApp |
-| **Flota** | 10+ camiones | 12 USD por camión/mes | Igual + puesta en marcha acompañada |
-| **Anual** | cualquiera | 10 meses (2 gratis) | Igual, pagando el año completo |
+**$15 por camión al mes** · sin contrato · **30 días de prueba gratis**
+Desde **10 camiones**, $12 por camión.
 
+- Es **por camión, no por usuario**: pueden entrar todos los que necesiten
+  (bodega, administración, conductores). Eso es un argumento de venta.
+- **Todo incluido:** panel, app del conductor, reportes, alertas de fraude,
+  licencia, soporte por WhatsApp y actualizaciones. No hay "versión básica".
 - Cobra **mensual por adelantado**; la **prueba gratis convierte más que un descuento**.
-- No regales meses: regala la **puesta en marcha** (te cuesta tiempo, no plata).
+- **No ofrezcas descuento tú primero.** Si te lo piden, tu carta es:
+  *"si paga el año completo, le regalo dos meses"*.
+- No cobres instalación: la **puesta en marcha la hago yo** (te cuesta tiempo, no plata).
 - Si preguntan *"¿hay costo de instalación?"*: *"No, la puesta en marcha la hago yo con su gente."*
 - **Cómo cobrar (Venezuela):** lo más práctico es **Zelle, efectivo en dólares o Binance
   (USDT)**; si el cliente solo paga en bolívares, Pago Móvil al cambio del día. Define

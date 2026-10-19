@@ -94,6 +94,9 @@ SS = {
         "nota", fontName="Helvetica", fontSize=8.6, textColor=GREY,
         leading=11.5, spaceBefore=3,
     ),
+    "precio": ParagraphStyle(
+        "precio", fontName="Helvetica-Bold", fontSize=26, textColor=BLUE, leading=30,
+    ),
 }
 
 
@@ -287,8 +290,11 @@ for texto in [
 HISTORIA.append(h2("4. Preguntas difíciles y qué responder"))
 preguntas = [
     ("¿Cuánto vale?",
-     "Depende del número de camiones: 15 dólares por camión al mes desde 3 camiones, y 12 desde 10. "
-     "Incluye soporte y actualizaciones. Los primeros 30 días son gratis."),
+     "15 dólares por camión al mes, todo incluido; desde 10 camiones baja a 12. Los primeros 30 días "
+     "son gratis y no hay contrato."),
+    ("¿Qué planes tienen? ¿Cuál es el básico?",
+     "No hay planes ni versiones recortadas: un solo precio con todo incluido. Lo único que cambia es "
+     "cuántos camiones tiene usted."),
     ("¿Funciona sin internet?",
      "Sí, es lo primero que resolvimos: el conductor escanea sin señal y se sincroniza cuando vuelve "
      "la red. Puede trabajar hasta 3 días desconectado."),
@@ -319,28 +325,37 @@ for preg, resp in preguntas:
     filas.append([p("<i>" + preg + "</i>", "celda"), p(resp, "celda")])
 HISTORIA.append(tabla(filas, [5.2 * cm, 12.2 * cm]))
 
-# 5. Precios sugeridos
-HISTORIA.append(h2("5. Precios sugeridos (para no improvisar)"))
-filas = [[
-    p("Plan", "celdaH"), p("Para quién", "celdaH"), p("Precio sugerido", "celdaH"), p("Incluye", "celdaH"),
-]]
-for plan, quien, precio, incluye in [
-    ("Prueba", "30 días", "$0", "Hasta 5 camiones, todas las funciones"),
-    ("Ruta", "3 a 9 camiones", "15 USD por camión/mes", "Panel, app del conductor, reportes y soporte por WhatsApp"),
-    ("Flota", "10 camiones o más", "12 USD por camión/mes", "Igual, más puesta en marcha acompañada"),
-    ("Anual", "cualquiera", "10 meses (2 gratis)", "Igual, pagando el año completo"),
-]:
-    filas.append([
-        p("<b>" + plan + "</b>", "celda"), p(quien, "celda"),
-        p("<b>" + precio + "</b>", "celda"), p(incluye, "celda"),
-    ])
-HISTORIA.append(tabla(filas, [2.1 * cm, 3.1 * cm, 4.6 * cm, 7.6 * cm]))
-HISTORIA.append(p("Punto de partida: ajústalo a tu realidad. Lo importante es tener una respuesta "
-                  "en tres segundos; el precio exacto se cierra en la segunda visita.", "nota"))
+# 5. Precio unico
+HISTORIA.append(h2("5. Precio: uno solo, todo incluido"))
+HISTORIA.append(p("Una sola mensualidad, todo el sistema, sin planes ni letra pequeña. Es lo más fácil "
+                  "de decir, lo más fácil de recordar y lo que menos preguntas genera: lo único que "
+                  "cambia es <b>cuántos camiones</b> tiene el cliente.", "cuerpo"))
+tarjeta = Table(
+    [[
+        Paragraph("$15", SS["precio"]),
+        Paragraph("por camión al mes<br/>sin contrato &middot; <b>30 días de prueba gratis</b>"
+                  "<br/>desde 10 camiones: <b>$12</b> por camión", SS["celda"]),
+    ]],
+    colWidths=[3.4 * cm, 14.0 * cm],
+)
+tarjeta.setStyle(TableStyle([
+    ("BACKGROUND", (0, 0), (-1, -1), LIGHT),
+    ("LINEBEFORE", (0, 0), (0, -1), 2.4, BLUE),
+    ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+    ("LEFTPADDING", (0, 0), (-1, -1), 8),
+    ("TOPPADDING", (0, 0), (-1, -1), 6),
+    ("BOTTOMPADDING", (0, 0), (-1, -1), 6),
+]))
+HISTORIA.append(tarjeta)
+HISTORIA.append(Spacer(1, 4))
+HISTORIA.append(vineta("Es <b>por camión, no por usuario</b>: entran todos los que necesiten (bodega, "
+                       "administración, conductores). Es un argumento de venta."))
+HISTORIA.append(vineta("<b>Todo incluido:</b> panel, app del conductor, reportes, alertas de fraude, "
+                       "licencia, soporte por WhatsApp y actualizaciones. No hay versión básica."))
 HISTORIA.append(vineta("Cobra <b>mensual por adelantado</b>: la prueba gratis convierte más que un descuento."))
-HISTORIA.append(vineta("No regales meses: regala la <b>puesta en marcha</b>, que te cuesta tiempo y no plata."))
-HISTORIA.append(vineta("Si preguntan si hay costo de instalación: <i>&laquo;no, la puesta en marcha la hago yo "
-                       "con su gente&raquo;</i>."))
+HISTORIA.append(vineta("<b>No ofrezcas descuento tú primero.</b> Si te lo piden: <i>&laquo;si paga el año "
+                       "completo, le regalo dos meses&raquo;</i>."))
+HISTORIA.append(vineta("No cobres instalación: la <b>puesta en marcha la hago yo</b> (cuesta tiempo, no plata)."))
 HISTORIA.append(vineta("<b>Cómo cobrar (Venezuela):</b> Zelle, efectivo en dólares o Binance (USDT); si el "
                        "cliente solo paga en bolívares, Pago Móvil al cambio del día."))
 HISTORIA.append(vineta("<b>Factura:</b> si el cliente es una empresa formal te va a pedir factura fiscal; "
@@ -362,10 +377,10 @@ chuleta = [
 filas = [[p("Dato", "celdaH"), p("Valor", "celdaH")]]
 for dato, valor in chuleta:
     filas.append([p("<b>" + dato + "</b>", "celda"), p(valor, "celda")])
-HISTORIA.append(KeepTogether([
-    h2("6. Chuleta (ten esto a la vista)"),
-    tabla(filas, [5.2 * cm, 12.2 * cm]),
-]))
+HISTORIA.append(Spacer(1, 4))
+HISTORIA.append(HRFlowable(width="100%", thickness=1.6, color=BLUE, spaceAfter=4))
+HISTORIA.append(Paragraph("6. Chuleta (ten esto a la vista)", SS["h2"]))
+HISTORIA.append(tabla(filas, [5.2 * cm, 12.2 * cm]))
 
 HISTORIA.append(Spacer(1, 8))
 HISTORIA.append(p("Y lo que <b>no</b> hay que hacer: no improvises (si no sabes algo, &laquo;se lo "
