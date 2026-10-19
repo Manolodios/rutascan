@@ -71,6 +71,24 @@ def get_user_company(user: User = Depends(get_current_user), db: Session = Depen
     return company
 
 
+def require_active_license(
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> Company:
+    """Corta el panel cuando la licencia esta vencida o desactivada.
+
+    El API movil ya tiene su propio guardia (middleware); este cubre
+    /api/v1/admin, donde antes una licencia vencida seguia operando con el
+    token de sesion. La pantalla de licencia queda fuera de esta dependencia
+    para que el cliente pueda ver su estado y el contacto del proveedor.
+    """
+    company = db.get(Company, user.company_id)
+    if company is None:
+        raise _http_error(403, "Empresa no encontrada.", "COMPANY_NOT_FOUND")
+    licensing.assert_subscription_valid(company)
+    return company
+
+
 # ---------------------------------------------------------------- mobile ----
 @dataclass
 class MobileContext:

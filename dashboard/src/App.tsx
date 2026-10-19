@@ -5,6 +5,7 @@ import { LoginForm } from "@/components/login-form";
 import { PlatformApp } from "@/components/platform/platform-app";
 import { RsDashboard } from "@/components/rs-dashboard";
 import { LicenseView } from "@/components/views/license-view";
+import { LicenseBlockedNotice } from "@/components/license-blocked-notice";
 import { MapView } from "@/components/views/map-view";
 import { ProductsView } from "@/components/views/products-view";
 import { ReportsView } from "@/components/views/reports-view";
@@ -56,6 +57,7 @@ function App() {
 					<LoginForm />
 				)}
 			</TooltipProvider>
+			<LicenseBlockedNotice />
 			<Toaster position="top-right" richColors />
 		</>
 	);

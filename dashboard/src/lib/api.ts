@@ -158,6 +158,9 @@ async function toApiError(res: Response): Promise<ApiError> {
 		else if (Array.isArray(data.errors) && data.errors[0]?.msg) message = data.errors[0].msg;
 	}
 	if (res.status === 401) clearSession();
+	if (res.status === 402 && data?.code?.startsWith("SUBSCRIPTION_")) {
+		window.dispatchEvent(new CustomEvent("rutascan:license-blocked"));
+	}
 	return new ApiError(res.status, message, data?.code ?? null);
 }
 

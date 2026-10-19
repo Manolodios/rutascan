@@ -81,7 +81,7 @@ export function LicenseView() {
 				<div className="rounded-xl border border-destructive/30 bg-destructive/5 px-5 py-4 text-destructive text-sm">
 					<strong>Suscripción no operativa.</strong>{" "}
 					{license.expired
-						? "La licencia está vencida: la app móvil rechazará toda operación (HTTP 402)."
+						? "La licencia está vencida: el panel y la app móvil rechazarán toda operación (HTTP 402)."
 						: "La suscripción está suspendida."}{" "}
 					Contacte a su proveedor para renovar.
 				</div>

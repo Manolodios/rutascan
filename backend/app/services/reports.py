@@ -141,6 +141,21 @@ def fetch_route_summary(
 
 
 # ----------------------------------------------------------------- Excel ----
+_FORMULA_START = ("=", "+", "-", "@", "\t", "\r")
+
+
+def _cell(value):
+    """Evita inyección de fórmulas en Excel.
+
+    openpyxl interpreta como fórmula cualquier texto que empiece por "=", así
+    que un nombre de producto o una nota maliciosa se ejecutaría al abrir el
+    reporte. Los números no se tocan (lat/lon negativas siguen siendo números).
+    """
+    if isinstance(value, str) and value.startswith(_FORMULA_START):
+        return "'" + value
+    return value
+
+
 def build_deliveries_xlsx(rows: list[dict], summary: list[dict], company_name: str) -> bytes:
     wb = Workbook()
     header_font = Font(bold=True, color="FFFFFF")
@@ -163,7 +178,7 @@ def build_deliveries_xlsx(rows: list[dict], summary: list[dict], company_name: s
         cell.fill = header_fill
         cell.alignment = Alignment(horizontal="center")
     for row in rows:
-        ws.append([row.get(c[0], "") for c in columns])
+        ws.append([_cell(row.get(c[0], "")) for c in columns])
     for idx, (key, label) in enumerate(columns, start=1):
         width = max(10, min(38, max([len(label)] + [len(str(r.get(key, ""))) for r in rows[:200]] or [10]) + 2))
         ws.column_dimensions[get_column_letter(idx)].width = width
@@ -180,12 +195,12 @@ def build_deliveries_xlsx(rows: list[dict], summary: list[dict], company_name: s
         cell.font = header_font
         cell.fill = header_fill
     for row in summary:
-        ws2.append([row.get(c[0], "") for c in cols2])
+        ws2.append([_cell(row.get(c[0], "")) for c in cols2])
     for idx, (key, label) in enumerate(cols2, start=1):
         ws2.column_dimensions[get_column_letter(idx)].width = 22
 
     ws3 = wb.create_sheet("Info")
-    ws3.append(["Empresa", company_name])
+    ws3.append(["Empresa", _cell(company_name)])
     ws3.append(["Generado (UTC)", datetime.utcnow().isoformat() + "Z"])
     ws3.append(["Total eventos", len(rows)])
     ws3.append(["Zona horaria reporte", str(EXPORT_TZ)])

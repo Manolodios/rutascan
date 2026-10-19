@@ -37,6 +37,9 @@ class Settings(BaseSettings):
     device_ttl_days: int = 14
     pin_max_attempts: int = 5
     pin_lockout_minutes: int = 15
+    # Limite por conexion (no por cedula) para frenar el barrido de muchas
+    # cuentas desde una misma IP. Solo cuentan los intentos fallidos.
+    login_ip_max_attempts: int = 40
     max_timestamp_future_minutes: int = 10
     max_offline_age_days: int = 7
     max_implied_speed_kmh: float = 200.0

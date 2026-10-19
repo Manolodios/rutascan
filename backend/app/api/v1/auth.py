@@ -53,6 +53,14 @@ def _error(status_code: int, message: str, code: str, **extra) -> HTTPException:
     return HTTPException(status_code=status_code, detail={"detail": message, "code": code, **extra})
 
 
+def _client_ip(request: Request) -> str:
+    """IP del cliente (detras del proxy de Render) para el limite por conexion."""
+    forwarded = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
+    if forwarded:
+        return forwarded
+    return request.client.host if request.client else "desconocida"
+
+
 def _grace_for(user: User, company: Company | None) -> tuple[str, datetime] | None:
     if company is None or user.role == Role.ADMIN:
         return None
@@ -104,6 +112,18 @@ def login(payload: LoginRequest, request: Request, db: Session = Depends(get_db)
     user = db.scalar(sa.select(User).where(User.user_cedula == cedula))
 
     # --- brute force protection ------------------------------------------
+    ip = _client_ip(request)
+    ip_limit = check_rate_limit(
+        "login-ip", ip, settings.login_ip_max_attempts, settings.pin_lockout_minutes * 60
+    )
+    if not ip_limit.allowed:
+        raise _error(
+            429,
+            "Demasiados intentos desde esta conexión. Espere antes de reintentar.",
+            "IP_LOCKOUT",
+            retry_after=ip_limit.retry_after,
+        )
+
     limit = check_rate_limit(
         "pin-login", cedula, settings.pin_max_attempts, settings.pin_lockout_minutes * 60
     )
@@ -127,6 +147,7 @@ def login(payload: LoginRequest, request: Request, db: Session = Depends(get_db)
 
     if user is None or not user.is_active or not verify_pin(payload.pin, user.pin_hash):
         register_failed_attempt("pin-login", cedula, settings.pin_lockout_minutes * 60)
+        register_failed_attempt("login-ip", ip, settings.pin_lockout_minutes * 60)
         raise _error(401, "Cédula o PIN incorrectos.", "INVALID_CREDENTIALS")
 
     # --- tenant coherence ---------------------------------------------------

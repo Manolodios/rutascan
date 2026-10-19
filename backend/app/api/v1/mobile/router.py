@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import secrets
 from datetime import datetime
 from pathlib import Path
 from typing import Literal
@@ -211,7 +212,9 @@ async def upload_pod(
     digest = hashlib.sha256(data).hexdigest()
     target_dir = Path(settings.upload_dir) / str(ctx.company.id) / kind
     target_dir.mkdir(parents=True, exist_ok=True)
-    filename = f"{kind}_{utcnow().strftime('%Y%m%dT%H%M%S')}_{digest[:12]}{extension}"
+    filename = (
+        f"{kind}_{utcnow().strftime('%Y%m%dT%H%M%S')}_{digest[:12]}_{secrets.token_hex(6)}{extension}"
+    )
     (target_dir / filename).write_bytes(data)
 
     url = f"/uploads/{ctx.company.id}/{kind}/{filename}"
@@ -228,6 +231,14 @@ def attach_pod(
 ) -> Message:
     """Attach signature/photo URLs to an already-synced scan (by scan_uuid)."""
     _ensure_field_role(ctx)
+    for url in (payload.pod_signature_url, payload.pod_photo_url):
+        # Solo rutas internas de /uploads: evita que un cliente guarde URLs
+        # externas o esquemas peligrosos que luego se muestren en el panel.
+        if url and not url.startswith("/uploads/"):
+            raise HTTPException(
+                status_code=422,
+                detail={"detail": "URL de evidencia no válida.", "code": "INVALID_POD_URL"},
+            )
     log = db.scalar(
         sa.select(DeliveryLog).where(
             DeliveryLog.scan_uuid == payload.scan_uuid,

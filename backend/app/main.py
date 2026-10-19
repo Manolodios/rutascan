@@ -65,8 +65,9 @@ def create_app() -> FastAPI:
             "warehouse scanning and server-side license enforcement."
         ),
         lifespan=lifespan,
-        docs_url="/docs",
+        docs_url=None if settings.is_production else "/docs",
         redoc_url=None,
+        openapi_url=None if settings.is_production else "/openapi.json",
     )
 
     # --- middleware (order matters: last added runs first) --------------------
@@ -79,6 +80,22 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
         expose_headers=["Content-Disposition"],
     )
+
+    # --- cabeceras de seguridad (todas las respuestas) ------------------------
+    @app.middleware("http")
+    async def _security_headers(request, call_next):
+        response = await call_next(request)
+        response.headers.setdefault("X-Content-Type-Options", "nosniff")
+        response.headers.setdefault("X-Frame-Options", "DENY")
+        response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+        response.headers.setdefault(
+            "Permissions-Policy", "geolocation=(self), camera=(), microphone=()"
+        )
+        if settings.is_production:
+            response.headers.setdefault(
+                "Strict-Transport-Security", "max-age=15552000; includeSubDomains"
+            )
+        return response
 
     # --- exception handlers: uniform {detail, code} envelope -------------------
     @app.exception_handler(LicenseError)
