@@ -38,6 +38,10 @@ BORDER = colors.HexColor("#cbd5e1")
 
 ANCHO = 17.0 * cm
 
+# --- Contacto -------------------------------------------------------------
+WHATSAPP_VISTA = "+58 412 164 0277"
+WHATSAPP_URL = "https://wa.me/584121640277"
+
 # --- Estilos --------------------------------------------------------------
 SS = {
     "marca": ParagraphStyle(
@@ -181,7 +185,9 @@ HISTORIA.append(Spacer(1, 10))
 cta = Table(
     [
         [p("Pida una demostración de <b>15 minutos</b> con sus propios datos", "cta")],
-        [p("WhatsApp: ______________________  &middot;  Panel: rutascan.onrender.com<br/>"
+        [p("Escriba por WhatsApp al "
+           '<link href="' + WHATSAPP_URL + '"><b>' + WHATSAPP_VISTA + "</b></link>"
+           "  &middot;  Panel: rutascan.onrender.com<br/>"
            "Se la muestro en vivo: usted mira, pregunta y decide. Sin compromiso.", "cta2")],
     ],
     colWidths=[ANCHO],
