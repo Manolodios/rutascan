@@ -5,6 +5,12 @@ import { Input } from "@/components/ui/input";
 import { ApiError } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 
+/** Alta de clientes: el prospecto escribe por WhatsApp y se le crea su empresa. */
+const WHATSAPP_NUMBER = "584121640277";
+const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(
+	"Hola, vi RutaScan y quiero probar 30 días con mis camiones.",
+)}`;
+
 export function LoginForm() {
 	const { signIn } = useAuth();
 	const [cedula, setCedula] = useState("");
@@ -102,6 +108,22 @@ export function LoginForm() {
 							<p>Conductor: 20148379 · PIN 3456</p>
 						</div>
 					) : null}
+				</div>
+
+				<div className="rounded-lg border border-dashed px-4 py-3 text-center text-xs">
+					<p className="font-medium text-foreground">¿Todavía no tiene cuenta?</p>
+					<p className="mt-1 text-muted-foreground">
+						Cada empresa entra con su propia licencia. Escríbame y le activo{" "}
+						<b className="text-foreground">30 días de prueba</b>.
+					</p>
+					<a
+						className="mt-2 inline-block font-medium text-primary underline-offset-4 hover:underline"
+						href={WHATSAPP_URL}
+						rel="noreferrer"
+						target="_blank"
+					>
+						Pedir prueba por WhatsApp
+					</a>
 				</div>
 
 				<a

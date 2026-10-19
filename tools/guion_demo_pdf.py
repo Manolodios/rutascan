@@ -295,6 +295,9 @@ preguntas = [
     ("¿Qué planes tienen? ¿Cuál es el básico?",
      "No hay planes ni versiones recortadas: un solo precio con todo incluido. Lo único que cambia es "
      "cuántos camiones tiene usted."),
+    ("¿Y cómo empiezo yo?",
+     "Yo le creo su cuenta y le entrego su clave de licencia. Usted entra con su cédula y un PIN de "
+     "4 dígitos; sus muchachos entran igual, desde el celular."),
     ("¿Funciona sin internet?",
      "Sí, es lo primero que resolvimos: el conductor escanea sin señal y se sincroniza cuando vuelve "
      "la red. Puede trabajar hasta 3 días desconectado."),

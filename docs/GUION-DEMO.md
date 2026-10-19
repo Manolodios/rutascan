@@ -84,6 +84,7 @@
 | --- | --- |
 | *"¿Cuánto vale?"* | *"15 dólares por camión al mes, con un mínimo de 30 al mes; desde 10 camiones baja a 12. Todo incluido, los primeros 30 días gratis y sin contrato."* |
 | *"¿Qué planes tienen? ¿Cuál es el básico?"* | *"No hay planes ni versiones recortadas: un solo precio con todo incluido. Lo único que cambia es cuántos camiones tiene usted."* |
+| *"¿Y cómo empiezo yo?"* | *"Yo le creo su cuenta y le entrego su clave de licencia. Usted entra con su cédula y un PIN de 4 dígitos; sus muchachos entran igual, desde el celular."* |
 | *"¿Funciona sin internet?"* | *"Sí, es lo primero que resolvimos: el conductor escanea sin señal y se sincroniza cuando vuelve la red. Puede trabajar hasta 3 días desconectado."* |
 | *"¿Y si me roban el celular o lo usan sin pagar?"* | *"Cada instalación es un dispositivo registrado y hay cupo por empresa; desde el panel se bloquea o se libera."* |
 | *"¿Dónde quedan mis datos? ¿Es seguro?"* | *"En servidores en la nube con conexión cifrada, base de datos administrada, claves con hash y cada empresa aislada: nadie ve los datos de otra. Fotos y firmas incluidas."* |
@@ -157,6 +158,34 @@ Desde **10 camiones**, $12 por camión.
 | App del celular | `.../uploads/RutaScan-Celular.apk` (23 MB, Android 7+) |
 | App para teléfonos antiguos | `.../uploads/RutaScan-Celular-32bits.apk` (19 MB) |
 | Licencia demo | `RUTA-4F7Q-2MX9-BN38` (vigente por un año) |
+| Alta de un cliente | `#/plataforma` → **Nueva empresa** (ver sección 10) |
+
+## 10. Dar de alta a un cliente nuevo (después del sí)
+
+No hay registro público a propósito: **cada empresa entra con su licencia**, así
+nadie se crea cuentas basura y tú controlas cuántos camiones tiene cada uno.
+La cuenta la creas tú en 1 minuto:
+
+1. Entra a **`#/plataforma`** con la clave de operador (está en `CLAVES.txt`, §7).
+2. Clic en **Nueva empresa** y llena:
+   - nombre de la empresa y **RIF**;
+   - **tope de camiones** (el máximo que puede registrar);
+   - **fecha de vencimiento**: para una prueba, hoy + 30 días;
+   - **nombre, cédula y PIN** (4 dígitos) del administrador del cliente.
+3. Al guardar te muestra la **clave de licencia**. Cópiala: esa clave va en el
+   panel y en la app del conductor.
+4. Envíale al cliente, por WhatsApp:
+   - la dirección **rutascan.onrender.com**;
+   - su **cédula** y su **PIN** (para el panel);
+   - la **clave de licencia** (para la app del celular).
+5. El administrador del cliente ya puede crear sus **camiones, productos y
+   usuarios** (bodega y conductores). Tú no tienes que hacer nada más.
+
+> La cédula no se puede repetir entre empresas: si el administrador del cliente
+> ya tiene cuenta en otra empresa, usa otra cédula para él.
+>
+> Para **cobrar**, cambia la fecha de vencimiento en la misma pantalla (o crea
+> la empresa con 12 meses desde el principio, si ya pagó).
 
 ---
 
