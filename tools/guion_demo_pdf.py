@@ -290,8 +290,8 @@ for texto in [
 HISTORIA.append(h2("4. Preguntas difíciles y qué responder"))
 preguntas = [
     ("¿Cuánto vale?",
-     "15 dólares por camión al mes, todo incluido; desde 10 camiones baja a 12. Los primeros 30 días "
-     "son gratis y no hay contrato."),
+     "15 dólares por camión al mes, con un mínimo de 30 al mes; desde 10 camiones baja a 12. Todo "
+     "incluido, los primeros 30 días gratis y sin contrato."),
     ("¿Qué planes tienen? ¿Cuál es el básico?",
      "No hay planes ni versiones recortadas: un solo precio con todo incluido. Lo único que cambia es "
      "cuántos camiones tiene usted."),
@@ -333,8 +333,9 @@ HISTORIA.append(p("Una sola mensualidad, todo el sistema, sin planes ni letra pe
 tarjeta = Table(
     [[
         Paragraph("$15", SS["precio"]),
-        Paragraph("por camión al mes<br/>sin contrato &middot; <b>30 días de prueba gratis</b>"
-                  "<br/>desde 10 camiones: <b>$12</b> por camión", SS["celda"]),
+        Paragraph("por camión al mes &middot; <b>mínimo $30 al mes</b><br/>sin contrato &middot; "
+                  "<b>30 días de prueba gratis</b><br/>desde 10 camiones: <b>$12</b> por camión",
+                  SS["celda"]),
     ]],
     colWidths=[3.4 * cm, 14.0 * cm],
 )

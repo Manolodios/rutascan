@@ -164,6 +164,11 @@ internet?): **`docs/GUION-DEMO.md`** y la versión imprimible
 **`docs/GUION-DEMO-RutaScan.pdf`** (se regenera con
 `python tools/guion_demo_pdf.py`).
 
+Para seguimiento por WhatsApp o correo hay una **ficha comercial de una página**:
+**`docs/FICHA-COMERCIAL-RutaScan.pdf`** (se regenera con
+`python tools/ficha_comercial_pdf.py`). Antes de enviarla, pon tu número de
+WhatsApp en el generador.
+
 ## Desarrollo local (sin Docker)
 
 Backend (Python 3.11+; se probó también en 3.12–3.14):
@@ -271,7 +276,7 @@ dashboard/         # panel web (React + Vite + shadcn/ui) + scripts/copy-to-web.
 desktop/           # app de escritorio (Electron) + empaquetado
 mobile/            # app Flutter
 tools/             # instaladores de Windows, capturas del panel, publicación
-docs/              # API.md + ARCHITECTURE.md + DESPLIEGUE-NUBE.md + GUION-DEMO + capturas/
+docs/              # API.md + ARCHITECTURE.md + DESPLIEGUE-NUBE.md + GUION-DEMO + FICHA-COMERCIAL + capturas/
 .github/workflows/ # CI: pruebas del backend + compilación del panel
 docker-compose.yml
 ```

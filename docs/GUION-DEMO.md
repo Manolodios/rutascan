@@ -82,7 +82,7 @@
 
 | Pregunta | Respuesta (corta y honesta) |
 | --- | --- |
-| *"¿Cuánto vale?"* | *"15 dólares por camión al mes, todo incluido; desde 10 camiones baja a 12. Los primeros 30 días son gratis y no hay contrato."* |
+| *"¿Cuánto vale?"* | *"15 dólares por camión al mes, con un mínimo de 30 al mes; desde 10 camiones baja a 12. Todo incluido, los primeros 30 días gratis y sin contrato."* |
 | *"¿Qué planes tienen? ¿Cuál es el básico?"* | *"No hay planes ni versiones recortadas: un solo precio con todo incluido. Lo único que cambia es cuántos camiones tiene usted."* |
 | *"¿Funciona sin internet?"* | *"Sí, es lo primero que resolvimos: el conductor escanea sin señal y se sincroniza cuando vuelve la red. Puede trabajar hasta 3 días desconectado."* |
 | *"¿Y si me roban el celular o lo usan sin pagar?"* | *"Cada instalación es un dispositivo registrado y hay cupo por empresa; desde el panel se bloquea o se libera."* |
@@ -100,9 +100,11 @@
 > pequeña. Es lo más fácil de decir, lo más fácil de recordar y lo que menos
 > preguntas genera. Lo único que cambia es **cuántos camiones** tiene el cliente.
 
-**$15 por camión al mes** · sin contrato · **30 días de prueba gratis**
+**$15 por camión al mes** · **mínimo $30 al mes** · sin contrato · **30 días de prueba gratis**
 Desde **10 camiones**, $12 por camión.
 
+- **Mínimo $30 al mes:** si el cliente tiene 1 o 2 camiones, cóbrale $30. El soporte
+  cuesta lo mismo con 2 camiones que con 10; por debajo de eso trabajas gratis.
 - Es **por camión, no por usuario**: pueden entrar todos los que necesiten
   (bodega, administración, conductores). Eso es un argumento de venta.
 - **Todo incluido:** panel, app del conductor, reportes, alertas de fraude,
