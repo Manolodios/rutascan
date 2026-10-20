@@ -52,7 +52,8 @@ const DRIVER_ROUTES: Record<string, Route> = {
 function App() {
 	const { logged, user } = useAuth();
 	const hash = useHash();
-	const platformMode = hash === PLATFORM_HASH;
+	// The SaaS-operator panel is not part of the driver's workspace.
+	const platformMode = hash === PLATFORM_HASH && user?.role !== "DRIVER";
 
 	return (
 		<>

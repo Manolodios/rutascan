@@ -36,7 +36,8 @@ demostración pública (datos de ejemplo, sin valor real).
 | Datos de otra empresa | `company_id` en todas las tablas + filtro en cada consulta |
 | PIN robado | PIN con *hash* bcrypt, bloqueo por cédula **y por IP** y tokens de corta vida (access 8 h, refresh rotado) |
 | App pirateada | Licencia por empresa, cupo de camiones y registro de dispositivos |
-| Panel sin pagar | Licencia vencida o suspendida ⇒ 402 en todo `/api/v1/admin` (solo queda visible la pantalla de licencia) |
+| Panel sin pagar | Licencia vencida o suspendida ⇒ 402 en todo `/api/v1/admin` y `/api/v1/driver` (solo queda visible la pantalla de licencia) |
+| Conductor que no debe ver el negocio | `/api/v1/driver` es de solo lectura y filtra por el propio conductor; todo `/api/v1/admin` exige rol ADMIN/WAREHOUSE |
 | Fuerza bruta en la plataforma | Clave `X-Platform-Key` comparada con `secrets.compare_digest` (tiempo constante) |
 | GPS falso | Detección de ubicación simulada y velocidad imposible |
 | Escaneos falsos | `scan_uuid` único (idempotencia) y verificación contra el manifiesto |
