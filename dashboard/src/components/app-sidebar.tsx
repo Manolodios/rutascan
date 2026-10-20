@@ -20,6 +20,7 @@ import { useHash } from "@/lib/use-hash";
 export function AppSidebar() {
 	const { user } = useAuth();
 	const hash = useHash();
+	const path = hash.split("?")[0];
 
 	const groups = useMemo(
 		() =>
@@ -27,10 +28,10 @@ export function AppSidebar() {
 				...group,
 				items: group.items.map((item) => ({
 					...item,
-					isActive: hash === item.path,
+					isActive: path === item.path,
 				})),
 			})),
-		[user?.role, hash],
+		[user?.role, path],
 	);
 
 	return (

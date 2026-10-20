@@ -430,6 +430,7 @@ export type DriverManifestItem = {
 	status: string;
 	assigned_quantity: number;
 	delivered_quantity: number;
+	remaining_quantity: number;
 	return_required: boolean;
 	rejection_reason: string | null;
 	last_scan_at: string | null;
@@ -469,6 +470,11 @@ export type DriverRoute = {
 	counts: DriverCounts;
 };
 
+export type DriverPending = {
+	lines: number;
+	units: number;
+};
+
 export type DriverToday = {
 	day: string;
 	route: Omit<DriverRoute, "counts"> | null;
@@ -476,6 +482,9 @@ export type DriverToday = {
 	items: DriverManifestItem[];
 	truck: DriverTruck | null;
 	message: string | null;
+	pending: DriverPending;
+	/** Routes of the driver's truck that are still open (today and later). */
+	pending_routes: DriverRoute[];
 	scans: DriverScan[];
 	last_position: {
 		latitude: number;
@@ -501,6 +510,7 @@ export type DriverHistory = {
 export type DriverRouteDetail = {
 	route: DriverRoute;
 	counts: DriverCounts;
+	pending: DriverPending;
 	items: DriverManifestItem[];
 };
 

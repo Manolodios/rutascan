@@ -14,10 +14,11 @@ import { SendIcon, BellIcon } from "lucide-react";
 export function AppHeader() {
 	const { user } = useAuth();
 	const hash = useHash();
+	const path = hash.split("?")[0];
 
 	const activeItem = useMemo(
-		() => visibleNavLinks(user?.role).find((item) => item.path === hash) ?? null,
-		[hash, user?.role],
+		() => visibleNavLinks(user?.role).find((item) => item.path === path) ?? null,
+		[path, user?.role],
 	);
 
 	return (

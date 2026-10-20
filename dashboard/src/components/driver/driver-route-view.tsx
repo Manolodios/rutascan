@@ -1,8 +1,5 @@
-import {
-	DownloadIcon,
-	RefreshCwIcon,
-	SmartphoneIcon,
-} from "lucide-react";
+import { useMemo } from "react";
+import { ArrowLeftIcon, DownloadIcon, RefreshCwIcon, SmartphoneIcon } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -11,22 +8,48 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { RouteStatusBadge } from "@/components/views/status-badge";
 import { DriverManifestTable } from "@/components/driver/manifest-table";
 import { NoRouteToday } from "@/components/driver/no-route-today";
-import { api, type DriverToday } from "@/lib/api";
-import { useAsyncData } from "@/lib/use-async";
 import {
-	formatDate,
-	formatPercent,
-} from "@/lib/format";
+	api,
+	type DriverCounts,
+	type DriverManifestItem,
+	type DriverPending,
+	type DriverRoute,
+	type DriverRouteDetail,
+	type DriverToday,
+} from "@/lib/api";
+import { useAsyncData } from "@/lib/use-async";
+import { formatDate, formatPercent } from "@/lib/format";
+import { useHash } from "@/lib/use-hash";
 import { cn } from "@/lib/utils";
 
+type RoutePayload = DriverToday | DriverRouteDetail;
+type RouteSummary = Omit<DriverRoute, "counts">;
+
 export function DriverRouteView() {
-	const { data, error, loading, reload } = useAsyncData<DriverToday>(
-		() => api<DriverToday>("/api/v1/driver/today"),
-		[],
+	const hash = useHash();
+	const routeId = useMemo(
+		() => new URLSearchParams(hash.split("?")[1] ?? "").get("ruta"),
+		[hash],
 	);
 
-	const route = data?.route ?? null;
-	const counts = data?.counts;
+	const { data, error, loading, reload } = useAsyncData<RoutePayload>(
+		() =>
+			routeId
+				? api<DriverRouteDetail>(`/api/v1/driver/routes/${routeId}`)
+				: api<DriverToday>("/api/v1/driver/today"),
+		[routeId],
+	);
+
+	const route: RouteSummary | null = data?.route ?? null;
+	const counts: DriverCounts | null = data?.counts ?? null;
+	const items: DriverManifestItem[] = data?.items ?? [];
+	const pending: DriverPending = data?.pending ?? { lines: 0, units: 0 };
+	const isToday = data !== null && "scans" in data;
+	const emptyState = data && !route ? (data as DriverToday) : null;
+
+	const pendingItems = items.filter(
+		(item) => item.remaining_quantity > 0 && item.status !== "REJECTED",
+	);
 
 	return (
 		<div className="flex flex-col gap-4">
@@ -40,6 +63,14 @@ export function DriverRouteView() {
 						: "Manifiesto del día"
 				}
 			>
+				{routeId ? (
+					<Button asChild variant="ghost" size="sm">
+						<a href="#/mi-ruta">
+							<ArrowLeftIcon />
+							Mi ruta de hoy
+						</a>
+					</Button>
+				) : null}
 				<Button variant="outline" size="sm" onClick={reload} disabled={loading}>
 					<RefreshCwIcon className={cn(loading && "animate-spin")} />
 					Actualizar
@@ -58,26 +89,28 @@ export function DriverRouteView() {
 				</Card>
 			) : null}
 
-			{data && !route ? <NoRouteToday truck={data.truck} message={data.message} /> : null}
+			{emptyState ? (
+				<NoRouteToday truck={emptyState.truck} message={emptyState.message} />
+			) : null}
 
-			{data && route && counts ? (
+			{route && counts ? (
 				<>
 					<Card className="flex flex-wrap items-center justify-between gap-4 px-5 py-4">
 						<div className="min-w-0">
 							<div className="flex flex-wrap items-center gap-2">
 								<RouteStatusBadge status={route.status} />
-								{route.completed_at ? (
-									<Badge variant="outline">
-										Completada {formatDate(route.route_date)}
-									</Badge>
-								) : null}
+								{isToday ? (
+									<Badge variant="outline">Ruta de hoy</Badge>
+								) : (
+									<Badge variant="outline">{formatDate(route.route_date)}</Badge>
+								)}
 							</div>
 							<h2 className="mt-2 font-heading font-semibold text-lg">
 								Manifiesto de la ruta
 							</h2>
 							<p className="text-muted-foreground text-sm">
-								{route.truck?.model ?? "Camión asignado"} ·{" "}
-								{counts.lines} productos
+								{route.truck?.model ?? "Camión asignado"} · {counts.lines}{" "}
+								productos
 							</p>
 						</div>
 						<div className="flex items-center gap-6">
@@ -109,8 +142,48 @@ export function DriverRouteView() {
 						</Card>
 					) : null}
 
+					<Card className="gap-0 overflow-hidden py-0">
+						<div className="flex flex-wrap items-center justify-between gap-2 border-b px-4 py-2.5">
+							<span className="font-heading font-medium text-sm">Por entregar</span>
+							<Badge variant="outline">
+								{pending.units} unidades · {pending.lines} productos
+							</Badge>
+						</div>
+						{pendingItems.length === 0 ? (
+							<p className="px-4 py-10 text-center text-muted-foreground text-sm">
+								No le queda nada por entregar en esta ruta.
+							</p>
+						) : (
+							<ul className="divide-y px-4">
+								{pendingItems.map((item) => (
+									<li
+										key={item.route_detail_id}
+										className="flex items-center justify-between gap-3 py-3"
+									>
+										<div className="min-w-0">
+											<div className="font-medium text-sm">
+												{item.product.description}
+											</div>
+											<div className="font-mono text-muted-foreground text-xs">
+												{item.product.barcode_qr}
+											</div>
+										</div>
+										<div className="text-right">
+											<div className="font-heading font-semibold tabular-nums">
+												{item.remaining_quantity} uds.
+											</div>
+											<div className="text-muted-foreground text-xs">
+												de {item.assigned_quantity} asignadas
+											</div>
+										</div>
+									</li>
+								))}
+							</ul>
+						)}
+					</Card>
+
 					<DataCard title="Productos del manifiesto">
-						<DriverManifestTable items={data.items} />
+						<DriverManifestTable items={items} />
 					</DataCard>
 
 					<Card className="flex flex-wrap items-center gap-3 px-4 py-3">

@@ -7,7 +7,8 @@ from uuid import uuid4
 
 from app.core.geo import local_today, utcnow
 from app.models.delivery import DeliveryLog
-from app.models.enums import ScanAction
+from app.models.enums import RouteStatus, ScanAction
+from app.models.route import Route, RouteDetail
 from app.services import driver_portal
 
 
@@ -92,3 +93,88 @@ def test_route_detail_is_scoped_to_the_driver(db, tenant):
     assert {item["status"] for item in own["items"]} == {"IN_TRUCK"}
     assert foreign is None
     assert missing is None
+
+
+def test_today_reports_what_is_left_to_deliver(db, tenant):
+    data = driver_portal.driver_today(db, tenant.company.id, tenant.driver)
+
+    assert data["pending"] == {"lines": 2, "units": 3}
+    remaining = {
+        item["route_detail_id"]: item["remaining_quantity"] for item in data["items"]
+    }
+    assert remaining == {str(tenant.detail_a.id): 1, str(tenant.detail_c.id): 2}
+
+    detail = driver_portal.driver_route_detail(
+        db, tenant.company.id, tenant.driver.id, tenant.route.id
+    )
+    assert detail["pending"] == {"lines": 2, "units": 3}
+
+
+def test_pending_routes_show_tomorrow_not_today(db, tenant):
+    tomorrow = local_today() + timedelta(days=1)
+    route_tomorrow = Route(
+        company_id=tenant.company.id,
+        truck_id=tenant.truck.id,
+        route_date=tomorrow,
+        status=RouteStatus.PENDING,
+    )
+    db.add(route_tomorrow)
+    db.flush()
+    db.add(
+        RouteDetail(
+            company_id=tenant.company.id,
+            route_id=route_tomorrow.id,
+            product_id=tenant.product_a.id,
+            assigned_quantity=2,
+        )
+    )
+    db.commit()
+
+    data = driver_portal.driver_today(db, tenant.company.id, tenant.driver)
+    ids = [route["id"] for route in data["pending_routes"]]
+
+    # La ruta de hoy va en la tarjeta principal, no se repite en "por empezar".
+    assert str(tenant.route.id) not in ids
+    assert ids == [str(route_tomorrow.id)]
+    assert data["pending_routes"][0]["counts"]["assigned_units"] == 2
+
+
+def test_pending_routes_ignore_closed_routes(db, tenant):
+    db.add(
+        Route(
+            company_id=tenant.company.id,
+            truck_id=tenant.truck.id,
+            route_date=local_today() + timedelta(days=2),
+            status=RouteStatus.COMPLETED,
+        )
+    )
+    db.add(
+        Route(
+            company_id=tenant.company.id,
+            truck_id=tenant.truck.id,
+            route_date=local_today() + timedelta(days=3),
+            status=RouteStatus.COMPLETED,
+        )
+    )
+    db.commit()
+
+    routes = driver_portal.driver_pending_routes(db, tenant.company.id, tenant.driver.id)
+
+    # Solo queda la ruta abierta de hoy: las completadas no cuentan.
+    assert [route["id"] for route in routes] == [str(tenant.route.id)]
+
+
+def test_history_ignores_future_routes(db, tenant):
+    db.add(
+        Route(
+            company_id=tenant.company.id,
+            truck_id=tenant.truck.id,
+            route_date=local_today() + timedelta(days=1),
+            status=RouteStatus.PENDING,
+        )
+    )
+    db.commit()
+
+    data = driver_portal.driver_history(db, tenant.company.id, tenant.driver.id, days=7)
+
+    assert [route["route_date"] for route in data["routes"]] == [local_today().isoformat()]

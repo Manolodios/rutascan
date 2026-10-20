@@ -91,6 +91,10 @@ DEMO_TRUCKS = [
     ("A91FB4V", "Toyota Hilux 2022", None),
 ]
 
+# Ruta de mañana del camión principal, para que el conductor vea pendientes.
+DEMO_PENDING_PLATE = "P84LS6V"
+DEMO_PENDING_LINES = 6
+
 DEMO_REJECTION_REASONS = [
     RejectionReasonCode.CLIENT_REJECTED,
     RejectionReasonCode.DAMAGED,
@@ -373,6 +377,9 @@ def seed_demo() -> bool:
                     notes=None,
                 )
 
+        # --- mañana: ruta programada (la ve pendiente el conductor) ------------
+        ensure_demo_pending_route(db, company, day=today + timedelta(days=1))
+
         # --- dispositivo demo + bitácora de seguridad --------------------------
         now = utcnow()
         db.add(
@@ -445,13 +452,76 @@ def _shift_dates(db: Session, company: Company, models: tuple, delta: timedelta)
     return rows
 
 
+def ensure_demo_pending_route(db: Session, company: Company, *, day: date) -> bool:
+    """Deja programada la ruta de mañana del camión demo.
+
+    Idempotente: si ese camión ya tiene ruta para ese día, no hace nada. Es lo
+    que permite mostrar al conductor sus **rutas pendientes** sin que nadie
+    tenga que crearla a mano en cada demostración.
+    """
+    truck = db.scalar(
+        sa.select(Truck).where(
+            Truck.company_id == company.id,
+            Truck.license_plate == DEMO_PENDING_PLATE,
+        )
+    )
+    if truck is None:
+        return False
+
+    exists = db.scalar(
+        sa.select(Route.id).where(
+            Route.company_id == company.id,
+            Route.truck_id == truck.id,
+            Route.route_date == day,
+        )
+    )
+    if exists is not None:
+        return False
+
+    products = db.scalars(
+        sa.select(Product)
+        .where(Product.company_id == company.id)
+        .order_by(Product.created_at)
+    ).all()
+    if not products:
+        return False
+
+    created_by = db.scalar(
+        sa.select(User).where(User.company_id == company.id, User.role == Role.ADMIN)
+    )
+    route = Route(
+        company_id=company.id,
+        truck_id=truck.id,
+        route_date=day,
+        status=RouteStatus.PENDING,
+        created_by_id=created_by.id if created_by is not None else None,
+        notes="Ruta Cabimas · salida 7:00 a. m. (programada).",
+    )
+    db.add(route)
+    db.flush()
+
+    for position in range(DEMO_PENDING_LINES):
+        db.add(
+            RouteDetail(
+                company_id=company.id,
+                route_id=route.id,
+                product_id=products[position % len(products)].id,
+                assigned_quantity=1 + position % 2,
+            )
+        )
+    db.commit()
+    logger.info("Ruta programada demo creada para %s.", day.isoformat())
+    return True
+
+
 def refresh_demo_dates(target: date | None = None) -> int:
     """Corre los datos de demostración hasta `target` (hoy por defecto).
 
     Mueve **todas** las fechas del tenant demo (rutas, escaneos, eventos de
     seguridad, dispositivos y la caducidad de la licencia) la misma cantidad de
     días, de modo que una demostración en vivo siempre se vea al día, sin tocar
-    ids, cantidades ni los códigos QR ya impresos.
+    ids, cantidades ni los códigos QR ya impresos. También asegura que exista
+    la ruta programada de mañana (lo que el conductor ve como pendiente).
 
     Solo actúa sobre la empresa demo (`DEMO_LICENSE_KEY`): los datos de un
     cliente real nunca se tocan. Devuelve los días movidos (0 si ya estaba al día).
@@ -477,8 +547,15 @@ def refresh_demo_dates(target: date | None = None) -> int:
             logger.info("Demo refresh omitido: no existe la empresa demo.")
             return 0
 
+        # La ruta de mañana se asegura antes de medir "lo más reciente": esa
+        # ruta es del futuro y no debe contar para decidir el corrimiento.
+        ensure_demo_pending_route(db, company, day=target + timedelta(days=1))
+
         latest = db.scalar(
-            sa.select(sa.func.max(Route.route_date)).where(Route.company_id == company.id)
+            sa.select(sa.func.max(Route.route_date)).where(
+                Route.company_id == company.id,
+                Route.route_date <= target,
+            )
         )
         if latest is None:
             return 0

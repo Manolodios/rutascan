@@ -76,7 +76,8 @@ function App() {
 
 function DriverRouter() {
 	const hash = useHash();
-	const route = DRIVER_ROUTES[hash];
+	const path = hash.split("?")[0];
+	const route = DRIVER_ROUTES[path];
 
 	useEffect(() => {
 		if (!route) window.location.hash = "#/";

@@ -1,5 +1,7 @@
 import { useMemo } from "react";
 import {
+	CalendarIcon,
+	ChevronRightIcon,
 	CircleCheckIcon,
 	DownloadIcon,
 	PackageIcon,
@@ -127,6 +129,9 @@ export function DriverTodayView() {
 								<span>
 									{counts.delivered_units} de {counts.assigned_units} unidades entregadas
 								</span>
+								<span className="font-medium text-foreground">
+									Te faltan {data.pending.units} unidades ({data.pending.lines} productos)
+								</span>
 								<span>
 									{counts.in_truck_lines} por entregar · {counts.rejected_lines}{" "}
 									rechazos
@@ -167,6 +172,47 @@ export function DriverTodayView() {
 							hint="reportados"
 						/>
 					</div>
+
+					{data.pending_routes.length > 0 ? (
+						<Card className="gap-0 overflow-hidden py-0">
+							<div className="flex items-center justify-between border-b px-4 py-2.5">
+								<span className="font-heading font-medium text-sm">
+									Rutas por empezar
+								</span>
+								<Badge variant="outline">{data.pending_routes.length}</Badge>
+							</div>
+							<ul className="divide-y">
+								{data.pending_routes.map((pending) => (
+									<li key={pending.id}>
+										<a
+											href={`#/mi-ruta?ruta=${pending.id}`}
+											className="flex flex-wrap items-center justify-between gap-3 px-4 py-3 transition-colors hover:bg-muted/50"
+										>
+											<div className="flex min-w-0 items-center gap-3">
+												<div className="rounded-md bg-muted p-2 text-muted-foreground">
+													<CalendarIcon className="size-4" />
+												</div>
+												<div className="min-w-0">
+													<div className="font-medium text-sm">
+														{formatDate(pending.route_date)} ·{" "}
+														{pending.truck?.license_plate ?? "Camión"}
+													</div>
+													<div className="text-muted-foreground text-xs">
+														{pending.counts.lines} productos ·{" "}
+														{pending.counts.assigned_units} unidades
+													</div>
+												</div>
+											</div>
+											<div className="flex items-center gap-2">
+												<RouteStatusBadge status={pending.status} />
+												<ChevronRightIcon className="text-muted-foreground size-4" />
+											</div>
+										</a>
+									</li>
+								))}
+							</ul>
+						</Card>
+					) : null}
 
 					<div className="grid gap-4 lg:grid-cols-3">
 						<div className="lg:col-span-2">
