@@ -14,6 +14,18 @@ export function formatWeekday(isoDate: string): string {
 	return date.toLocaleDateString(LOCALE, { weekday: "short" });
 }
 
+/** ISO date → "martes, 20 de octubre". */
+export function formatLongDate(value: string | null | undefined): string {
+	if (!value) return "—";
+	const date = new Date(`${value}T12:00:00`);
+	if (Number.isNaN(date.getTime())) return value;
+	return date.toLocaleDateString(LOCALE, {
+		weekday: "long",
+		day: "numeric",
+		month: "long",
+	});
+}
+
 /** ISO timestamp → "16 oct, 14:20". */
 export function formatDateTime(value: string | null | undefined): string {
 	if (!value) return "—";

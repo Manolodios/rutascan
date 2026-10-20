@@ -3,13 +3,28 @@
 from __future__ import annotations
 
 import math
-from datetime import datetime, timezone
+from datetime import date, datetime, time, timezone
+from zoneinfo import ZoneInfo
+
+from app.core.config import get_settings
 
 EARTH_RADIUS_M = 6_371_000.0
 
 
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
+
+
+def local_today() -> date:
+    """Fecha de hoy en la zona horaria de la empresa (America/Caracas)."""
+    return datetime.now(ZoneInfo(get_settings().report_timezone)).date()
+
+
+def local_day_start_utc(day: date | None = None) -> datetime:
+    """Medianoche local de `day` expresada en UTC (para filtrar escaneos)."""
+    tz = ZoneInfo(get_settings().report_timezone)
+    start = datetime.combine(day or local_today(), time.min, tzinfo=tz)
+    return start.astimezone(timezone.utc)
 
 
 def ensure_utc(value: datetime) -> datetime:

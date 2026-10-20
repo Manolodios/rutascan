@@ -8,6 +8,7 @@ from datetime import date
 import sqlalchemy as sa
 from sqlalchemy.orm import Session, joinedload
 
+from app.core.geo import local_today
 from app.models.delivery import DeliveryLog
 from app.models.enums import DetailStatus, RouteStatus
 from app.models.route import Route, RouteDetail
@@ -28,7 +29,7 @@ def get_driver_truck(db: Session, company_id: uuid.UUID, driver_id: uuid.UUID) -
 def get_driver_route(
     db: Session, company_id: uuid.UUID, driver_id: uuid.UUID, day: date | None = None
 ) -> Route | None:
-    day = day or date.today()
+    day = day or local_today()
     truck = get_driver_truck(db, company_id, driver_id)
     if truck is None:
         return None
@@ -46,7 +47,7 @@ def get_driver_route(
 def build_today_manifest(
     db: Session, company_id: uuid.UUID, driver: User, day: date | None = None
 ) -> dict:
-    day = day or date.today()
+    day = day or local_today()
     route = get_driver_route(db, company_id, driver.id, day)
 
     if route is None:

@@ -9,13 +9,13 @@ Rules enforced here:
 from __future__ import annotations
 
 import uuid
-from datetime import date, timedelta
+from datetime import timedelta
 
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
-from app.core.geo import ensure_utc, utcnow
+from app.core.geo import ensure_utc, local_today, utcnow
 from app.models.company import Company
 from app.models.device import Device
 from app.models.enums import SecurityEventType, SubscriptionStatus
@@ -59,7 +59,7 @@ def assert_subscription_valid(company: Company) -> None:
         raise LicenseError(
             402, "SUBSCRIPTION_SUSPENDED", "Suscripción suspendida. Contacte a su proveedor."
         )
-    if company.expiration_date < date.today():
+    if company.expiration_date < local_today():
         raise LicenseError(
             402,
             "SUBSCRIPTION_EXPIRED",
@@ -69,7 +69,7 @@ def assert_subscription_valid(company: Company) -> None:
 
 
 def days_until_expiration(company: Company) -> int:
-    return (company.expiration_date - date.today()).days
+    return (company.expiration_date - local_today()).days
 
 
 # ------------------------------------------------------------------ devices --

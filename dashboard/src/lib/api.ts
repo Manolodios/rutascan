@@ -407,3 +407,100 @@ export type SecurityEventOut = {
 	detail: Record<string, unknown> | null;
 	user: UserBrief | null;
 };
+
+/* ---------------------------- driver portal ------------------------------ */
+
+export type DriverCounts = {
+	lines: number;
+	assigned_units: number;
+	delivered_units: number;
+	rejected_lines: number;
+	in_truck_lines: number;
+	completion_pct: number;
+};
+
+export type DriverTruck = {
+	id: string;
+	license_plate: string;
+	model: string | null;
+};
+
+export type DriverManifestItem = {
+	route_detail_id: string;
+	status: string;
+	assigned_quantity: number;
+	delivered_quantity: number;
+	return_required: boolean;
+	rejection_reason: string | null;
+	last_scan_at: string | null;
+	product: {
+		id: string;
+		barcode_qr: string;
+		description: string;
+		unit: string;
+		weight: number;
+	};
+};
+
+export type DriverScan = {
+	id: string;
+	action: "DELIVER" | "REJECT" | "LOAD";
+	product: string;
+	barcode: string;
+	quantity: number;
+	at: string;
+	synced_at: string;
+	offline: boolean;
+	mock_gps: boolean;
+	latitude: number | null;
+	longitude: number | null;
+	rejection_reason: string | null;
+	flags: Record<string, unknown>;
+};
+
+export type DriverRoute = {
+	id: string;
+	route_date: string;
+	status: string;
+	notes: string | null;
+	started_at: string | null;
+	completed_at: string | null;
+	truck: DriverTruck | null;
+	counts: DriverCounts;
+};
+
+export type DriverToday = {
+	day: string;
+	route: Omit<DriverRoute, "counts"> | null;
+	counts: DriverCounts;
+	items: DriverManifestItem[];
+	truck: DriverTruck | null;
+	message: string | null;
+	scans: DriverScan[];
+	last_position: {
+		latitude: number;
+		longitude: number;
+		at: string;
+		action: string;
+	} | null;
+};
+
+export type DriverHistory = {
+	days: number;
+	since: string;
+	truck: DriverTruck | null;
+	routes: DriverRoute[];
+	totals: {
+		routes: number;
+		assigned_units: number;
+		delivered_units: number;
+		completion_pct: number;
+	};
+};
+
+export type DriverRouteDetail = {
+	route: DriverRoute;
+	counts: DriverCounts;
+	items: DriverManifestItem[];
+};
+

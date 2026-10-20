@@ -8,7 +8,7 @@ from datetime import date, timedelta
 import sqlalchemy as sa
 from sqlalchemy.orm import Session, joinedload
 
-from app.core.geo import ensure_utc, utcnow
+from app.core.geo import ensure_utc, local_today, utcnow
 from app.models.company import Company
 from app.models.delivery import DeliveryLog
 from app.models.enums import DetailStatus, RouteStatus
@@ -30,7 +30,7 @@ def _route_ids_for_day(db: Session, company_id: uuid.UUID, day: date) -> list[uu
 
 
 def dashboard_summary(db: Session, company: Company, day: date | None = None) -> dict:
-    day = day or date.today()
+    day = day or local_today()
     company_id = company.id
 
     route_rows = db.execute(
@@ -164,7 +164,7 @@ def recent_activity(db: Session, company_id: uuid.UUID, limit: int = 15) -> list
 
 
 def live_map(db: Session, company_id: uuid.UUID, day: date | None = None) -> dict:
-    day = day or date.today()
+    day = day or local_today()
     routes = db.scalars(
         sa.select(Route)
         .options(joinedload(Route.truck).joinedload(Truck.assigned_driver))
@@ -215,7 +215,7 @@ def live_map(db: Session, company_id: uuid.UUID, day: date | None = None) -> dic
                 "route_status": route.status.value,
                 "truck": {
                     "id": str(route.truck.id) if route.truck else None,
-                    "license_plate": route.truck.license_plate if route.truck else "—",
+                    "license_plate": route.truck.license_plate if route.truck else "â€”",
                     "model": route.truck.model if route.truck else None,
                 },
                 "driver": (

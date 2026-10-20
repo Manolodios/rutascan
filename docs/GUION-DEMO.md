@@ -66,6 +66,8 @@
 
 - **Haz:** muestra la app: cédula + PIN → escanear.
 - **Di:** *"Esto es lo que ve el conductor: tres toques. Funciona **sin señal**: escanea igual y se sincroniza cuando vuelva la red. No hay que capacitarlo: cédula, PIN y apuntar la cámara."*
+- **Si no tienes el celular a mano:** cierra sesión y entra con `20148379` / `3456`. El conductor tiene su propio panel — **Mi jornada**, **Mi ruta** y **Mi historial** — donde solo ve lo suyo: su ruta de hoy con el avance, su manifiesto y su rendimiento. No puede tocar camiones, usuarios, reportes ni licencia.
+- **Di:** *"Los escaneos se hacen con la app, pero si no tiene el celular aquí revisa qué le toca entregar y cómo va el día."*
 
 ### 5:40 – 6:00 · Cierre (el pedido)
 

@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import {
 	FileSpreadsheetIcon,
+	HistoryIcon,
 	KeyRoundIcon,
 	LayoutGridIcon,
 	MapPinIcon,
@@ -8,6 +9,7 @@ import {
 	RouteIcon,
 	ServerIcon,
 	ShieldAlertIcon,
+	SunIcon,
 	TruckIcon,
 	UsersIcon,
 } from "lucide-react";
@@ -57,6 +59,18 @@ export const footerNavLinks: SidebarNavItem[] = [
 	},
 ];
 
+/** The driver only sees their own day: route, manifest and history. */
+export const driverNavGroups: SidebarNavGroup[] = [
+	{
+		label: "Mi trabajo",
+		items: [
+			{ title: "Mi jornada", path: "#/", icon: <SunIcon /> },
+			{ title: "Mi ruta", path: "#/mi-ruta", icon: <RouteIcon /> },
+			{ title: "Mi historial", path: "#/mi-historial", icon: <HistoryIcon /> },
+		],
+	},
+];
+
 function flatten(groups: SidebarNavGroup[]): SidebarNavItem[] {
 	return groups.flatMap((group) =>
 		group.items.flatMap((item) =>
@@ -67,6 +81,8 @@ function flatten(groups: SidebarNavGroup[]): SidebarNavItem[] {
 
 /** Removes ADMIN-only entries and empty groups for the given role. */
 export function filterNavGroups(role: string | undefined): SidebarNavGroup[] {
+	if (role === "DRIVER") return driverNavGroups;
+
 	return navGroups
 		.map((group) => ({
 			...group,
@@ -77,5 +93,7 @@ export function filterNavGroups(role: string | undefined): SidebarNavGroup[] {
 
 /** Flat list of the links the given role can see (used by the header). */
 export function visibleNavLinks(role: string | undefined): SidebarNavItem[] {
-	return [...flatten(filterNavGroups(role)), ...footerNavLinks];
+	const links = flatten(filterNavGroups(role));
+	// The SaaS-operator panel is not part of the driver's workspace.
+	return role === "DRIVER" ? links : [...links, ...footerNavLinks];
 }

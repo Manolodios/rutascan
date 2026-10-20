@@ -37,6 +37,7 @@ start "" /min powershell -NoProfile -Command "for($i=0;$i -lt 90;$i++){ Start-Sl
 cd /d "%ROOT%backend"
 set "DATABASE_URL=sqlite+pysqlite:///./rutascan_demo.db"
 set "SEED_DEMO_DATA=true"
+set "DEMO_AUTO_REFRESH=true"
 set "WEB_DIR=%ROOT%web"
 set "PYTHONPATH=%ROOT%backend"
 

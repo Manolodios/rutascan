@@ -9,6 +9,7 @@ from fastapi import APIRouter, Depends, HTTPException, Query, Response
 from sqlalchemy.orm import Session
 
 from app.api.deps import get_current_staff
+from app.core.geo import local_today
 from app.db.session import get_db
 from app.models.user import User
 from app.services import reports
@@ -31,8 +32,8 @@ def _validate_range(date_from: date, date_to: date) -> None:
 
 @router.get("/deliveries.xlsx")
 def deliveries_xlsx(
-    date_from: date = Query(default_factory=lambda: date.today() - timedelta(days=6)),
-    date_to: date = Query(default_factory=date.today),
+    date_from: date = Query(default_factory=lambda: local_today() - timedelta(days=6)),
+    date_to: date = Query(default_factory=local_today),
     route_id: uuid.UUID | None = None,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_staff),
@@ -51,8 +52,8 @@ def deliveries_xlsx(
 
 @router.get("/deliveries.pdf")
 def deliveries_pdf(
-    date_from: date = Query(default_factory=lambda: date.today() - timedelta(days=6)),
-    date_to: date = Query(default_factory=date.today),
+    date_from: date = Query(default_factory=lambda: local_today() - timedelta(days=6)),
+    date_to: date = Query(default_factory=local_today),
     route_id: uuid.UUID | None = None,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_staff),

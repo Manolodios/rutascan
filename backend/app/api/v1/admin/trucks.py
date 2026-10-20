@@ -3,13 +3,13 @@
 from __future__ import annotations
 
 import uuid
-from datetime import date
 
 import sqlalchemy as sa
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session, joinedload
 
 from app.api.deps import get_current_staff
+from app.core.geo import local_today
 from app.db.session import get_db
 from app.models.enums import Role, RouteStatus
 from app.models.route import Route
@@ -63,7 +63,7 @@ def _truck_out(truck: Truck, today_status: dict[uuid.UUID, RouteStatus]) -> Truc
 def _today_status_map(db: Session, company_id: uuid.UUID) -> dict:
     rows = db.execute(
         sa.select(Route.truck_id, Route.status).where(
-            Route.company_id == company_id, Route.route_date == date.today()
+            Route.company_id == company_id, Route.route_date == local_today()
         )
     ).all()
     return {truck_id: status for truck_id, status in rows}

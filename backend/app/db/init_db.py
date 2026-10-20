@@ -13,7 +13,7 @@ from decimal import Decimal
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
-from app.core.geo import utcnow
+from app.core.geo import local_today, utcnow
 from app.core.security import hash_pin
 from app.db.base import Base
 from app.db.session import SessionLocal, engine
@@ -249,7 +249,7 @@ def seed_demo() -> bool:
             name=DEMO_COMPANY_NAME,
             tax_id=DEMO_TAX_ID,
             license_key=DEMO_LICENSE_KEY,
-            expiration_date=date.today() + timedelta(days=365),
+            expiration_date=local_today() + timedelta(days=365),
             max_trucks=DEMO_MAX_TRUCKS,
         )
         db.add(company)
@@ -294,7 +294,7 @@ def seed_demo() -> bool:
         db.flush()
 
         created_by = users["15874230"]
-        today = date.today()
+        today = local_today()
         rng = random.Random(DEMO_RANDOM_SEED)
 
         # --- hoy --------------------------------------------------------------
@@ -456,7 +456,7 @@ def refresh_demo_dates(target: date | None = None) -> int:
     Solo actúa sobre la empresa demo (`DEMO_LICENSE_KEY`): los datos de un
     cliente real nunca se tocan. Devuelve los días movidos (0 si ya estaba al día).
     """
-    target = target or date.today()
+    target = target or local_today()
     models = (
         Route,
         RouteDetail,

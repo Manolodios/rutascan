@@ -12,7 +12,7 @@ from fastapi import APIRouter, Depends, File, HTTPException, Query, UploadFile
 from sqlalchemy.orm import Session, joinedload
 
 from app.api.deps import get_current_staff
-from app.core.geo import utcnow
+from app.core.geo import local_today, utcnow
 from app.db.session import get_db
 from app.models.delivery import DeliveryLog
 from app.models.enums import DetailStatus, Role, RouteStatus
@@ -119,7 +119,7 @@ def list_routes(
     stmt = (
         sa.select(Route)
         .options(joinedload(Route.truck).joinedload(Truck.assigned_driver))
-        .where(Route.company_id == user.company_id, Route.route_date == (day or date.today()))
+        .where(Route.company_id == user.company_id, Route.route_date == (day or local_today()))
         .order_by(Route.created_at)
     )
     if status is not None:

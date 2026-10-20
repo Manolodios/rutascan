@@ -16,13 +16,11 @@ from __future__ import annotations
 
 import uuid
 from dataclasses import dataclass, field
-from datetime import date
-
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
 from app.core.config import get_settings
-from app.core.geo import ensure_utc, haversine_m, implied_speed_kmh, iso_utc, utcnow
+from app.core.geo import ensure_utc, haversine_m, implied_speed_kmh, iso_utc, local_today, utcnow
 from app.models.company import Company
 from app.models.delivery import DeliveryLog, SyncBatch
 from app.models.enums import (
@@ -110,7 +108,7 @@ def resolve_driver_route(
         sa.select(Route).where(
             Route.company_id == company_id,
             Route.truck_id == truck.id,
-            Route.route_date == date.today(),
+            Route.route_date == local_today(),
         )
     )
     if route is None:

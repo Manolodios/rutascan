@@ -12,6 +12,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.pool import StaticPool
 
 import app.models  # noqa: F401  (register tables)
+from app.core.geo import local_today
 from app.db.base import Base
 from app.models import (
     Company,
@@ -105,7 +106,7 @@ def tenant(db):
     route = Route(
         company_id=company.id,
         truck_id=truck.id,
-        route_date=date.today(),
+        route_date=local_today(),
         status=RouteStatus.PENDING,
     )
     db.add(route)

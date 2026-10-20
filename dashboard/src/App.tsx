@@ -13,6 +13,9 @@ import { RoutesView } from "@/components/views/routes-view";
 import { SecurityView } from "@/components/views/security-view";
 import { TrucksView } from "@/components/views/trucks-view";
 import { UsersView } from "@/components/views/users-view";
+import { DriverHistoryView } from "@/components/driver/driver-history-view";
+import { DriverRouteView } from "@/components/driver/driver-route-view";
+import { DriverTodayView } from "@/components/driver/driver-today-view";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { useAuth } from "@/lib/auth";
@@ -39,8 +42,15 @@ const ROUTES: Record<string, Route> = {
 /** Hash of the SaaS-operator panel, which uses its own key (not a company login). */
 const PLATFORM_HASH = "#/plataforma";
 
+/** Drivers get their own workspace: their day, their route and their history. */
+const DRIVER_ROUTES: Record<string, Route> = {
+	"#/": { title: "Mi jornada", render: () => <DriverTodayView /> },
+	"#/mi-ruta": { title: "Mi ruta", render: () => <DriverRouteView /> },
+	"#/mi-historial": { title: "Mi historial", render: () => <DriverHistoryView /> },
+};
+
 function App() {
-	const { logged } = useAuth();
+	const { logged, user } = useAuth();
 	const hash = useHash();
 	const platformMode = hash === PLATFORM_HASH;
 
@@ -51,7 +61,7 @@ function App() {
 					<PlatformApp />
 				) : logged ? (
 					<AppShell>
-						<Router />
+						{user?.role === "DRIVER" ? <DriverRouter /> : <Router />}
 					</AppShell>
 				) : (
 					<LoginForm />
@@ -61,6 +71,17 @@ function App() {
 			<Toaster position="top-right" richColors />
 		</>
 	);
+}
+
+function DriverRouter() {
+	const hash = useHash();
+	const route = DRIVER_ROUTES[hash];
+
+	useEffect(() => {
+		if (!route) window.location.hash = "#/";
+	}, [route]);
+
+	return (route ?? DRIVER_ROUTES["#/"]).render();
 }
 
 function Router() {
