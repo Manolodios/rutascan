@@ -72,14 +72,24 @@ def create_app() -> FastAPI:
 
     # --- middleware (order matters: last added runs first) --------------------
     app.add_middleware(LicenseGuardMiddleware)
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.cors_origin_list,
-        allow_credentials=settings.cors_origin_list != ["*"],
-        allow_methods=["*"],
-        allow_headers=["*"],
-        expose_headers=["Content-Disposition"],
-    )
+
+    # CORS. En desarrollo se permite cualquier origen para el panel local. En
+    # producción el panel web se sirve desde el mismo dominio (WEB_DIR montado
+    # en "/"), así que no hace falta habilitar CORS; si quedara "*", no se
+    # añade el middleware y la API solo responde al mismo origen. Si algún día
+    # el panel vive en otro dominio, define CORS_ORIGINS explícito en el entorno.
+    cors_origins = settings.cors_origin_list
+    if settings.is_production and cors_origins == ["*"]:
+        cors_origins = []
+    if cors_origins:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=cors_origins,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+            expose_headers=["Content-Disposition"],
+        )
 
     # --- cabeceras de seguridad (todas las respuestas) ------------------------
     @app.middleware("http")

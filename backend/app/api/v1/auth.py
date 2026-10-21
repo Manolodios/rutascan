@@ -54,10 +54,17 @@ def _error(status_code: int, message: str, code: str, **extra) -> HTTPException:
 
 
 def _client_ip(request: Request) -> str:
-    """IP del cliente (detras del proxy de Render) para el limite por conexion."""
-    forwarded = (request.headers.get("x-forwarded-for") or "").split(",")[0].strip()
-    if forwarded:
-        return forwarded
+    """IP del cliente (detras del proxy de Render) para el limite por conexion.
+
+    X-Forwarded-For tiene la forma ``cliente, proxy1, proxy2``. El valor de la
+    izquierda lo puede inventar el cliente (para saltarse el bloqueo cambiando
+    la IP en la cabecera), en cambio el de la derecha lo agrega el proxy de
+    confianza (Render) y por eso es el unico fiable. Nos quedamos con el ultimo.
+    """
+    forwarded = request.headers.get("x-forwarded-for") or ""
+    hops = [hop.strip() for hop in forwarded.split(",") if hop.strip()]
+    if hops:
+        return hops[-1]
     return request.client.host if request.client else "desconocida"
 
 

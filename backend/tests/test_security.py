@@ -63,12 +63,24 @@ def test_excel_cells_keep_numbers_and_text():
 
 
 # ----------------------------------------------------------- login rate limit
-def test_client_ip_prefers_forwarded_header():
+def test_client_ip_uses_proxy_appended_hop():
     request = SimpleNamespace(
         headers={"x-forwarded-for": "190.1.2.3, 10.0.0.1"},
         client=SimpleNamespace(host="10.0.0.1"),
     )
-    assert _client_ip(request) == "190.1.2.3"
+    # El cliente puede falsificar el valor de la izquierda (190.1.2.3); el de la
+    # derecha lo agrega el proxy de confianza (Render) y por eso es el fiable.
+    assert _client_ip(request) == "10.0.0.1"
+
+
+def test_client_ip_ignores_spoofed_leftmost_when_alone():
+    # Una sola IP falsificada viaja sola: al ser la ultima (y unica) se respeta
+    # el limite por IP real que agrega el proxy; aqui validamos que no truena.
+    request = SimpleNamespace(
+        headers={"x-forwarded-for": "203.0.113.7"},
+        client=SimpleNamespace(host="10.0.0.1"),
+    )
+    assert _client_ip(request) == "203.0.113.7"
 
 
 def test_client_ip_falls_back_to_socket():

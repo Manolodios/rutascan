@@ -4,7 +4,14 @@ from __future__ import annotations
 
 from functools import lru_cache
 
+from pydantic import model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Valores placeholder que vienen de caja. Nunca se permiten en producción.
+_PLACEHOLDER_SECRETS = {
+    "dev-secret-key-change-me-in-production-0000",
+    "platform-dev-key-change-me",
+}
 
 
 class Settings(BaseSettings):
@@ -71,6 +78,31 @@ class Settings(BaseSettings):
     @property
     def is_production(self) -> bool:
         return self.environment.lower() in ("production", "prod")
+
+    @model_validator(mode="after")
+    def _refuse_weak_secrets_in_production(self) -> "Settings":
+        """En producción no se arranca con los secretos placeholder de caja.
+
+        Un SECRET_KEY placeholder permitiría forjar tokens JWT y suplantar a
+        cualquier usuario; un PLATFORM_API_KEY placeholder abriría la API de
+        plataforma. Preferimos bloquear el arranque antes de servir un request.
+        No exigimos longitud mínima para no tumbar despliegues válidos ya en
+        marcha; lo ideal es usar claves largas y aleatorias.
+        """
+        if not self.is_production:
+            return self
+        weak: list[str] = []
+        if not self.secret_key or self.secret_key in _PLACEHOLDER_SECRETS:
+            weak.append("SECRET_KEY")
+        if not self.platform_api_key or self.platform_api_key in _PLACEHOLDER_SECRETS:
+            weak.append("PLATFORM_API_KEY")
+        if weak:
+            raise ValueError(
+                "Configuración insegura: en producción no se permite el secreto "
+                "por defecto de caja. Define una variable de entorno fuerte para: "
+                + ", ".join(weak) + "."
+            )
+        return self
 
 
 @lru_cache
