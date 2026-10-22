@@ -132,6 +132,20 @@ class Cache:
                 return False
         return False
 
+    def rate_limit(self, key: str, limit: int, window_seconds: int) -> RateLimitResult:
+        """Check rate limit using the same logic as check_rate_limit()."""
+        current = self.get(key)
+        if current is None:
+            return RateLimitResult(allowed=True, remaining=limit, retry_after=0)
+        current = int(current)
+        if current >= limit:
+            return RateLimitResult(
+                allowed=False, remaining=0, retry_after=self.ttl(key) or window_seconds
+            )
+        return RateLimitResult(
+            allowed=True, remaining=limit - current, retry_after=0
+        )
+
 
 cache = Cache()
 
