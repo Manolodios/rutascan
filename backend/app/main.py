@@ -35,6 +35,12 @@ logger = logging.getLogger("rutascan")
 async def lifespan(app: FastAPI):
     settings = get_settings()
     cache.init(settings.redis_url)
+    if settings.is_production and cache.backend == "memory":
+        logger.warning(
+            "CACHE: Redis NO disponible en producción — rate-limit de login y revocación "
+            "de tokens usan memoria volátil (se pierden al reiniciar). Configura REDIS_URL "
+            "(p.ej. Upstash gratis) para persistencia real."
+        )
     try:
         from app.db.init_db import init_db  # local import: avoids engine work at import time
 
@@ -101,6 +107,20 @@ def create_app() -> FastAPI:
         response.headers.setdefault(
             "Permissions-Policy", "geolocation=(self), camera=(), microphone=()"
         )
+        # CSP: permite scripts/estilos del mismo origen + Leaflet (unpkg.com) para el mapa.
+        # En desarrollo también permite 'unsafe-inline' para Vite HMR; en prod solo nonces si hiciera falta.
+        csp = (
+            "default-src 'self'; "
+            "script-src 'self' https://unpkg.com; "
+            "style-src 'self' https://unpkg.com; "
+            "img-src 'self' data: https://unpkg.com https://tile.openstreetmap.org; "
+            "connect-src 'self' https://tile.openstreetmap.org; "
+            "font-src 'self'; "
+            "frame-ancestors 'none'; "
+            "base-uri 'self'; "
+            "form-action 'self'"
+        )
+        response.headers.setdefault("Content-Security-Policy", csp)
         if settings.is_production:
             response.headers.setdefault(
                 "Strict-Transport-Security", "max-age=15552000; includeSubDomains"

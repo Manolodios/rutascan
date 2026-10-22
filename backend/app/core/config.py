@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     # --- Auth / tokens ---------------------------------------------
     secret_key: str = "dev-secret-key-change-me-in-production-0000"
     jwt_algorithm: str = "HS256"
-    access_token_minutes: int = 480          # 8h - covers a full driver shift
+    access_token_minutes: int = 120          # 2h - ventana corta, refresh renueva
     refresh_token_days: int = 60
     grace_token_days: int = 3                # offline grace window (mobile)
 

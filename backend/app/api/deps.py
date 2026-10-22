@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import uuid
 from dataclasses import dataclass
+from typing import Callable
 
 from fastapi import Depends, HTTPException, Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
@@ -49,6 +50,40 @@ def get_current_user(
     if user is None or not user.is_active:
         raise _http_error(401, "Usuario inexistente o desactivado.", "USER_DISABLED")
     return user
+
+
+# --------------------------------------------------------------------- rate limit ---
+def rate_limit_dependency(
+    namespace: str,
+    limit: int,
+    window_seconds: int,
+    *,
+    key_fn: Callable[[Request, User], str],
+) -> Callable[[Request, User], None]:
+    """Crea una dependencia que aplica rate-limit por llave dinámica.
+
+    La llave la construye ``key_fn(request, user)``; típicamente
+    ``f"driver:{user.id}"`` o similar. Usa la caché compartida (Redis o memoria).
+    """
+    def dependency(request: Request, user: User = Depends(get_current_user)) -> None:
+        key = f"{namespace}:{key_fn(request, user)}"
+        result = cache.rate_limit(key, limit, window_seconds)
+        if not result.allowed:
+            raise _http_error(
+                429,
+                "Demasiadas peticiones. Espere antes de reintentar.",
+                "RATE_LIMIT",
+                retry_after=result.retry_after,
+            )
+    return dependency
+
+
+driver_rate_limit = rate_limit_dependency(
+    namespace="driver-api",
+    limit=120,              # 120 req / 5 min = razonable para panel web
+    window_seconds=300,
+    key_fn=lambda _req, user: f"user:{user.id}",
+)
 
 
 def require_roles(*roles: Role):

@@ -12,7 +12,7 @@ import uuid
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 
-from app.api.deps import require_active_license, require_roles
+from app.api.deps import require_active_license, require_roles, driver_rate_limit
 from app.db.session import get_db
 from app.models.enums import Role
 from app.models.user import User
@@ -21,7 +21,7 @@ from app.services import driver_portal
 router = APIRouter(
     prefix="/driver",
     tags=["driver"],
-    dependencies=[Depends(require_active_license)],
+    dependencies=[Depends(require_active_license), Depends(driver_rate_limit)],
 )
 
 
