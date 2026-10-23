@@ -17,7 +17,7 @@ CLAVES.txt
 
 # --- Backend runtime --------------------------------------------------
 backend/uploads/
-uploads/
+# uploads/  (temporalmente des-ignorado para APKs de release)
 *.db
 *.sqlite3
 
