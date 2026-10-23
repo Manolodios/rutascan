@@ -96,7 +96,7 @@ Comprobaciones realizadas el 17/10/2026 **desde fuera de la red del PC**:
 | `GET /health` | `200` · `{"status":"ok","database":"up","environment":"production"}` |
 | `POST /auth/login` (ADMIN) | `200` — token válido (Yasmín Bracho) |
 | `GET /` (panel) | `200` — HTML + `assets/*.js` + `*.css` |
-| `HEAD /uploads/RutaScan-Celular.apk` | `200` — 64,3 MB |
+| `HEAD /uploads/RutaScan-Celular.apk` | `200` — 23,3 MB (arm64) |
 | `GET /api/v1/admin/dashboard/summary` | `200` — 3 rutas del día, 4 camiones, 30 entregas asignadas (11 entregadas, 2 rechazos), 36,7 % |
 | `GET /api/v1/admin/license` | `200` — `RUTA-4F7Q-2MX9-BN38`, ACTIVA hasta 18/10/2027 |
 
@@ -118,6 +118,13 @@ flutter build apk --release --split-per-abi `
   --dart-define=API_BASE_URL=https://rutascan.onrender.com
 ```
 
+Luego se copian con el nombre público que usa el panel:
+
+```powershell
+Copy-Item build/app/outputs/flutter-apk/app-arm64-v8a-release.apk   ..\uploads\RutaScan-Celular.apk -Force
+Copy-Item build/app/outputs/flutter-apk/app-armeabi-v7a-release.apk ..\uploads\RutaScan-Celular-32bits.apk -Force
+```
+
 > La app exige **Android 7 (API 24) o superior**. Si el teléfono es más antiguo,
 > el instalador no puede completar la instalación.
 
@@ -128,10 +135,12 @@ En la app instalada:
    dirección**).
 3. Inicie sesión con un usuario DRIVER (`20148379` / `3456`).
 
-> El APK viaja al servidor **dentro del repositorio**
-> (`backend/uploads/RutaScan-Celular.apk`). Como esa carpeta está excluida por
-> seguridad, una versión nueva se publica con
-> `git add -f backend/uploads/RutaScan-Celular.apk` + commit + push.
+> Los APK viajan al servidor **dentro del repositorio** (`uploads/` en la raíz
+> del proyecto). En Render la variable `UPLOAD_DIR=../uploads` apunta a esa
+> carpeta (el proceso corre desde `backend/`). Como `uploads/` está excluida en
+> `.gitignore`, una versión nueva se publica con
+> `git add -f uploads/RutaScan-Celular.apk uploads/RutaScan-Celular-32bits.apk`
+> + commit + push.
 
 ---
 
