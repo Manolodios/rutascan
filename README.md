@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/Manolodios/rutascan/actions/workflows/ci.yml/badge.svg)](https://github.com/Manolodios/rutascan/actions/workflows/ci.yml)
 [![Licencia: AGPL-3.0](https://img.shields.io/badge/licencia-AGPL--3.0-blue.svg)](LICENSE)
-[![Demostración en vivo](https://img.shields.io/badge/demo-en%20vivo-brightgreen.svg)](https://rutascan.onrender.com)
+[![Demostración en vivo](https://img.shields.io/badge/demo-en%20vivo-brightgreen.svg)](https://rutascan.onrender.com/app/)
 
 SaaS B2B de rastreo de carga con **licenciamiento anti-piratería** y operación
 **offline-first**: dashboard web para administración, backend FastAPI y app
@@ -17,8 +17,8 @@ Flutter para conductores/bodega.
 | Orquestación | Docker Compose (Postgres 16 + Redis 7 + API) | raíz |
 
 > `web/` **sí se versiona**: es el build del panel (`npm run build:web` dentro de
-> `dashboard/`), lo sirve el backend en la raíz `/` y lo sirve Render en la nube
-> sin necesitar Node.js.
+> `dashboard/`), lo sirve el backend en `/app/` y lo sirve Render en la nube
+> sin necesitar Node.js. La página comercial vive en `landing/` y se sirve en `/`.
 
 ## 🌐 En línea (demostración para empresas)
 
@@ -27,7 +27,8 @@ RutaScan ya está publicado y funcionando 24/7, **sin depender de ningún PC**
 
 | Qué | Enlace |
 | --- | --- |
-| Panel web (PC / tablet) | <https://rutascan.onrender.com> |
+| Sitio web (promoción) | <https://rutascan.onrender.com> |
+| Panel web (PC / tablet) | <https://rutascan.onrender.com/app/> |
 | App del celular (APK, 23 MB) | <https://rutascan.onrender.com/uploads/RutaScan-Celular.apk> |
 | App para teléfonos antiguos (32 bits, 19 MB) | <https://rutascan.onrender.com/uploads/RutaScan-Celular-32bits.apk> |
 
@@ -78,8 +79,8 @@ está publicado en **[GitHub Releases](https://github.com/Manolodios/rutascan/re
 ## Uso diario en Windows
 
 El programa **RutaScan** se instala en el PC y abre en su propia ventana el panel
-(<http://127.0.0.1:8000/>), arrancando el backend solo y apagándolo al cerrar la
-ventana.
+(<http://127.0.0.1:8000/app/>), arrancando el backend solo y apagándolo al cerrar
+la ventana.
 
 | Acceso directo | Qué hace |
 | --- | --- |
@@ -123,7 +124,8 @@ El binario `cloudflared.exe` vive fuera del repositorio, en
 `%LOCALAPPDATA%\RutaScan\tools\`.
 
 Para un enlace **fijo** que no dependa de este PC ya está montado (gratis, con
-Supabase + Render): **<https://rutascan.onrender.com>** ✅. El túnel de Cloudflare
+Supabase + Render): **<https://rutascan.onrender.com>** (sitio) y
+**<https://rutascan.onrender.com/app/>** (panel) ✅. El túnel de Cloudflare
 sigue sirviendo como respaldo (y para operar con la base SQLite local); el
 servidor de la nube usa la base de datos de Supabase.
 `docs/DESPLIEGUE-NUBE.md` explica cómo se montó y cómo actualizarlo.
@@ -271,7 +273,8 @@ backend/
     db/            # session + init_db (auto-create + seed demo)
   tests/           # pytest
   scripts/         # smoke_test.py (E2E)
-web/               # build del panel (versionado) que sirve el backend y Render
+web/               # build del panel (versionado); el backend lo sirve en /app
+landing/           # página comercial estática que el backend sirve en /
 dashboard/         # panel web (React + Vite + shadcn/ui) + scripts/copy-to-web.mjs
 desktop/           # app de escritorio (Electron) + empaquetado
 mobile/            # app Flutter
@@ -284,9 +287,10 @@ docker-compose.yml
 ## Despliegue
 
 > El despliegue en la nube **ya está hecho y verificado**:
-> <https://rutascan.onrender.com> (Supabase + Render, plan gratuito). Guía
-> completa: `docs/DESPLIEGUE-NUBE.md`. Los pasos siguientes son la referencia
-> para levantar otro entorno/servidor.
+> <https://rutascan.onrender.com> (sitio) y
+> <https://rutascan.onrender.com/app/> (panel) con Supabase + Render, plan
+> gratuito. Guía completa: `docs/DESPLIEGUE-NUBE.md`. Los pasos siguientes son
+> la referencia para levantar otro entorno/servidor.
 
 1. `SECRET_KEY` fuerte (`openssl rand -hex 32`), `PLATFORM_API_KEY`, claves de
    Postgres y `ENVIRONMENT=production` en el entorno.

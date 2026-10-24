@@ -173,7 +173,7 @@ filas = [[
     p("#", "celdaH"), p("Qué hacer", "celdaH"), p("Por qué", "celdaH"),
 ]]
 checklist = [
-    ("1", "Abre <b>rutascan.onrender.com</b> y déjalo cargando.",
+    ("1", "Abre <b>rutascan.onrender.com/app/</b> y déjalo cargando.",
      "El plan gratuito duerme el sitio: el primer acceso tarda 30-60 segundos."),
     ("2", "Entra con el usuario de demostración y déjalo en el <b>Panel</b>.",
      "Empezar ya adentro ahorra un minuto y se ve profesional."),
@@ -367,7 +367,7 @@ HISTORIA.append(vineta("<b>Factura:</b> si el cliente es una empresa formal te v
 
 # 6. Chuleta
 chuleta = [
-    ("Panel", "https://rutascan.onrender.com"),
+    ("Panel", "https://rutascan.onrender.com/app/"),
     ("Empresa demo", "Distribuidora Costa Oriental, C.A. &middot; Cabimas, Zulia"),
     ("Pantallas directas", "#/mapa &middot; #/rutas &middot; #/reportes &middot; #/seguridad"),
     ("Panel de plataforma", "#/plataforma (la clave está en CLAVES.txt)"),

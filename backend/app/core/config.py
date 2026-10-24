@@ -56,7 +56,7 @@ class Settings(BaseSettings):
     max_upload_mb: int = 12
 
     # --- Web / CORS -------------------------------------------------
-    web_dir: str = ""                        # if set, static dashboard is mounted at "/"
+    web_dir: str = ""                        # if set, the panel build is mounted at "/app"
     cors_origins: str = "*"
 
     # --- Reporting ---------------------------------------------------

@@ -32,13 +32,14 @@ echo   El navegador se va a abrir solo cuando este listo.
 echo.
 
 REM Abre el navegador en cuanto el servidor responda
-start "" /min powershell -NoProfile -Command "for($i=0;$i -lt 90;$i++){ Start-Sleep -Seconds 1; try{ $r = Invoke-RestMethod -Uri 'http://127.0.0.1:8000/health' -TimeoutSec 2; if($r.status -eq 'ok'){ Start-Process 'http://127.0.0.1:8000/'; break } } catch {} }"
+start "" /min powershell -NoProfile -Command "for($i=0;$i -lt 90;$i++){ Start-Sleep -Seconds 1; try{ $r = Invoke-RestMethod -Uri 'http://127.0.0.1:8000/health' -TimeoutSec 2; if($r.status -eq 'ok'){ Start-Process 'http://127.0.0.1:8000/app/'; break } } catch {} }"
 
 cd /d "%ROOT%backend"
 set "DATABASE_URL=sqlite+pysqlite:///./rutascan_demo.db"
 set "SEED_DEMO_DATA=true"
 set "DEMO_AUTO_REFRESH=true"
 set "WEB_DIR=%ROOT%web"
+set "UPLOAD_DIR=%ROOT%uploads"
 set "PYTHONPATH=%ROOT%backend"
 
 echo   ----------------------------------------------------------
@@ -55,6 +56,6 @@ exit /b
 
 :ya_corre
 echo   RutaScan ya estaba abierto. Abriendo el navegador...
-start "" "http://127.0.0.1:8000/"
+start "" "http://127.0.0.1:8000/app/"
 timeout /t 3 >nul
 exit /b

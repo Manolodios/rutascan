@@ -8,7 +8,8 @@ app móvil Flutter, con licenciamiento anti-piratería y operación offline-firs
 ```
 backend/    API FastAPI (Python 3.11+) — SQLAlchemy + Pydantic v2
 dashboard/  Panel web (React 19 + Vite + Tailwind + shadcn/ui)
-web/        Build del panel (versionado) que sirve el backend y Render en la nube
+web/        Build del panel (versionado); el backend lo sirve en /app
+landing/    Página comercial estática (HTML/CSS); el backend la sirve en /
 desktop/    App de escritorio Windows (Electron)
 mobile/     App Flutter (Android) para CONDUCTOR y BODEGA
 docs/       API.md (contrato) + ARCHITECTURE.md + DESPLIEGUE-NUBE.md
@@ -110,8 +111,9 @@ del token/licencia; nunca de parámetros del cliente.
 ## Dashboard web
 
 SPA de React (Vite) + Tailwind + shadcn/ui, enrutada por hash. El backend sirve su
-build desde `web/` en `/` (lo genera `npm run build:web` dentro de `dashboard/`),
-y el panel llama a `/api/v1/admin/*` con Bearer JWT.
+build desde `web/` en `/app/` (lo genera `npm run build:web` dentro de `dashboard/`),
+mientras que la raíz `/` sirve la página comercial estática de `landing/`.
+El panel llama a `/api/v1/admin/*` con Bearer JWT.
 Módulos: panel, mapa en vivo, rutas (planificar/asignar/importar/despachar),
 productos (+QR PDF), camiones, usuarios, reportes (Excel/PDF), licencia,
 seguridad y panel de plataforma (`#/plataforma`, header `X-Platform-Key`).
@@ -141,7 +143,7 @@ seguridad y panel de plataforma (`#/plataforma`, header `X-Platform-Key`).
 | -------- | ----- |
 | `db`     | PostgreSQL 16 con volumen persistente + healthcheck. |
 | `redis`  | Cache/rate-limit compartido (opcional pero recomendado). |
-| `api`    | Backend en `:8000`; espera `db`/`redis`; monta `./web` y `./uploads`. |
+| `api`    | Backend en `:8000`; espera `db`/`redis`; monta `./web` (`/app`) y `./uploads`. |
 
 El backend crea las tablas y siembra datos demo al arrancar (idempotente).
 Para Supabase/Neon basta apuntar `DATABASE_URL` a Postgres administrado.

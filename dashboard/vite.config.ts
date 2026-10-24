@@ -6,10 +6,10 @@ import { defineConfig } from 'vite'
 const BACKEND = process.env.RUTASCAN_BACKEND ?? 'http://127.0.0.1:8000'
 
 // `npm run build:web` copies the build into <project>/web, which is what the
-// RutaScan backend (WEB_DIR=<project>/web) serves at http://127.0.0.1:8000/.
-// The panel uses hash routing (#/rutas), so everything lives under "/".
+// RutaScan backend serves at /app (the public landing page owns "/").
+// The panel uses hash routing (#/rutas), so all routes live under /app/.
 export default defineConfig({
-  base: '/',
+  base: '/app/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {

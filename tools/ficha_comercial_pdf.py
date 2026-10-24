@@ -187,7 +187,7 @@ cta = Table(
         [p("Pida una demostración de <b>15 minutos</b> con sus propios datos", "cta")],
         [p("Escriba por WhatsApp al "
            '<link href="' + WHATSAPP_URL + '"><b>' + WHATSAPP_VISTA + "</b></link>"
-           "  &middot;  Panel: rutascan.onrender.com<br/>"
+           "  &middot;  Panel: rutascan.onrender.com/app/<br/>"
            "Se la muestro en vivo: usted mira, pregunta y decide. Sin compromiso.", "cta2")],
     ],
     colWidths=[ANCHO],

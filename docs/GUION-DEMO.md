@@ -12,7 +12,7 @@
 
 | # | Qué hacer | Por qué |
 | --- | --- | --- |
-| 1 | Abre <https://rutascan.onrender.com> y déjalo cargando | El plan gratuito duerme el sitio: el primer acceso tarda 30-60 s |
+| 1 | Abre <https://rutascan.onrender.com/app/> y déjalo cargando | El plan gratuito duerme el sitio: el primer acceso tarda 30-60 s |
 | 2 | Entra con el usuario de demostración y déjalo en el **Panel** | Empezar ya adentro ahorra 1 minuto y se ve profesional |
 | 3 | Zoom del navegador a 110-125 % (`Ctrl` + `+`) | Que las letras se lean desde el otro lado del escritorio |
 | 4 | Prueba una descarga antes (**Reportes → Descargar Excel**) | Evita el silencio incómodo si el navegador pregunta dónde guardar |
@@ -150,7 +150,7 @@ Desde **10 camiones**, $12 por camión.
 
 | Dato | Valor |
 | --- | --- |
-| Panel | <https://rutascan.onrender.com> |
+| Panel | <https://rutascan.onrender.com/app/> |
 | Empresa de ejemplo | Distribuidora Costa Oriental, C.A. · Cabimas, Zulia |
 | Mapa · Rutas · Reportes · Seguridad | `#/mapa` · `#/rutas` · `#/reportes` · `#/seguridad` |
 | Panel de plataforma | `#/plataforma` (clave en `CLAVES.txt`) |
@@ -177,7 +177,7 @@ La cuenta la creas tú en 1 minuto:
 3. Al guardar te muestra la **clave de licencia**. Cópiala: esa clave va en el
    panel y en la app del conductor.
 4. Envíale al cliente, por WhatsApp:
-   - la dirección **rutascan.onrender.com**;
+   - la dirección **rutascan.onrender.com/app/** (panel) y **rutascan.onrender.com** (sitio);
    - su **cédula** y su **PIN** (para el panel);
    - la **clave de licencia** (para la app del celular).
 5. El administrador del cliente ya puede crear sus **camiones, productos y

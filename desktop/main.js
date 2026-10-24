@@ -20,8 +20,8 @@ const ORIGIN = `http://127.0.0.1:${PORT}`;
  * local network. Set RUTASCAN_BIND=127.0.0.1 to keep it PC-only.
  */
 const BIND = process.env.RUTASCAN_BIND || '0.0.0.0';
-/** The React panel is served at the root by the RutaScan backend. */
-const HOME = `${ORIGIN}/`;
+/** The React panel is served under /app by the RutaScan backend (the root is the public landing). */
+const HOME = `${ORIGIN}/app/`;
 
 /**
  * Localiza la carpeta del proyecto RutaScan (la que contiene `backend/` y `.venv/`).

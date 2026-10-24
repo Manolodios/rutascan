@@ -58,13 +58,14 @@ configuración (la misma que describe `render.yaml`):
 | Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 | Healthcheck | `/health` |
 | Auto-despliegue | activado: cada `push` a `main` reconstruye el sitio solo |
-| URL | <https://rutascan.onrender.com> |
+| URL | <https://rutascan.onrender.com> (sitio) · <https://rutascan.onrender.com/app/> (panel) |
 | Panel del servicio | <https://dashboard.render.com/web/srv-dba060qjnfac73droohg> |
 
 Variables cargadas: `PYTHON_VERSION=3.12.7`, `ENVIRONMENT=production`,
 `SECRET_KEY` (aleatoria), `SEED_DEMO_DATA=true`, `DEMO_AUTO_REFRESH=true`,
-`WEB_DIR=../web`, más `PLATFORM_API_KEY` y `DATABASE_URL` (los dos secretos
-viven en `CLAVES.txt`, secciones 6 y 7 — nunca en el repositorio).
+`WEB_DIR=../web`, `UPLOAD_DIR=../uploads`, más `PLATFORM_API_KEY` y
+`DATABASE_URL` (los dos secretos viven en `CLAVES.txt`, secciones 6 y 7 — nunca
+en el repositorio).
 
 > 🔄 **La demo nunca se ve vacía.** Con `DEMO_AUTO_REFRESH=true`, cada arranque
 > corre las fechas del tenant de demostración hasta **hoy** (rutas de hoy,
@@ -83,9 +84,10 @@ viven en `CLAVES.txt`, secciones 6 y 7 — nunca en el repositorio).
 
 ## Parte 3 - Comprobar (ya comprobado ✅)
 
-1. Abra <https://rutascan.onrender.com>: aparece el panel de login.
-2. Entre con las credenciales de demostración (ver `CLAVES.txt` o el botón
-   "Ver credenciales de demostración" en el login).
+1. Abra <https://rutascan.onrender.com>: aparece la página comercial.
+2. Entre al panel con **Entrar al panel** (<https://rutascan.onrender.com/app/>) o
+   con **Probar la demo**, y use las credenciales de demostración (ver
+   `CLAVES.txt` o el botón "Ver credenciales de demostración" en el login).
 3. Verifique Panel / Productos / Seguridad / Licencia y el menú **Plataforma**
    (`#/plataforma`) con la clave de plataforma.
 
@@ -189,7 +191,7 @@ En la app instalada:
 | Servicio Render | `rutascan` · `srv-dba060qjnfac73droohg` · python · free · Virginia |
 | Panel del servicio | <https://dashboard.render.com/web/srv-dba060qjnfac73droohg> |
 | Env obligatorias | `DATABASE_URL` y `PLATFORM_API_KEY` (ver `CLAVES.txt`, secciones 6-7) |
-| Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `DEMO_AUTO_REFRESH=true`, `WEB_DIR=../web` |
+| Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `DEMO_AUTO_REFRESH=true`, `WEB_DIR=../web`, `UPLOAD_DIR=../uploads` |
 | Python | 3.12.7 (`PYTHON_VERSION`) |
 | Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 | Healthcheck | `/health` |

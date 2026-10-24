@@ -31,7 +31,7 @@ La licencia de demo es `RUTA-4F7Q-2MX9-BN38` (12 camiones, activa).
 
 ## 2. Dueño / Administrador — panel web
 
-Entrá en `https://rutascan.onrender.com/` (o tu `ABRIR RutaScan.bat` local) y iniciá sesión con tu cédula y PIN.
+Entrá en `https://rutascan.onrender.com/app/` (o tu `ABRIR RutaScan.bat` local) y iniciá sesión con tu cédula y PIN.
 
 ### 2.1 Pantalla de licencia
 Si la licencia está vencida o suspendida, el panel te bloquea con un aviso y el WhatsApp de soporte. Mientras esté activa, tenés acceso total.
