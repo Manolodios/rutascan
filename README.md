@@ -106,7 +106,7 @@ Para volver a empaquetar e instalar la app de Windows, ver `desktop/README.md`.
 túnel de Cloudflare (`cloudflared`, se descarga solo la primera vez) que entrega
 un enlace HTTPS público del tipo `https://xxx-yyy-zzz.trycloudflare.com`:
 
-- El panel queda accesible desde cualquier red: `https://…/`
+- El panel queda accesible desde cualquier red: `https://…/app/`
 - El celular usa esa misma dirección en la app (login → **Servidor**), así que
   ya no depende de la WiFi de la casa.
 - El APK instalable también se sirve desde el enlace:
@@ -137,7 +137,8 @@ cp .env.example .env      # edite SECRET_KEY y claves
 docker compose up --build
 ```
 
-- Panel web (React): http://localhost:8000/
+- Sitio web: http://localhost:8000/
+- Panel web (React): http://localhost:8000/app/
 - API (OpenAPI/Swagger): http://localhost:8000/docs
 - Healthcheck: http://localhost:8000/health
 
