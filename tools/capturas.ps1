@@ -40,7 +40,7 @@ $proc = Start-Process $edge -PassThru -ArgumentList @(
   '--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run',
   '--disable-extensions', '--no-default-browser-check', '--force-device-scale-factor=1',
   "--remote-debugging-port=$port", "--user-data-dir=$profile",
-  "--window-size=$Width,$Height", "$Base/"
+  "--window-size=$Width,$Height", "$Base/app/"
 )
 
 try {
