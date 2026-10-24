@@ -187,6 +187,10 @@ def create_app() -> FastAPI:
     # El panel vive en /app. La raíz "/" es la página comercial (landing/).
     # Los montajes se evalúan en orden: /app debe ir antes que "/".
     if (web_path / "index.html").is_file():
+        @app.get("/app", include_in_schema=False)
+        def app_no_slash() -> RedirectResponse:
+            return RedirectResponse(url="/app/")
+
         app.mount("/app", StaticFiles(directory=str(web_path), html=True), name="web")
     else:
         @app.get("/app", include_in_schema=False)

@@ -22,3 +22,10 @@ def test_panel_is_served_under_app():
     assert response.status_code == 200
     assert "/app/assets/" in response.text
     assert '<div id="root">' in response.text
+
+
+def test_app_without_slash_redirects():
+    client = TestClient(create_app())
+    response = client.get("/app", follow_redirects=False)
+    assert response.status_code in (307, 308)
+    assert response.headers["location"].endswith("/app/")
