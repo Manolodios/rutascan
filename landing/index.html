@@ -3,252 +3,315 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RutaScan — Control de rutas y entregas para distribuidoras</title>
-<meta name="description" content="RutaScan registra qué sale, qué llega y quién lo entrega: escaneo con QR, mapa en vivo y reportes. Funciona sin internet. Hecho en Venezuela.">
-<meta name="theme-color" content="#0b1220">
+<title>RutaScan — La ruta sigue, con o sin señal</title>
+<meta name="description" content="Control de rutas y entregas para distribuidoras en Venezuela. Escaneo QR sin señal, mapa en vivo y reportes. Desde $15 por camión al mes.">
+<meta name="theme-color" content="#dc1928">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/roundo-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/roundo-500.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/styles.css">
+<script src="/main.js" defer></script>
 </head>
 <body>
 
-<header class="nav">
-  <a class="brand" href="/" aria-label="RutaScan, inicio">
-    <span class="brand-mark">R</span>
-    <span>Ruta<span class="brand-accent">Scan</span></span>
-  </a>
-  <nav class="nav-links" aria-label="Secciones">
-    <a href="#como-funciona">Cómo funciona</a>
-    <a href="#capturas">Capturas</a>
-    <a href="#funciones">Funciones</a>
-    <a href="#precios">Precios</a>
-  </nav>
-  <div class="nav-actions">
-    <a class="btn btn-ghost" href="/app/">Entrar al panel</a>
-    <a class="btn btn-primary" href="https://wa.me/584121640277?text=Hola%2C%20quiero%20una%20demo%20de%20RutaScan" target="_blank" rel="noopener">Pedir demo</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<header class="hero" id="inicio">
+  <div class="hero-top">
+    <a class="hero-link" href="#como-funciona">Cómo funciona</a>
+    <a class="wordmark" href="/" aria-label="RutaScan, inicio">RutaScan</a>
+    <a class="hero-link" href="/app/">Entrar al panel</a>
+  </div>
+
+  <h1 class="hero-title">La ruta sigue</h1>
+  <p class="hero-lead">RutaScan registra cada carga y cada entrega de su distribuidora, aunque el teléfono pierda la señal.</p>
+
+  <div class="folders" aria-label="Capítulos de la página">
+    <a class="folder folder--1" href="#panel"><span class="folder-tab">El panel</span></a>
+    <a class="folder folder--2" href="#como-funciona"><span class="folder-tab">La ruta</span></a>
+    <a class="folder folder--3" href="#funciones"><span class="folder-tab">La calle</span></a>
+    <a class="folder folder--4" href="#precios"><span class="folder-tab">El cierre</span></a>
+
+    <div class="folder folder--front">
+      <span class="folder-tab folder-tab--front">Hoy</span>
+      <div class="folder-head">
+        <div>
+          <p class="folder-date">Hoy en Cabimas</p>
+          <p class="folder-stat">6 rutas, 9 camiones y 128 entregas</p>
+        </div>
+        <a class="button" href="https://wa.me/584121640277?text=Hola%2C%20quiero%20una%20demo%20de%20RutaScan" target="_blank" rel="noopener">Pedir demo</a>
+      </div>
+      <figure class="folder-shot">
+        <img src="/img/01-panel.png" alt="Panel de RutaScan con las rutas del día, los camiones activos y el avance de las entregas" width="1576" height="908" fetchpriority="high">
+      </figure>
+    </div>
   </div>
 </header>
 
-<main>
+<main id="contenido">
 
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <p class="eyebrow">Hecho en Venezuela · Soporte por WhatsApp</p>
-        <h1>Cada camión, cada entrega, <span class="accent">bajo control.</span></h1>
-        <p class="lead">RutaScan registra qué sale del depósito, qué llega al cliente y quién lo entregó. Con escaneo QR, mapa en vivo y reportes, <strong>aunque se caiga la señal</strong>.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary btn-lg" href="/app/">Probar la demo</a>
-          <a class="btn btn-outline btn-lg" href="#descargar">Descargar app Android</a>
+  <section class="showcase" id="panel">
+    <div class="showcase-grid">
+      <div class="showcase-copy">
+        <h2 data-reveal>El panel, por dentro</h2>
+        <p class="showcase-lead" data-reveal data-delay="1">Lo que ve la oficina mientras el camión está en la calle.</p>
+        <div class="showcase-index" role="tablist" aria-label="Pantallas del panel">
+          <button class="showcase-tab is-active" id="tab-mapa" role="tab" aria-selected="true" aria-controls="shot-stage" data-shot="mapa" data-caption="Mapa en vivo: la última posición de cada camión y cada escaneo.">Mapa en vivo</button>
+          <button class="showcase-tab" id="tab-rutas" role="tab" aria-selected="false" aria-controls="shot-stage" data-shot="rutas" data-caption="Rutas y manifiestos: qué salió, qué se entregó y qué se rechazó." tabindex="-1">Rutas</button>
+          <button class="showcase-tab" id="tab-reportes" role="tab" aria-selected="false" aria-controls="shot-stage" data-shot="reportes" data-caption="Reportes: cumplimiento por ruta, camión, conductor y fecha." tabindex="-1">Reportes</button>
         </div>
-        <p class="hero-note">30 días de prueba gratis · sin contrato · desde $30 al mes</p>
       </div>
-      <div class="hero-shot">
-        <img src="/img/01-panel.png" alt="Panel de RutaScan con entregas del día, camiones activos y avance por ruta" width="1576" height="908">
+
+      <div class="showcase-stage" id="shot-stage" role="tabpanel" aria-labelledby="tab-mapa">
+        <img class="showcase-img is-active" data-shot="mapa" src="/img/02-mapa-en-vivo.png" alt="Mapa en vivo de RutaScan con la última posición de los camiones y los escaneos del día" width="1576" height="908">
+        <img class="showcase-img" data-shot="rutas" src="/img/03-rutas.png" alt="Lista de rutas de RutaScan con el manifiesto y el estado de cada entrega" width="1576" height="908" aria-hidden="true">
+        <img class="showcase-img" data-shot="reportes" src="/img/05-reportes.png" alt="Reporte de cumplimiento de RutaScan por ruta, camión, conductor y fecha" width="1576" height="908" aria-hidden="true">
+        <p class="showcase-caption" aria-live="polite">Mapa en vivo: la última posición de cada camión y cada escaneo.</p>
       </div>
     </div>
   </section>
 
-  <section class="sectors" aria-label="Ideal para">
-    <div class="wrap sectors-row">
-      <span>Distribuidoras</span>
-      <span>Abastos y mayoristas</span>
-      <span>Farmacias</span>
-      <span>Alimentos y bebidas</span>
-      <span>Ferreterías</span>
-      <span>Transporte propio</span>
-    </div>
-  </section>
+  <section class="how" id="como-funciona">
+    <div class="fields">
 
-  <section id="como-funciona" class="section">
-    <div class="wrap">
-      <p class="kicker">Así de simple</p>
-      <h2>De la bodega al cliente, sin papeles sueltos</h2>
-      <div class="steps">
-        <article class="step">
-          <span class="step-num">1</span>
-          <h3>Planifique la ruta</h3>
-          <p>Cargue el manifiesto a mano o impórtelo desde Excel. Cada producto queda con su código QR.</p>
-        </article>
-        <article class="step">
-          <span class="step-num">2</span>
-          <h3>El conductor escanea</h3>
-          <p>Desde el celular marca carga, entrega o rechazo. Si no hay señal, la app guarda todo y sincroniza después.</p>
-        </article>
-        <article class="step">
-          <span class="step-num">3</span>
-          <h3>Usted ve todo</h3>
-          <p>Mapa en vivo, avance por camión y reportes en Excel o PDF para cuadrar y cobrar sin discusiones.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="capturas" class="section section-dark">
-    <div class="wrap">
-      <p class="kicker">El panel de la oficina</p>
-      <h2>Todo lo que pasó hoy, en una pantalla</h2>
-      <div class="shots">
-        <figure class="shot">
-          <img src="/img/02-mapa-en-vivo.png" alt="Mapa en vivo con la última posición de cada camión" width="1576" height="908" loading="lazy">
-          <figcaption>Mapa en vivo: última posición de cada camión y cada escaneo.</figcaption>
-        </figure>
-        <figure class="shot">
-          <img src="/img/03-rutas.png" alt="Lista de rutas con manifiesto y estados de entrega" width="1576" height="908" loading="lazy">
-          <figcaption>Rutas y manifiestos: qué salió, qué se entregó y qué se rechazó.</figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <section id="funciones" class="section">
-    <div class="wrap">
-      <p class="kicker">Funciones</p>
-      <h2>Lo que de verdad se usa todos los días</h2>
-      <div class="cards">
-        <article class="card">
-          <h3>Mapa en vivo</h3>
-          <p>Última posición de cada camión y de cada escaneo, actualizada mientras la ruta avanza.</p>
-        </article>
-        <article class="card">
-          <h3>Funciona sin internet</h3>
-          <p>El conductor escanea sin señal. Al volver la conexión, todo se sincroniza solo.</p>
-        </article>
-        <article class="card">
-          <h3>Prueba de cada entrega</h3>
-          <p>Producto, cantidad, hora, ubicación y firma. Se acabó el “yo sí lo entregué”.</p>
-        </article>
-        <article class="card">
-          <h3>Alertas anti-fraude</h3>
-          <p>Detecta GPS falso, escaneos duplicados y reloj alterado en el teléfono.</p>
-        </article>
-        <article class="card">
-          <h3>Reportes en Excel y PDF</h3>
-          <p>Cumplimiento por ruta, camión, conductor y fecha. Listos para imprimir o enviar.</p>
-        </article>
-        <article class="card">
-          <h3>Roles y permisos</h3>
-          <p>Dueño, bodega y conductor ven solo lo que les toca. Cada empresa, separada de las demás.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <section id="precios" class="section">
-    <div class="wrap pricing-wrap">
-      <div class="pricing-copy">
-        <p class="kicker">Precio claro</p>
-        <h2>Un solo plan, sin sorpresas</h2>
-        <p class="lead-sm">Se paga por camión, mes a mes. Sin contrato, sin permanencia y con soporte incluido.</p>
-        <ul class="checks">
-          <li>Instalación y puesta en marcha incluidas</li>
-          <li>Actualizaciones y soporte por WhatsApp</li>
-          <li>Datos en la nube con respaldo</li>
-          <li>Usuarios ilimitados por empresa (dueño, bodega, conductores)</li>
-        </ul>
-      </div>
-      <article class="price-card">
-        <p class="price-tag">Plan único</p>
-        <p class="price"><span class="price-amount">$15</span><span class="price-unit">por camión al mes</span></p>
-        <p class="price-min">Mínimo $30 al mes</p>
-        <hr>
-        <p class="price-alt">Desde 10 camiones: <strong>$12 por camión</strong></p>
-        <p class="price-trial">30 días de prueba gratis</p>
-        <a class="btn btn-primary btn-block" href="https://wa.me/584121640277?text=Hola%2C%20quiero%20probar%20RutaScan" target="_blank" rel="noopener">Pedir demo por WhatsApp</a>
-        <p class="price-note">Precio en dólares. Se coordina el pago por WhatsApp.</p>
+      <article class="field field--mustard">
+        <h2 data-reveal>Cómo funciona</h2>
+        <div class="route-card" data-ui>
+          <p class="rc-top"><span class="rc-title">Manifiesto</span><span class="rc-date">24 oct</span></p>
+          <p class="rc-meta">Ruta 4, Cabimas centro</p>
+          <ul class="rc-lines">
+            <li><span>Harina P.A.N. 1 kg</span><span>24</span></li>
+            <li><span>Aceite Vatel 1 L</span><span>12</span></li>
+            <li><span>Arroz Primor 1 kg</span><span>30</span></li>
+            <li><span>Café Fama 500 g</span><span>8</span></li>
+            <li><span>Azúcar 1 kg</span><span>18</span></li>
+          </ul>
+          <p class="rc-foot"><span>6 paradas</span><span>92 bultos</span></p>
+        </div>
+        <p class="field-clause" data-reveal data-delay="1">Primero se arma el manifiesto.</p>
       </article>
+
+      <article class="field field--maroon">
+        <div class="route-card" data-ui>
+          <p class="rc-top"><span class="rc-title">Ruta 4</span><span class="rc-badge">En ruta</span></p>
+          <p class="rc-meta">Jhonny Pirela, P84LS6V</p>
+          <div class="rc-bar" aria-hidden="true"><span></span></div>
+          <p class="rc-big">3 de 6</p>
+          <p class="rc-note">entregas confirmadas</p>
+          <p class="rc-foot"><span>Salió 07:40</span><span>Cabimas</span></p>
+        </div>
+        <p class="field-clause" data-reveal data-delay="1">Después sale el camión.</p>
+      </article>
+
+      <article class="field field--slate">
+        <div class="route-card" data-ui>
+          <p class="rc-top"><span class="rc-title">Escaneo</span><span class="rc-badge rc-badge--quiet">Sin señal</span></p>
+          <p class="rc-meta">Abasto La Rosa, Cabimas</p>
+          <p class="rc-product">Harina P.A.N. 1 kg</p>
+          <p class="rc-qty">24 unidades</p>
+          <p class="rc-ok">Entregado 10:42</p>
+          <p class="rc-note">Guardado en el teléfono. Sube cuando vuelve la señal.</p>
+        </div>
+        <p class="field-clause" data-reveal data-delay="1">En la calle se escanea.</p>
+      </article>
+
+      <article class="field field--red">
+        <div class="route-card route-card--surface" data-ui>
+          <p class="rc-top"><span class="rc-title">Cierre del día</span><span class="rc-date">24 oct</span></p>
+          <p class="rc-big">96%</p>
+          <p class="rc-note">cumplimiento de entregas</p>
+          <ul class="rc-lines">
+            <li><span>Entregadas</span><span>123</span></li>
+            <li><span>Rechazadas</span><span>5</span></li>
+            <li><span>Pendientes</span><span>0</span></li>
+          </ul>
+          <p class="rc-foot"><span>6 rutas</span><span>9 camiones</span></p>
+        </div>
+        <p class="field-clause" data-reveal data-delay="1">Al final se cuadra todo.</p>
+      </article>
+
     </div>
   </section>
 
-  <section id="descargar" class="section section-dark download">
-    <div class="wrap download-grid">
-      <div>
-        <p class="kicker">App del conductor</p>
-        <h2>Se instala directo, sin tienda de aplicaciones</h2>
-        <p class="lead-sm">Descargue el APK, ábralo y escriba la cédula y el PIN que le entrega la empresa. Requiere Android 7 o superior.</p>
-        <div class="hero-actions">
-          <a class="btn btn-primary" href="/uploads/RutaScan-Celular.apk">Descargar para Android (recomendado)</a>
-          <a class="btn btn-outline" href="/uploads/RutaScan-Celular-32bits.apk">Teléfonos antiguos (32 bits)</a>
+  <section class="features" id="funciones">
+    <div class="features-head">
+      <h2 data-reveal>Lo que se usa a diario</h2>
+      <p class="features-lead" data-reveal data-delay="1">Cuatro cosas que resuelven la calle, no la oficina.</p>
+    </div>
+
+    <div class="sheets">
+
+      <article class="sheet sheet--slate">
+        <div class="sheet-band"><h3 data-reveal>Funciona sin señal</h3></div>
+        <div class="sheet-body">
+          <div class="sheet-copy">
+            <p data-reveal data-delay="1">El conductor escanea sin internet. Cada movimiento queda en el teléfono y sube solo cuando vuelve la señal.</p>
+            <p class="sheet-links" data-reveal data-delay="2"><a class="text-link" href="/uploads/RutaScan-Celular.apk">Descargar app Android</a><a class="text-link text-link--small" href="/uploads/RutaScan-Celular-32bits.apk">Teléfonos de 32 bits</a></p>
+          </div>
+          <figure class="sheet-shot" data-reveal data-delay="2">
+            <img src="/img/03-rutas.png" alt="Lista de rutas de RutaScan con el manifiesto y el estado de cada entrega" width="1576" height="908" loading="lazy">
+          </figure>
+        </div>
+      </article>
+
+      <article class="sheet sheet--mustard">
+        <div class="sheet-band"><h3 data-reveal>Prueba de cada entrega</h3></div>
+        <div class="sheet-body">
+          <div class="sheet-copy">
+            <p data-reveal data-delay="1">Producto, cantidad, hora, ubicación y firma. Cada entrega queda con su prueba, no con la palabra del chofer.</p>
+          </div>
+          <figure class="sheet-shot" data-reveal data-delay="2">
+            <img src="/img/02-mapa-en-vivo.png" alt="Mapa en vivo de RutaScan con la posición de los camiones y los escaneos" width="1576" height="908" loading="lazy">
+          </figure>
+        </div>
+      </article>
+
+      <article class="sheet sheet--maroon">
+        <div class="sheet-band"><h3 data-reveal>Nadie inventa una entrega</h3></div>
+        <div class="sheet-body">
+          <div class="sheet-copy">
+            <p data-reveal data-delay="1">RutaScan marca GPS falso, escaneos duplicados y reloj alterado. La oficina ve la alerta el mismo día.</p>
+          </div>
+          <figure class="sheet-shot" data-reveal data-delay="2">
+            <img src="/img/01-panel.png" alt="Panel de RutaScan con el resumen del día y las alertas de entregas" width="1576" height="908" loading="lazy">
+          </figure>
+        </div>
+      </article>
+
+      <article class="sheet sheet--bone">
+        <div class="sheet-band"><h3 data-reveal>Se cuadra en Excel</h3></div>
+        <div class="sheet-body">
+          <div class="sheet-copy">
+            <p data-reveal data-delay="1">Cumplimiento por ruta, camión, conductor y fecha. Se descarga en Excel o PDF y se manda al contador.</p>
+          </div>
+          <figure class="sheet-shot" data-reveal data-delay="2">
+            <img src="/img/05-reportes.png" alt="Reporte de RutaScan con el cumplimiento por ruta, camión, conductor y fecha" width="1576" height="908" loading="lazy">
+          </figure>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <section class="pricing" id="precios">
+    <div class="pricing-inner">
+      <h2 class="pricing-sentence" data-reveal><span class="price-block">$15</span> por&nbsp;camión</h2>
+      <div class="pricing-foot">
+        <p data-reveal data-delay="1">Cada mes, mínimo $30. Desde 10 camiones, $12 por camión. 30 días de prueba, sin contrato y pago por WhatsApp.</p>
+        <div class="pricing-action" data-reveal data-delay="2">
+          <a class="button" href="https://wa.me/584121640277?text=Hola%2C%20quiero%20probar%20RutaScan" target="_blank" rel="noopener">Pedir demo</a>
+          <a class="text-link" href="/app/">Ver la demo</a>
         </div>
       </div>
-      <div class="download-card">
-        <h3>¿Prefiere verlo primero?</h3>
-        <p>Entre a la demo con datos de una distribuidora real de Cabimas. Sin instalar nada.</p>
-        <a class="btn btn-outline btn-block" href="/app/">Abrir la demo en el navegador</a>
-      </div>
     </div>
   </section>
 
-  <section id="preguntas" class="section">
-    <div class="wrap narrow">
-      <p class="kicker">Preguntas frecuentes</p>
-      <h2>Lo que suelen preguntar</h2>
-      <details>
-        <summary>¿Necesito internet en la calle?</summary>
-        <p>No. La app del conductor guarda cada escaneo en el teléfono y lo envía cuando vuelve la señal. La oficina sí necesita internet para ver el panel.</p>
-      </details>
-      <details>
-        <summary>¿Qué teléfono necesito?</summary>
-        <p>Cualquier Android 7 o superior. Se descarga el APK directo desde esta página; no hace falta cuenta de Google Play.</p>
-      </details>
-      <details>
-        <summary>¿Cuánto tarda la instalación?</summary>
-        <p>Menos de 10 minutos por teléfono. Nosotros lo acompañamos por WhatsApp la primera vez.</p>
-      </details>
-      <details>
-        <summary>¿Dónde quedan los datos?</summary>
-        <p>En la nube, con respaldo. Cada empresa ve solamente su información: rutas, camiones, productos y usuarios.</p>
-      </details>
-      <details>
-        <summary>¿Hay contrato o permanencia?</summary>
+  <section class="faq" id="preguntas">
+    <div class="faq-head">
+      <h2 data-reveal>Preguntas frecuentes</h2>
+    </div>
+
+    <div class="faq-band faq-band--bone">
+      <div class="faq-grid">
+        <h3>¿Necesito internet en la calle?</h3>
+        <p>No. La app guarda cada escaneo en el teléfono y lo envía cuando vuelve la señal. La oficina sí necesita internet para ver el panel.</p>
+      </div>
+    </div>
+
+    <div class="faq-band faq-band--mustard">
+      <div class="faq-grid">
+        <h3>¿Qué teléfono necesito?</h3>
+        <p>Cualquier Android 7 o superior. El APK se descarga directo desde esta página; no hace falta cuenta de Google Play.</p>
+      </div>
+    </div>
+
+    <div class="faq-band faq-band--bone">
+      <div class="faq-grid">
+        <h3>¿Cuánto tarda la instalación?</h3>
+        <p>Menos de 10 minutos por teléfono. Lo acompañamos por WhatsApp la primera vez.</p>
+      </div>
+    </div>
+
+    <div class="faq-band faq-band--mustard">
+      <div class="faq-grid">
+        <h3>¿Dónde quedan los datos?</h3>
+        <p>En la nube, con respaldo. Cada empresa ve solo su información: rutas, camiones, productos y usuarios.</p>
+      </div>
+    </div>
+
+    <div class="faq-band faq-band--bone">
+      <div class="faq-grid">
+        <h3>¿Hay contrato o permanencia?</h3>
         <p>No. Se paga mes a mes y puede dejar de usar el servicio cuando quiera.</p>
-      </details>
-      <details>
-        <summary>¿Puedo probar con mis propios datos?</summary>
-        <p>Sí. La demo pública trae datos de ejemplo; para cargar sus productos y camiones coordinamos una demostración de 15 minutos por WhatsApp.</p>
-      </details>
+      </div>
+    </div>
+
+    <div class="faq-band faq-band--mustard">
+      <div class="faq-grid">
+        <h3>¿Puedo probar con mis propios datos?</h3>
+        <p>Sí. La demo pública trae datos de ejemplo; para cargar sus productos y camiones coordinamos 15 minutos por WhatsApp.</p>
+      </div>
     </div>
   </section>
 
-  <section class="cta-final">
-    <div class="wrap cta-grid">
-      <div>
-        <h2>¿Lo probamos con sus camiones?</h2>
-        <p>Una demostración de 15 minutos, con sus rutas y sus productos. Sin compromiso.</p>
-      </div>
-      <a class="btn btn-primary btn-lg" href="https://wa.me/584121640277?text=Hola%2C%20quiero%20una%20demo%20de%20RutaScan" target="_blank" rel="noopener">Escribir por WhatsApp</a>
-    </div>
+  <section class="close">
+    <a class="close-band" href="https://wa.me/584121640277?text=Hola%2C%20quiero%20una%20demo%20de%20RutaScan" target="_blank" rel="noopener" aria-label="Hablemos por WhatsApp">
+      <p class="close-note">Un mensaje y le mostramos la demo con sus rutas.</p>
+      <svg class="close-arrow" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+        <path d="M12 36 36 12M18 12h18v18" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="square" stroke-linejoin="miter"/>
+      </svg>
+      <h2 class="close-word">Hablemos</h2>
+    </a>
   </section>
 
 </main>
 
 <footer class="footer">
-  <div class="wrap footer-grid">
-    <div>
-      <a class="brand brand-footer" href="/">
-        <span class="brand-mark">R</span>
-        <span>Ruta<span class="brand-accent">Scan</span></span>
-      </a>
-      <p>Control de rutas y entregas para distribuidoras.<br>Cabimas, Zulia · Venezuela</p>
-    </div>
-    <div>
-      <h4>Producto</h4>
+  <span class="sr-only">RutaScan</span>
+  <div class="footer-mark" aria-hidden="true">
+    <span class="mark-block mark-block--1">R</span>
+    <span class="mark-block mark-block--2">u</span>
+    <span class="mark-block mark-block--3">t</span>
+    <span class="mark-block mark-block--4">a</span>
+    <span class="mark-block mark-block--5">S</span>
+    <span class="mark-block mark-block--6">c</span>
+    <span class="mark-block mark-block--7">a</span>
+    <span class="mark-block mark-block--8">n</span>
+  </div>
+
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h3>Producto</h3>
       <a href="/app/">Panel (demo)</a>
-      <a href="#precios">Precios</a>
       <a href="/uploads/RutaScan-Celular.apk">App Android</a>
+      <a href="/uploads/RutaScan-Celular-32bits.apk">App de 32 bits</a>
     </div>
-    <div>
-      <h4>Contacto</h4>
-      <a href="https://wa.me/584121640277" target="_blank" rel="noopener">WhatsApp +58 412 164 0277</a>
-      <a href="https://wa.me/584121640277?text=Hola%2C%20quiero%20una%20demo%20de%20RutaScan" target="_blank" rel="noopener">Pedir una demo</a>
+    <div class="footer-col">
+      <h3>La página</h3>
+      <a href="#como-funciona">Cómo funciona</a>
+      <a href="#funciones">Funciones</a>
+      <a href="#precios">Precios</a>
+      <a href="#preguntas">Preguntas</a>
+    </div>
+    <div class="footer-col">
+      <h3>Contacto</h3>
+      <a href="https://wa.me/584121640277" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://wa.me/584121640277?text=Hola%2C%20quiero%20una%20demo%20de%20RutaScan" target="_blank" rel="noopener">Pedir demo</a>
+    </div>
+    <div class="footer-contact">
+      <p>Cabimas, Zulia<br>Venezuela</p>
+      <a href="https://wa.me/584121640277" target="_blank" rel="noopener">+58 412 164 0277</a>
     </div>
   </div>
-  <div class="wrap footer-bottom">
-    <span>© 2026 RutaScan. Hecho en Venezuela.</span>
-    <span>Los datos de la demo pertenecen a una empresa ficticia.</span>
+
+  <div class="footer-bottom">
+    <div>
+      <p>© 2026 RutaScan. Hecho en Venezuela.</p>
+      <p class="footer-legal">Los datos de la demo son de una empresa ficticia.</p>
+    </div>
+    <a class="button button--small" href="https://wa.me/584121640277?text=Hola%2C%20quiero%20una%20demo%20de%20RutaScan" target="_blank" rel="noopener">Escribir</a>
   </div>
 </footer>
-
-<a class="wa-float" href="https://wa.me/584121640277?text=Hola%2C%20quiero%20una%20demo%20de%20RutaScan" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">WhatsApp</a>
 
 </body>
 </html>
