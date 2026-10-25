@@ -215,7 +215,7 @@ def live_map(db: Session, company_id: uuid.UUID, day: date | None = None) -> dic
                 "route_status": route.status.value,
                 "truck": {
                     "id": str(route.truck.id) if route.truck else None,
-                    "license_plate": route.truck.license_plate if route.truck else "â€”",
+                    "license_plate": route.truck.license_plate if route.truck else "—",
                     "model": route.truck.model if route.truck else None,
                 },
                 "driver": (
