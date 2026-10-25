@@ -1,0 +1,58 @@
+# Keep-alive: evita que Render (plan gratis) duerma el servicio.
+# ---------------------------------------------------------------------------
+# Render duerme el servicio tras 15 minutos sin visitas; el primer acceso
+# despues tarda ~30-60 segundos ("Application loading"). Este trabajo toca la
+# portada y /health cada 13 minutos, asi el servicio nunca llega a dormir y la
+# pagina carga de una vez.
+#
+# Corre en los servidores de GitHub: funciona aunque su PC este apagada.
+# Los repos privados tienen 2.000 minutos gratis al mes; cada ejecucion dura
+# unos segundos (no necesita descargar el repositorio).
+#
+# Notas honestas:
+#   - Los trabajos programados de GitHub pueden retrasarse hasta ~15-20
+#     minutos en horas de mucha carga. Para esas rachas esta el respaldo del
+#     PC: "MANTENER DESPIERTO.bat" (tarea de Windows cada 13 minutos).
+#   - GitHub desactiva los trabajos programados de un repositorio sin
+#     actividad durante 60 dias; cualquier push los reactiva.
+#   - Si el servicio de Render se cae de verdad, la ejecucion falla y GitHub
+#     avisa por correo (eso es informacion, no un error del trabajo).
+
+name: Keep-alive
+
+on:
+  schedule:
+    # Cada 13 minutos (0,13,26,39,52...): por debajo de los 15 de Render.
+    - cron: '*/13 * * * *'
+  workflow_dispatch: # para ejecutarlo a mano desde la pestana Actions
+
+permissions:
+  contents: read
+
+concurrency:
+  group: keep-alive
+  cancel-in-progress: true
+
+jobs:
+  ping:
+    name: Despertar rutascan.onrender.com
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Tocar /health y la portada
+        shell: bash
+        run: |
+          set -uo pipefail
+          for url in "https://rutascan.onrender.com/health" "https://rutascan.onrender.com/"; do
+            echo "-> $url"
+            code="$(curl -sS -o /tmp/body.txt -w '%{http_code}' \
+                     --max-time 180 --retry 3 --retry-delay 15 --retry-all-errors \
+                     "$url" || echo 000)"
+            echo "   HTTP $code"
+            head -c 300 /tmp/body.txt; echo
+            if [ "$code" != "200" ]; then
+              echo "::error::No se pudo despertar $url (HTTP $code)"
+              exit 1
+            fi
+          done
+          echo "Servicio despierto."

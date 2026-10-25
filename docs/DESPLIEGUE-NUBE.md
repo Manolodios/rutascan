@@ -148,10 +148,23 @@ En la app instalada:
 
 ## Cosas que debe saber del plan gratuito
 
-- **Render duerme el servicio** tras 15 minutos sin visitas. El primer acceso
-  después de eso tarda ~30-60 segundos (se ve "Application loading"); los
-  siguientes son instantáneos. Abra el enlace un par de minutos antes de una
-  demostración.
+- **Render duerme el servicio** tras 15 minutos sin visitas, y el primer
+  acceso después de eso tarda ~30-60 segundos (se ve "Application loading";
+  medido el 25-10-2026: 42 s). Para que eso no pase hay **keep-alive**, en
+  dos capas que se cubren entre sí:
+  - **GitHub** (ya activo, no hay que hacer nada): el trabajo
+    `.github/workflows/keep-alive.yml` toca `/health` y la portada cada 13
+    minutos desde los servidores de GitHub. Funciona aunque su PC esté
+    apagada. Se puede ejecutar a mano desde GitHub → pestaña **Actions** →
+    *Keep-alive* → **Run workflow**.
+  - **Su PC** (respaldo): doble clic en `MANTENER DESPIERTO.bat` instala una
+    tarea de Windows que toca la página cada 13 minutos mientras su sesión
+    esté abierta. Se quita con `MANTENER DESPIERTO.bat -Quitar`, y las visitas
+    quedan en `%LOCALAPPDATA%\RutaScan\tools\mantener-despierto.log`.
+  - Límites, para que no le sorprendan: los trabajos programados de GitHub
+    pueden atrasarse hasta ~15-20 min en horas de mucha carga (para eso está
+    el respaldo del PC), y GitHub los desactiva si el repositorio pasa 60
+    días sin actividad (cualquier `git push` los reactiva).
 - **Supabase pausa** proyectos gratuitos tras ~7 días sin uso. Si pasa, entre a
   supabase.com y pulse **Restore**; no se pierden datos.
 - **La base está blindada**: las tablas no son accesibles por la API pública de
@@ -195,3 +208,4 @@ En la app instalada:
 | Python | 3.12.7 (`PYTHON_VERSION`) |
 | Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 | Healthcheck | `/health` |
+| Keep-alive (que no duerma) | GitHub cada 13 min, ya activo; respaldo del PC: `MANTENER DESPIERTO.bat` |
