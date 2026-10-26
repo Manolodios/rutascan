@@ -149,22 +149,26 @@ En la app instalada:
 ## Cosas que debe saber del plan gratuito
 
 - **Render duerme el servicio** tras 15 minutos sin visitas, y el primer
-  acceso después de eso tarda ~30-60 segundos (se ve "Application loading";
-  medido el 25-10-2026: 42 s). Para que eso no pase hay **keep-alive**, en
-  dos capas que se cubren entre sí:
-  - **GitHub** (ya activo, no hay que hacer nada): el trabajo
-    `.github/workflows/keep-alive.yml` toca `/health` y la portada cada 13
-    minutos desde los servidores de GitHub. Funciona aunque su PC esté
-    apagada. Se puede ejecutar a mano desde GitHub → pestaña **Actions** →
-    *Keep-alive* → **Run workflow**.
-  - **Su PC** (respaldo): doble clic en `MANTENER DESPIERTO.bat` instala una
-    tarea de Windows que toca la página cada 13 minutos mientras su sesión
-    esté abierta. Se quita con `MANTENER DESPIERTO.bat -Quitar`, y las visitas
-    quedan en `%LOCALAPPDATA%\RutaScan\tools\mantener-despierto.log`.
-  - Límites, para que no le sorprendan: los trabajos programados de GitHub
-    pueden atrasarse hasta ~15-20 min en horas de mucha carga (para eso está
-    el respaldo del PC), y GitHub los desactiva si el repositorio pasa 60
-    días sin actividad (cualquier `git push` los reactiva).
+  acceso después de eso tarda ~40-60 segundos (se ve "Application loading";
+  medido el 25-10-2026: **42,5 s**). Para que no pase hay **keep-alive en
+  tres capas**, y la principal vive en internet:
+  1. **UptimeRobot** (gratis, sin tarjeta): monitor cada 5 min sobre
+     `https://rutascan.onrender.com/health`. Cubre las 24 h del día **aunque
+     su PC esté apagada**. Es la capa principal; alta en la sección siguiente.
+  2. **Su PC**: `MANTENER DESPIERTO.bat` deja una tarea de Windows que toca la
+     web cada 13 min mientras su sesión esté abierta. Medido: 40/40 pings OK,
+     cada 13 min exactos. Registro en
+     `%LOCALAPPDATA%\RutaScan\tools\mantener-despierto.log`.
+  3. **GitHub Actions** (`.github/workflows/keep-alive.yml`): toca `/health` y
+     la portada cada 13 min desde los servidores de GitHub. Medido el 25-26
+     oct 2026: de ~90 marcas del reloj solo ejecutó **4** (cada 2-6 h; GitHub
+     descarta casi todas bajo carga). **No sirve como capa única**: se queda
+     como extra y como aviso por correo si el servicio se cae.
+  - Lo que **no** alcanza: PC apagada + solo GitHub (2-6 h entre ping y 15 min
+    para dormir). Sin UptimeRobot, de madrugada el primer visitante espera
+    ~40 s.
+
+
 - **Supabase pausa** proyectos gratuitos tras ~7 días sin uso. Si pasa, entre a
   supabase.com y pulse **Restore**; no se pierden datos.
 - **La base está blindada**: las tablas no son accesibles por la API pública de
@@ -180,6 +184,35 @@ En la app instalada:
   rate-limit del login funciona igual.
 - No hay claves en el repositorio: `SECRET_KEY` la genera Render y los dos
   secretos se cargan como variables de entorno.
+
+### Dar de alta UptimeRobot (una sola vez, ~5 minutos)
+
+No pide tarjeta ni datos de la empresa. Es un vigilante externo que visita su
+página cada 5 minutos; como siempre hay visita, Render no llega a dormir.
+
+1. Entre en <https://uptimerobot.com> y pulse **Sign Up** (arriba a la derecha).
+2. Escriba su correo y una contraseña. No pide tarjeta.
+3. Abra el correo de confirmación que le llega (revise *spam* / *correo no
+   deseado*) y pulse el enlace.
+4. Ya dentro, pulse **+ Add New Monitor** (botón verde/naranja).
+5. Llene **solo** esto:
+
+   | Campo | Valor |
+   | --- | --- |
+   | Monitor Type | **HTTP(s)** |
+   | Friendly Name | `RutaScan` |
+   | URL (or IP) | `https://rutascan.onrender.com/health` |
+   | Monitoring Interval | **5 minutes** |
+
+6. Pulse **Create Monitor**. En unos segundos queda con el punto verde **Up**.
+7. Avise para verificar: desde los datos de Render se ve el ritmo de 5 min.
+
+Opcional y gratis: puede añadir un **segundo** monitor con la URL
+`https://rutascan.onrender.com/` (la portada). El plan gratuito admite 50
+monitores y 5 minutos de intervalo. UptimeRobot además le avisa por correo si
+la web alguna vez se cae de verdad.
+
+---
 
 ## Actualizar la nube
 
@@ -208,4 +241,4 @@ En la app instalada:
 | Python | 3.12.7 (`PYTHON_VERSION`) |
 | Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 | Healthcheck | `/health` |
-| Keep-alive (que no duerma) | GitHub cada 13 min, ya activo; respaldo del PC: `MANTENER DESPIERTO.bat` |
+| Keep-alive (que no duerma) | Principal: UptimeRobot cada 5 min (24/7, PC apagada) · respaldo: PC `MANTENER DESPIERTO.bat` · extra débil: GitHub Actions |

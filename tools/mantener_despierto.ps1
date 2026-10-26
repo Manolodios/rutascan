@@ -6,14 +6,19 @@
   visita. El primer acceso tras dormir tarda ~30-60 segundos (se ve
   "Application loading"). Este script lo evita.
 
-  Dos caminos, cada uno sirve por su cuenta y pueden convivir:
+  Tres caminos; el que manda es el de internet:
 
-    1) GitHub (ya viene listo): el archivo .github/workflows/keep-alive.yml
-       toca la pagina cada 13 minutos desde los servidores de GitHub.
-       Funciona aunque esta PC este apagada. No hay que hacer nada.
+    1) UptimeRobot (gratis, sin tarjeta): monitor cada 5 minutos sobre
+       https://rutascan.onrender.com/health. Cubre las 24 h del dia aunque
+       esta PC este apagada. Alta paso a paso: docs/DESPLIEGUE-NUBE.md.
 
-    2) Esta PC (respaldo): instala una tarea de Windows que toca la pagina
-       cada 13 minutos mientras la PC este encendida. Sirve para las rachas
+    2) Esta PC: tarea de Windows cada 13 minutos mientras la sesion este
+       abierta. Medido el 26-10-2026: 40/40 pings OK, cada 13 min exactos.
+       Es el respaldo solido de dia.
+
+    3) GitHub Actions (.github/workflows/keep-alive.yml): cada 13 min desde
+       los servidores de GitHub, pero medido: de ~90 marcas del reloj solo
+       ejecuto 4 (cada 2-6 h). Extra debil; sirve de aviso si la web cae. Sirve para las rachas
        en que GitHub se atrasa.
 
   Uso:

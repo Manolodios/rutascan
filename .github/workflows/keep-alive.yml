@@ -1,22 +1,24 @@
-# Keep-alive: evita que Render (plan gratis) duerma el servicio.
+# Keep-alive: capa ADICIONAL para que Render (plan gratis) no duerma.
 # ---------------------------------------------------------------------------
 # Render duerme el servicio tras 15 minutos sin visitas; el primer acceso
-# despues tarda ~30-60 segundos ("Application loading"). Este trabajo toca la
-# portada y /health cada 13 minutos, asi el servicio nunca llega a dormir y la
-# pagina carga de una vez.
+# despues tarda ~30-60 segundos ("Application loading"). Este trabajo toca
+# /health y la portada... pero NO es la capa principal. Medido el 25-26 oct
+# 2026: de ~90 marcas del reloj, GitHub solo ejecuto 4 (cada 2-6 horas, el
+# resto descartado). Eso no alcanza para ganarle a los 15 min de Render.
+#
+# Capas, en orden de confianza (ver docs/DESPLIEGUE-NUBE.md):
+#   1) UptimeRobot (gratis, sin tarjeta): monitor cada 5 min. LA PRINCIPAL.
+#   2) Tarea de Windows "MANTENER DESPIERTO.bat": cada 13 min con la PC
+#      prendida y la sesion abierta. CAE 100% medido (40/40 pings OK).
+#   3) Este trabajo de GitHub: cuando toca, toca; pero toca poco.
+#
+# Se mantiene porque es gratis y suma: cada ping que si llega es uno menos
+# que Render puede colgar. Y si el servicio se cae de verdad, la ejecucion
+# falla y GitHub avisa por correo (informacion, no error del trabajo).
 #
 # Corre en los servidores de GitHub: funciona aunque su PC este apagada.
 # Los repos privados tienen 2.000 minutos gratis al mes; cada ejecucion dura
 # unos segundos (no necesita descargar el repositorio).
-#
-# Notas honestas:
-#   - Los trabajos programados de GitHub pueden retrasarse hasta ~15-20
-#     minutos en horas de mucha carga. Para esas rachas esta el respaldo del
-#     PC: "MANTENER DESPIERTO.bat" (tarea de Windows cada 13 minutos).
-#   - GitHub desactiva los trabajos programados de un repositorio sin
-#     actividad durante 60 dias; cualquier push los reactiva.
-#   - Si el servicio de Render se cae de verdad, la ejecucion falla y GitHub
-#     avisa por correo (eso es informacion, no un error del trabajo).
 
 name: Keep-alive
 
