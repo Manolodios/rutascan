@@ -153,8 +153,9 @@ En la app instalada:
   medido el 25-10-2026: **42,5 s**). Para que no pase hay **keep-alive en
   tres capas**, y la principal vive en internet:
   1. **UptimeRobot** (gratis, sin tarjeta): monitor cada 5 min sobre
-     `https://rutascan.onrender.com/health`. Cubre las 24 h del día **aunque
-     su PC esté apagada**. Es la capa principal; alta en la sección siguiente.
+     `https://rutascan.onrender.com/` (la portada, lo que ve el visitante).
+     Cubre las 24 h del día **aunque su PC esté apagada**. Es la capa
+     principal; alta paso a paso en la sección siguiente.
   2. **Su PC**: `MANTENER DESPIERTO.bat` deja una tarea de Windows que toca la
      web cada 13 min mientras su sesión esté abierta. Medido: 40/40 pings OK,
      cada 13 min exactos. Registro en
@@ -201,16 +202,16 @@ página cada 5 minutos; como siempre hay visita, Render no llega a dormir.
    | --- | --- |
    | Monitor Type | **HTTP(s)** |
    | Friendly Name | `RutaScan` |
-   | URL (or IP) | `https://rutascan.onrender.com/health` |
+   | URL (or IP) | `https://rutascan.onrender.com/` |
    | Monitoring Interval | **5 minutes** |
 
 6. Pulse **Create Monitor**. En unos segundos queda con el punto verde **Up**.
-7. Avise para verificar: desde los datos de Render se ve el ritmo de 5 min.
+7. Avise para verificar: se comprueba el efecto y queda aquí el resultado.
 
 Opcional y gratis: puede añadir un **segundo** monitor con la URL
-`https://rutascan.onrender.com/` (la portada). El plan gratuito admite 50
-monitores y 5 minutos de intervalo. UptimeRobot además le avisa por correo si
-la web alguna vez se cae de verdad.
+`https://rutascan.onrender.com/health` (vigila también la base de datos). El
+plan gratuito admite 50 monitores con 5 minutos de intervalo. UptimeRobot
+además le avisa por correo si la web alguna vez se cae de verdad.
 
 ---
 
