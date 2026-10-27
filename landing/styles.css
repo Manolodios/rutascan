@@ -1537,6 +1537,7 @@ button {
   .hero {
     min-height: 100svh;
     padding: 0 16px;
+    overflow: visible;
   }
 
   .hero-top {
