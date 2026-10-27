@@ -254,13 +254,13 @@ button {
   }
 }
 
-/* Hero */
+/* Hero - Tropical-Bento: fondo hueso, texto en maroon */
 .hero {
   position: relative;
   min-height: 100svh;
   padding: 0 var(--margin);
-  background: var(--red);
-  color: var(--red-ink);
+  background: var(--bone);
+  color: var(--ink);
   overflow: clip;
 }
 
@@ -301,10 +301,11 @@ button {
   max-width: 14ch;
   margin: 52px auto 0;
   font-size: var(--s-display);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1.02;
   letter-spacing: -0.045em;
   text-align: center;
+  color: var(--maroon);
 }
 
 .hero-lead {
@@ -313,6 +314,7 @@ button {
   font-size: var(--s-lead);
   line-height: 1.35;
   text-align: center;
+  color: var(--muted);
 }
 
 .folders {
@@ -518,8 +520,11 @@ button {
   grid-column: 7 / 13;
   display: grid;
   grid-template-rows: auto auto;
-  background: var(--surface);
+  background: var(--slate);
+  color: var(--slate-ink);
   overflow: clip;
+  border-radius: 24px;
+  padding: 24px;
 }
 
 .showcase-caption {
@@ -530,7 +535,7 @@ button {
   padding: 18px 24px;
   font-size: var(--s-sm);
   line-height: 1.35;
-  color: var(--bone-ink);
+  color: var(--slate-ink);
 }
 
 .showcase-img {
