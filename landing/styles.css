@@ -358,19 +358,6 @@ button {
   color: var(--maroon-ink);
 }
 
-.folder--front {
-  top: 256px;
-  z-index: 5;
-  height: 434px;
-  padding: 32px;
-  background: var(--bone);
-  color: var(--bone-ink);
-  display: grid;
-  grid-template-columns: minmax(230px, 33%) 1fr;
-  gap: 32px;
-  overflow: clip;
-}
-
 .folder-tab {
   position: absolute;
   top: -40px;
@@ -398,10 +385,6 @@ button {
 
 .folder--4 .folder-tab {
   left: 77%;
-}
-
-.folder-tab--front {
-  left: 7%;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -547,6 +530,7 @@ button {
   grid-column: 1;
   width: 100%;
   height: auto;
+  image-rendering: -webkit-optimize-contrast;
   opacity: 0;
   transition: opacity var(--t-ui) ease;
 }
@@ -869,6 +853,7 @@ button {
   height: 100%;
   object-fit: cover;
   object-position: top left;
+  image-rendering: -webkit-optimize-contrast;
 }
 
 /* Pricing: one plan as a sentence */
@@ -903,6 +888,7 @@ button {
 
 .pricing-foot {
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   gap: 40px;
@@ -913,6 +899,7 @@ button {
   max-width: 48ch;
   font-size: var(--s-lead);
   line-height: 1.4;
+  flex: 1 1 48ch;
 }
 
 .pricing-action {
@@ -921,6 +908,7 @@ button {
   align-items: flex-end;
   gap: 14px;
   flex: 0 0 auto;
+  min-width: 0;
 }
 
 /* FAQ: one band per question */
@@ -1205,10 +1193,6 @@ button {
 
   .folder--4 {
     animation-delay: 520ms;
-  }
-
-  .folder--front {
-    animation-delay: 600ms;
   }
 
   .folder-shot img {
@@ -1582,15 +1566,6 @@ button {
     top: 156px;
   }
 
-  .folder--front {
-    top: 208px;
-    height: 352px;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-  }
-
   .folder-tab {
     top: -32px;
     height: 32px;
@@ -1609,10 +1584,6 @@ button {
 
   .folder-stat {
     font-size: var(--s-body);
-  }
-
-  .folder--front .button {
-    width: 100%;
   }
 
   .folder-shot {
