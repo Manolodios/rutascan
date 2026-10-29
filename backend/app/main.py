@@ -108,14 +108,15 @@ def create_app() -> FastAPI:
             "Permissions-Policy", "geolocation=(self), camera=(), microphone=()"
         )
         # CSP: permite scripts/estilos del mismo origen + Leaflet (unpkg.com) para el mapa.
-        # En desarrollo también permite 'unsafe-inline' para Vite HMR; en prod solo nonces si hiciera falta.
+        # Next.js usa inline scripts/styles y eval para hydration; permitimos 'unsafe-inline' y 'unsafe-eval' en prod.
+        # Para máxima seguridad en prod, se debería usar nonces; aquí priorizamos que la landing funcione.
         csp = (
             "default-src 'self'; "
-            "script-src 'self' https://unpkg.com; "
-            "style-src 'self' https://unpkg.com; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; "
+            "style-src 'self' 'unsafe-inline' https://unpkg.com; "
             "img-src 'self' data: https://unpkg.com https://tile.openstreetmap.org; "
             "connect-src 'self' https://tile.openstreetmap.org; "
-            "font-src 'self'; "
+            "font-src 'self' data:; "
             "frame-ancestors 'none'; "
             "base-uri 'self'; "
             "form-action 'self'"
