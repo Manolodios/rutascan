@@ -19,7 +19,7 @@ export function Hero() {
           </Link>
           <Button asChild size="sm" className="bg-[#dc1928] hover:bg-[#b91421] text-white border-0">
             <Link href={WA_URL} target="_blank" rel="noopener noreferrer">
-              Pedir demo
+              Probar demo
             </Link>
           </Button>
         </div>
@@ -54,7 +54,7 @@ export function Hero() {
         <div className="mt-8">
           <Button asChild size="lg" className="bg-[#dc1928] hover:bg-[#b91421] text-white shadow-[0_30px_80px_-40px_rgba(220,25,40,0.9)]">
             <Link href={WA_URL} target="_blank" rel="noopener noreferrer">
-              Pedir demo
+              Probar demo
             </Link>
           </Button>
         </div>
