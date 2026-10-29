@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// check-final.mjs — Agente de verificación antes de entregar
+// check-final.js — Agente de verificación antes de entregar
 // Revisa errores en landing, web, rutascan-web y MagnetLines
 
 const fs = require('fs');
@@ -17,38 +17,26 @@ console.log('');
 // 1. landing/index-editorial.html existe y es funcional
 if (fs.existsSync('landing/index-editorial.html')) {
   const content = fs.readFileSync('landing/index-editorial.html', 'utf8');
-  // Acepta cualquier versión siempre que los chunks estáticos existan localmente
-  if (fs.existsSync('landing/_next/static/chunks/')) {
-    const chunks = fs.readdirSync('landing/_next/static/chunks/');
-    if (chunks.some(c => c.endsWith('.js'))) pass('landing/_next/static/chunks/ tiene chunks .js');
-    else fail('landing/_next/static/chunks/ NO tiene chunks .js');
-  } else {
-    fail('landing/_next/static/chunks/ NO existe');
-  }
-
   if (content.includes('<!DOCTYPE html>')) pass('index-editorial.html es HTML válido');
   else fail('index-editorial.html NO es HTML válido');
 
-  // Acepta la versión estática (.next/server/app/index.html con chunks locales en _next/static/chunks/)
-  if (fs.existsSync('landing/_next/static/chunks/')) {
-    const chunks = fs.readdirSync('landing/_next/static/chunks/');
-    if (chunks.some(c => c.endsWith('.js'))) {
-      pass('landing/_next/static/chunks/ tiene chunks .js (Next.js build completo)');
-      // Si es exactamente .next/server/app/index.html
-      if (fs.existsSync('rutascan-web/.next/server/app/index.html')) {
-        const nextHtml = fs.readFileSync('rutascan-web/.next/server/app/index.html', 'utf8');
-        if (content === nextHtml) pass('index-editorial.html es exactamente .next/server/app/index.html');
-      }
-    } else {
-      fail('landing/_next/static/chunks/ NO tiene chunks .js');
-    }
+  // Verifica que sea exactamente .next/server/app/index.html (Next.js build completo)
+  if (fs.existsSync('rutascan-web/.next/server/app/index.html')) {
+    const nextHtml = fs.readFileSync('rutascan-web/.next/server/app/index.html', 'utf8');
+    if (content === nextHtml) pass('landing/index-editorial.html es exactamente .next/server/app/index.html (Next.js build completo)');
+    else fail('landing/index-editorial.html NO es igual a .next/server/app/index.html');
   } else {
-    // Si no hay chunks locales, verifica que sea la versión estática funcional (magnet-lines.js local)
-    if (content.includes('magnet-lines.js')) pass('index-editorial.html incluye magnet-lines.js');
-    else fail('index-editorial.html NO incluye magnet-lines.js');
+    fail('rutascan-web/.next/server/app/index.html NO existe');
+  }
 
-    if (content.includes('styles-editorial.css')) pass('index-editorial.html incluye styles-editorial.css');
-    else fail('index-editorial.html NO incluye styles-editorial.css');
+  // Verifica que los chunks estáticos existan localmente
+  if (fs.existsSync('landing/_next/static/chunks/') || fs.existsSync('landing/static/chunks/')) {
+    const chunksDir = fs.existsSync('landing/_next/static/chunks/') ? 'landing/_next/static/chunks/' : 'landing/static/chunks/';
+    const chunks = fs.readdirSync(chunksDir);
+    if (chunks.some(c => c.endsWith('.js'))) pass('landing tiene chunks .js (Next.js build completo)');
+    else fail('landing NO tiene chunks .js');
+  } else {
+    fail('landing NO tiene chunks .js');
   }
 
   // Verifica que sea exactamente igual a index.html (página principal)
@@ -103,17 +91,16 @@ else fail('rutascan-web/globals.css NO existe');
 // 5. web/index.html actualizado (página principal de Render)
 if (fs.existsSync('web/index.html')) {
   const webContent = fs.readFileSync('web/index.html', 'utf8');
-  if (webContent.includes('magnet-lines.js')) pass('web/index.html incluye magnet-lines.js');
-  else fail('web/index.html NO incluye magnet-lines.js');
-
-  if (webContent.includes('styles-editorial.css')) pass('web/index.html incluye styles-editorial.css');
-  else fail('web/index.html NO incluye styles-editorial.css');
+  // Next.js build no incluye magnet-lines.js ni styles-editorial.css directamente
+  // usa chunks en _next/static/chunks/
+  if (webContent.includes('_next/static/chunks/')) pass('web/index.html usa chunks de Next.js (_next/static/chunks/)');
+  else fail('web/index.html NO usa chunks de Next.js');
 } else {
   fail('web/index.html NO existe');
 }
 
 // 6. Verifica que los assets en web/ sean los locales (no referencias rotas)
-['web/img/bodega-real.jpg', 'web/img/02-mapa-en-vivo.png', 'web/fonts/roundo-400.woff2', 'web/js/magnet-lines.js', 'web/styles-editorial.css'].forEach(p => {
+['web/img/bodega-real.jpg', 'web/img/02-mapa-en-vivo.png', 'web/fonts/roundo-400.woff2', 'web/_next/static/chunks/'].forEach(p => {
   if (fs.existsSync(p)) pass('web/' + p.split('web/')[1] + ' copiado');
   else fail('web/' + p.split('web/')[1] + ' NO existe');
 });
