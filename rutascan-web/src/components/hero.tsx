@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "next-themes";
+import MagnetLines from "@/components/magnet-lines";
 
 const APP_URL = "https://rutascan.onrender.com/app";
 
@@ -12,6 +13,7 @@ export function Hero() {
 
   return (
     <section className="relative h-screen min-h-[100svh] w-full overflow-hidden bg-transparent">
+      <MagnetLines className="absolute inset-0 z-0" />
 
       <nav className="absolute top-0 left-0 right-0 z-20 flex items-center justify-between px-6 py-5 md:px-10">
         <Link href="/" className="text-white/90 hover:text-white transition font-medium tracking-tight">
