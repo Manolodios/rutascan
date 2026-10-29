@@ -26,6 +26,8 @@ export function LoginForm() {
 		setError(null);
 		try {
 			await signIn(cedula.trim(), pin.trim());
+			// Reset hash to dashboard on successful login
+			window.location.hash = "#/";
 		} catch (err) {
 			setError(
 				err instanceof ApiError

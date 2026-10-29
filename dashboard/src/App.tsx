@@ -92,14 +92,22 @@ function Router() {
 	const route = ROUTES[hash];
 	const blocked = Boolean(route?.adminOnly) && user?.role !== "ADMIN";
 
+	// Driver routes that shouldn't be accessible to admin/warehouse
+	const driverOnlyRoutes = ["#/mi-ruta", "#/mi-historial"];
+	const isDriverRoute = driverOnlyRoutes.includes(hash);
+
 	useEffect(() => {
 		if (blocked) {
 			toast.error("No tiene permisos para ese módulo.");
 			window.location.hash = "#/";
+		} else if (isDriverRoute && user?.role !== "DRIVER") {
+			// Non-driver user on a driver-only route -> redirect to dashboard
+			window.location.hash = "#/";
 		}
-	}, [blocked]);
+	}, [blocked, isDriverRoute, user?.role]);
 
 	if (blocked) return <RsDashboard />;
+	if (isDriverRoute && user?.role !== "DRIVER") return <RsDashboard />;
 	if (!route) return <NotFound hash={hash} />;
 	return route.render();
 }
