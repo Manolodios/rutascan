@@ -14,7 +14,7 @@ export function Hero() {
           RutaScan
         </Link>
         <div className="flex items-center gap-4">
-          <Link href="/app" className="hidden sm:inline text-white/80 hover:text-white transition text-sm">
+          <Link href="https://rutascan.onrender.com/app" className="hidden sm:inline text-white/80 hover:text-white transition text-sm">
             Entrar al panel
           </Link>
           <Button asChild size="sm" className="bg-[#dc1928] hover:bg-[#b91421] text-white border-0">
