@@ -1,0 +1,665 @@
+{
+ "url": "http://127.0.0.1:8021/",
+ "at": "2026-10-25T18:00:30.954Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "screens": 10,
+   "filled": [
+    0.86,
+    0.61,
+    0.71,
+    1,
+    1,
+    0.47,
+    0.92,
+    0.69,
+    0.97,
+    0.96
+   ],
+   "motion": null,
+   "hero": {
+    "text": "La ruta sigue",
+    "words": 3,
+    "chars": 13,
+    "lines": 1,
+    "size": 144,
+    "vw": 10,
+    "font": "Roundo",
+    "weight": 500,
+    "tracking": -0.045,
+    "leading": 1.02,
+    "upper": false,
+    "italic": false,
+    "mono": false,
+    "align": "center",
+    "position": "center",
+    "widthRatio": 0.96,
+    "top": 112,
+    "tag": "h1",
+    "kind": "heading"
+   },
+   "type": {
+    "families": [
+     {
+      "family": "Roundo",
+      "share": 1,
+      "mono": false
+     }
+    ],
+    "familyCount": 1,
+    "sizes": [
+     14,
+     16,
+     18,
+     20,
+     24,
+     32,
+     64,
+     144,
+     276
+    ],
+    "sizeCount": 9,
+    "notLoaded": [],
+    "body": {
+     "font": "Roundo",
+     "size": 18,
+     "leading": 1.5,
+     "weight": 400,
+     "tracking": 0,
+     "contrast": 7.1
+    },
+    "measureChars": 75,
+    "max": {
+     "size": 276,
+     "vw": 19.2,
+     "font": "Roundo",
+     "text": "Hablemos"
+    },
+    "monoShare": 0,
+    "monoProseShare": 0,
+    "monoFamilies": [],
+    "monoSamples": [],
+    "microLabels": 0,
+    "microLabelShare": 0,
+    "microSamples": [],
+    "upperShare": 0,
+    "centerShare": 0.05,
+    "smallText": 0
+   },
+   "page": {
+    "height": 8305,
+    "screens": 9.2,
+    "words": 529,
+    "img": 8,
+    "video": 0,
+    "canvas": 0,
+    "svg": 1,
+    "sections": 6,
+    "horizontalOverflow": 0,
+    "overflowCulprits": [],
+    "uiFragments": 4,
+    "uiAbuse": false,
+    "realPictures": 7,
+    "videoCount": 0,
+    "uiPictures": 0,
+    "pictureSamples": [
+     "01-panel.png",
+     "02-mapa-en-vivo.png",
+     "03-rutas.png",
+     "05-reportes.png",
+     "03-rutas.png",
+     "02-mapa-en-vivo.png",
+     "01-panel.png"
+    ],
+    "blendText": 0,
+    "sideScrollers": 0,
+    "brokenImages": [],
+    "emoji": [],
+    "videosNoPoster": 0
+   },
+   "colour": {
+    "bodyBg": "#e2dccf",
+    "bodyBgHsl": {
+     "h": 41,
+     "s": 0.25,
+     "l": 0.85
+    },
+    "dark": false,
+    "sectionBgs": [
+     {
+      "color": "#dc1928",
+      "top": 0,
+      "hsl": {
+       "h": 355,
+       "s": 0.8,
+       "l": 0.48
+      }
+     },
+     {
+      "color": "#e2dccf",
+      "top": 423,
+      "hsl": {
+       "h": 41,
+       "s": 0.25,
+       "l": 0.85
+      }
+     },
+     {
+      "color": "#e0a912",
+      "top": 487,
+      "hsl": {
+       "h": 44,
+       "s": 0.85,
+       "l": 0.47
+      }
+     },
+     {
+      "color": "#3d5c6f",
+      "top": 551,
+      "hsl": {
+       "h": 203,
+       "s": 0.29,
+       "l": 0.34
+      }
+     },
+     {
+      "color": "#952625",
+      "top": 615,
+      "hsl": {
+       "h": 1,
+       "s": 0.6,
+       "l": 0.36
+      }
+     }
+    ],
+    "textColors": [
+     {
+      "color": "#2a1110",
+      "share": 0.56
+     },
+     {
+      "color": "#ffffff",
+      "share": 0.34
+     },
+     {
+      "color": "#543a34",
+      "share": 0.09
+     },
+     {
+      "color": "#e2dccf",
+      "share": 0.02
+     }
+    ],
+    "button": {
+     "bg": "#3d5c6f",
+     "hsl": {
+      "h": 203,
+      "s": 0.29,
+      "l": 0.34
+     },
+     "fg": "#ffffff"
+    },
+    "lowContrast": []
+   },
+   "headings": {
+    "count": 27,
+    "maxLines": 2,
+    "over2Lines": 0,
+    "statements": 6,
+    "centered": 1,
+    "medianWords": 4,
+    "mixedFontHeadings": 0
+   },
+   "fold": ".taste-skill\\shots\\desktop-fold.jpg",
+   "shots": [
+    ".taste-skill\\shots\\desktop-fold.jpg",
+    ".taste-skill\\shots\\desktop-screen-00.jpg",
+    ".taste-skill\\shots\\desktop-screen-01.jpg",
+    ".taste-skill\\shots\\desktop-screen-02.jpg",
+    ".taste-skill\\shots\\desktop-screen-03.jpg",
+    ".taste-skill\\shots\\desktop-screen-04.jpg",
+    ".taste-skill\\shots\\desktop-screen-05.jpg",
+    ".taste-skill\\shots\\desktop-screen-06.jpg",
+    ".taste-skill\\shots\\desktop-screen-07.jpg",
+    ".taste-skill\\shots\\desktop-screen-08.jpg",
+    ".taste-skill\\shots\\desktop-screen-09.jpg"
+   ]
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "screens": 10,
+   "filled": [
+    0.84,
+    0.53,
+    1,
+    0.8,
+    1,
+    1,
+    0.86,
+    0.93,
+    0.79,
+    0.97
+   ],
+   "motion": null,
+   "hero": {
+    "text": "La ruta sigue",
+    "words": 3,
+    "chars": 13,
+    "lines": 1,
+    "size": 64,
+    "vw": 8.3,
+    "font": "Roundo",
+    "weight": 500,
+    "tracking": -0.045,
+    "leading": 1.02,
+    "upper": false,
+    "italic": false,
+    "mono": false,
+    "align": "center",
+    "position": "center",
+    "widthRatio": 0.82,
+    "top": 112,
+    "tag": "h1",
+    "kind": "heading"
+   },
+   "type": {
+    "families": [
+     {
+      "family": "Roundo",
+      "share": 1,
+      "mono": false
+     }
+    ],
+    "familyCount": 1,
+    "sizes": [
+     14,
+     16,
+     18,
+     20,
+     24,
+     40,
+     64,
+     148
+    ],
+    "sizeCount": 8,
+    "notLoaded": [],
+    "body": {
+     "font": "Roundo",
+     "size": 18,
+     "leading": 1.5,
+     "weight": 400,
+     "tracking": 0,
+     "contrast": 7.1
+    },
+    "measureChars": 82,
+    "max": {
+     "size": 147.5,
+     "vw": 19.2,
+     "font": "Roundo",
+     "text": "Hablemos"
+    },
+    "monoShare": 0,
+    "monoProseShare": 0,
+    "monoFamilies": [],
+    "monoSamples": [],
+    "microLabels": 0,
+    "microLabelShare": 0,
+    "microSamples": [],
+    "upperShare": 0,
+    "centerShare": 0.05,
+    "smallText": 0
+   },
+   "page": {
+    "height": 10044,
+    "screens": 9.8,
+    "words": 529,
+    "img": 8,
+    "video": 0,
+    "canvas": 0,
+    "svg": 1,
+    "sections": 6,
+    "horizontalOverflow": 0,
+    "overflowCulprits": [],
+    "uiFragments": 4,
+    "uiAbuse": false,
+    "realPictures": 7,
+    "videoCount": 0,
+    "uiPictures": 3,
+    "pictureSamples": [
+     "01-panel.png",
+     "02-mapa-en-vivo.png",
+     "03-rutas.png",
+     "05-reportes.png",
+     "03-rutas.png",
+     "02-mapa-en-vivo.png",
+     "01-panel.png"
+    ],
+    "blendText": 0,
+    "sideScrollers": 0,
+    "brokenImages": [],
+    "emoji": [],
+    "videosNoPoster": 0
+   },
+   "colour": {
+    "bodyBg": "#e2dccf",
+    "bodyBgHsl": {
+     "h": 41,
+     "s": 0.25,
+     "l": 0.85
+    },
+    "dark": false,
+    "sectionBgs": [
+     {
+      "color": "#dc1928",
+      "top": 0,
+      "hsl": {
+       "h": 355,
+       "s": 0.8,
+       "l": 0.48
+      }
+     },
+     {
+      "color": "#e2dccf",
+      "top": 481,
+      "hsl": {
+       "h": 41,
+       "s": 0.25,
+       "l": 0.85
+      }
+     },
+     {
+      "color": "#e0a912",
+      "top": 545,
+      "hsl": {
+       "h": 44,
+       "s": 0.85,
+       "l": 0.47
+      }
+     },
+     {
+      "color": "#3d5c6f",
+      "top": 609,
+      "hsl": {
+       "h": 203,
+       "s": 0.29,
+       "l": 0.34
+      }
+     },
+     {
+      "color": "#952625",
+      "top": 673,
+      "hsl": {
+       "h": 1,
+       "s": 0.6,
+       "l": 0.36
+      }
+     },
+     {
+      "color": "#d7d0c1",
+      "top": 1339,
+      "hsl": {
+       "h": 41,
+       "s": 0.22,
+       "l": 0.8
+      }
+     }
+    ],
+    "textColors": [
+     {
+      "color": "#2a1110",
+      "share": 0.56
+     },
+     {
+      "color": "#ffffff",
+      "share": 0.34
+     },
+     {
+      "color": "#543a34",
+      "share": 0.09
+     },
+     {
+      "color": "#e2dccf",
+      "share": 0.02
+     }
+    ],
+    "button": {
+     "bg": "#3d5c6f",
+     "hsl": {
+      "h": 203,
+      "s": 0.29,
+      "l": 0.34
+     },
+     "fg": "#ffffff"
+    },
+    "lowContrast": []
+   },
+   "headings": {
+    "count": 7,
+    "maxLines": 2,
+    "over2Lines": 0,
+    "statements": 0,
+    "centered": 1,
+    "medianWords": 4,
+    "mixedFontHeadings": 0
+   },
+   "fold": ".taste-skill\\shots\\tablet-fold.jpg",
+   "shots": [
+    ".taste-skill\\shots\\tablet-fold.jpg",
+    ".taste-skill\\shots\\tablet-screen-00.jpg",
+    ".taste-skill\\shots\\tablet-screen-01.jpg",
+    ".taste-skill\\shots\\tablet-screen-02.jpg",
+    ".taste-skill\\shots\\tablet-screen-03.jpg",
+    ".taste-skill\\shots\\tablet-screen-04.jpg",
+    ".taste-skill\\shots\\tablet-screen-05.jpg",
+    ".taste-skill\\shots\\tablet-screen-06.jpg",
+    ".taste-skill\\shots\\tablet-screen-07.jpg",
+    ".taste-skill\\shots\\tablet-screen-08.jpg",
+    ".taste-skill\\shots\\tablet-screen-09.jpg"
+   ]
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "screens": 10,
+   "filled": [
+    0.82,
+    0.65,
+    1,
+    0.84,
+    1,
+    0.96,
+    0.79,
+    0.78,
+    0.8,
+    0.98
+   ],
+   "motion": null,
+   "hero": {
+    "text": "La ruta sigue",
+    "words": 3,
+    "chars": 13,
+    "lines": 1,
+    "size": 58.5,
+    "vw": 15,
+    "font": "Roundo",
+    "weight": 500,
+    "tracking": -0.045,
+    "leading": 1.03,
+    "upper": false,
+    "italic": false,
+    "mono": false,
+    "align": "center",
+    "position": "center",
+    "widthRatio": 0.92,
+    "top": 108,
+    "tag": "h1",
+    "kind": "heading"
+   },
+   "type": {
+    "families": [
+     {
+      "family": "Roundo",
+      "share": 1,
+      "mono": false
+     }
+    ],
+    "familyCount": 1,
+    "sizes": [
+     14,
+     16,
+     17,
+     18,
+     22,
+     24,
+     32,
+     59,
+     75
+    ],
+    "sizeCount": 9,
+    "notLoaded": [],
+    "body": {
+     "font": "Roundo",
+     "size": 17,
+     "leading": 1.5,
+     "weight": 400,
+     "tracking": 0,
+     "contrast": 14
+    },
+    "measureChars": 42,
+    "max": {
+     "size": 74.9,
+     "vw": 19.2,
+     "font": "Roundo",
+     "text": "Hablemos"
+    },
+    "monoShare": 0,
+    "monoProseShare": 0,
+    "monoFamilies": [],
+    "monoSamples": [],
+    "microLabels": 0,
+    "microLabelShare": 0,
+    "microSamples": [],
+    "upperShare": 0,
+    "centerShare": 0.05,
+    "smallText": 0
+   },
+   "page": {
+    "height": 8377,
+    "screens": 9.9,
+    "words": 527,
+    "img": 8,
+    "video": 0,
+    "canvas": 0,
+    "svg": 1,
+    "sections": 6,
+    "horizontalOverflow": 0,
+    "overflowCulprits": [],
+    "uiFragments": 4,
+    "uiAbuse": false,
+    "realPictures": 7,
+    "videoCount": 0,
+    "uiPictures": 3,
+    "pictureSamples": [
+     "01-panel.png",
+     "02-mapa-en-vivo.png",
+     "03-rutas.png",
+     "05-reportes.png",
+     "03-rutas.png",
+     "02-mapa-en-vivo.png",
+     "01-panel.png"
+    ],
+    "blendText": 0,
+    "sideScrollers": 0,
+    "brokenImages": [],
+    "emoji": [],
+    "videosNoPoster": 0
+   },
+   "colour": {
+    "bodyBg": "#181a1b",
+    "bodyBgHsl": {
+     "h": 200,
+     "s": 0.06,
+     "l": 0.1
+    },
+    "dark": true,
+    "sectionBgs": [
+     {
+      "color": "#181a1b",
+      "top": 0,
+      "hsl": {
+       "h": 200,
+       "s": 0.06,
+       "l": 0.1
+      }
+     }
+    ],
+    "textColors": [
+     {
+      "color": "#e8e6e3",
+      "share": 1
+     }
+    ],
+    "button": {
+     "bg": "#181a1b",
+     "hsl": {
+      "h": 200,
+      "s": 0.06,
+      "l": 0.1
+     },
+     "fg": "#e8e6e3"
+    },
+    "lowContrast": []
+   },
+   "headings": {
+    "count": 28,
+    "maxLines": 2,
+    "over2Lines": 0,
+    "statements": 6,
+    "centered": 1,
+    "medianWords": 4,
+    "mixedFontHeadings": 0
+   },
+   "fold": ".taste-skill\\shots\\mobile-fold.jpg",
+   "shots": [
+    ".taste-skill\\shots\\mobile-fold.jpg",
+    ".taste-skill\\shots\\mobile-screen-00.jpg",
+    ".taste-skill\\shots\\mobile-screen-01.jpg",
+    ".taste-skill\\shots\\mobile-screen-02.jpg",
+    ".taste-skill\\shots\\mobile-screen-03.jpg",
+    ".taste-skill\\shots\\mobile-screen-04.jpg",
+    ".taste-skill\\shots\\mobile-screen-05.jpg",
+    ".taste-skill\\shots\\mobile-screen-06.jpg",
+    ".taste-skill\\shots\\mobile-screen-07.jpg",
+    ".taste-skill\\shots\\mobile-screen-08.jpg",
+    ".taste-skill\\shots\\mobile-screen-09.jpg"
+   ]
+  }
+ ],
+ "findings": [
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "long-pin",
+   "width": 1440,
+   "message": "The same large text stays on screen for 4 screens in a row: \"Funciona sin señal\"; \"Prueba de cada entrega\"",
+   "fix": "A pinned element earns two screens."
+  },
+  {
+   "level": "WARN",
+   "id": "off-centre",
+   "width": 768,
+   "message": "The margins differ: 16px on the left, 34px on the right, at 768px.",
+   "fix": "Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page."
+  }
+ ]
+}

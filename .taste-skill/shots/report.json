@@ -1,0 +1,1839 @@
+{
+ "url": "landing/index.html",
+ "at": "2026-10-25T00:52:45.837Z",
+ "allow": [],
+ "viewports": [
+  {
+   "width": 1440,
+   "height": 900,
+   "load": "load",
+   "screens": 6,
+   "filled": [
+    0.12,
+    0.07,
+    0.21,
+    0.9,
+    0.7,
+    0.44
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "page": {
+     "height": 4763,
+     "screens": 5.3,
+     "words": 524,
+     "img": 8,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 4,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [
+      "http://127.0.0.1:52138/img/01-panel.png",
+      "http://127.0.0.1:52138/img/02-mapa-en-vivo.png",
+      "http://127.0.0.1:52138/img/03-rutas.png",
+      "http://127.0.0.1:52138/img/05-reportes.png",
+      "http://127.0.0.1:52138/img/03-rutas.png",
+      "http://127.0.0.1:52138/img/02-mapa-en-vivo.png",
+      "http://127.0.0.1:52138/img/01-panel.png",
+      "http://127.0.0.1:52138/img/05-reportes.png"
+     ],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "La ruta sigue",
+     "words": 3,
+     "chars": 13,
+     "lines": 1,
+     "size": 32,
+     "vw": 2.2,
+     "font": "Times New Roman",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.2,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.99,
+     "top": 65,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "La ruta sigue",
+     "words": 3,
+     "lines": 1,
+     "size": 32,
+     "font": "Times New Roman"
+    },
+    "headings": [
+     {
+      "text": "La ruta sigue",
+      "words": 3,
+      "chars": 13,
+      "lines": 1,
+      "size": 32,
+      "vw": 2.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.99,
+      "top": 65,
+      "tag": "h1",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Times New Roman",
+       "share": 0.99,
+       "mono": false
+      },
+      {
+       "family": "Arial",
+       "share": 0.01,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      16,
+      19,
+      24,
+      32
+     ],
+     "sizeCount": 5,
+     "notLoaded": [],
+     "body": {
+      "font": "Times New Roman",
+      "size": 16,
+      "leading": 1.2,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 14
+     },
+     "measureChars": 178,
+     "max": {
+      "size": 32,
+      "vw": 2.2,
+      "font": "Times New Roman",
+      "text": "La ruta sigue"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.01,
+     "smallText": 0
+    },
+    "eyebrows": [
+     {
+      "text": "Saltar al contenido",
+      "above": "La ruta sigue",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 16,
+      "top": 8
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#181a1b",
+     "bodyBgHsl": {
+      "h": 200,
+      "s": 0.06,
+      "l": 0.1
+     },
+     "dark": true,
+     "sectionBgs": [
+      {
+       "color": "#181a1b",
+       "top": 26,
+       "hsl": {
+        "h": 200,
+        "s": 0.06,
+        "l": 0.1
+       }
+      }
+     ],
+     "textColors": [
+      {
+       "color": "#e8e6e3",
+       "share": 1
+      }
+     ],
+     "button": null,
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 0,
+     "inHero": 0,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": []
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 3,
+     "fixed": false,
+     "height": 338,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 1440,
+     "h": 900
+    },
+    "pageH": 4763,
+    "margins": {
+     "left": 8,
+     "right": 693
+    },
+    "sections": [
+     {
+      "sel": "header#inicio.hero",
+      "tag": "header",
+      "top": 26,
+      "height": 338,
+      "words": 54,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "La ruta sigue",
+       "size": 32,
+       "tag": "h1"
+      },
+      "left": 8,
+      "right": 801,
+      "textLeft": 8,
+      "textRight": 801,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section#panel.showcase",
+      "tag": "section",
+      "top": 384,
+      "height": 172,
+      "words": 34,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "El panel, por dentro",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 1013,
+      "textLeft": 8,
+      "textRight": 1013,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#como-funciona.how",
+      "tag": "section",
+      "top": 576,
+      "height": 955,
+      "words": 112,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Cómo funciona",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 1085,
+      "textLeft": 8,
+      "textRight": 1085,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#funciones.features",
+      "tag": "section",
+      "top": 1550,
+      "height": 545,
+      "words": 105,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Lo que se usa a diario",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 736,
+      "textLeft": 8,
+      "textRight": 736,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#precios.pricing",
+      "tag": "section",
+      "top": 2115,
+      "height": 126,
+      "words": 29,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "$15",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 714,
+      "textLeft": 8,
+      "textRight": 714,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#preguntas.faq",
+      "tag": "section",
+      "top": 2261,
+      "height": 493,
+      "words": 144,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Preguntas frecuentes",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 607,
+      "textLeft": 8,
+      "textRight": 607,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.close",
+      "tag": "section",
+      "top": 2770,
+      "height": 1509,
+      "words": 11,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 8,
+      "right": 1109,
+      "textLeft": 8,
+      "textRight": 1109,
+      "fullBleed": true,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.footer",
+      "tag": "footer",
+      "top": 4298,
+      "height": 456,
+      "words": 45,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Producto",
+       "size": 19,
+       "tag": "h3"
+      },
+      "left": 8,
+      "right": 1114,
+      "textLeft": 8,
+      "textRight": 1114,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "La ruta sigue",
+      "size": 32,
+      "top": 65,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [
+     {
+      "text": "Saltar al contenido",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Cómo funciona",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "La ruta sigue",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "RutaScan registra cada carga y cada entrega de su ",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "El panel",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Hoy",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Hoy en Cabimas",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "6 rutas, 9 camiones y 128 entregas",
+      "side": "left",
+      "px": 8
+     }
+    ],
+    "edges": [
+     {
+      "x": 8,
+      "n": 31
+     },
+     {
+      "x": 44,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 32,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0.53,
+    "voidBox": {
+     "x": 480,
+     "y": 180,
+     "w": 960,
+     "h": 720
+    }
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 768,
+   "height": 1024,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    0.22,
+    0.28,
+    0.45,
+    0.64,
+    0.5
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "page": {
+     "height": 4145,
+     "screens": 4,
+     "words": 524,
+     "img": 8,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 4,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [
+      "http://127.0.0.1:52138/img/01-panel.png",
+      "http://127.0.0.1:52138/img/02-mapa-en-vivo.png",
+      "http://127.0.0.1:52138/img/03-rutas.png",
+      "http://127.0.0.1:52138/img/05-reportes.png",
+      "http://127.0.0.1:52138/img/03-rutas.png",
+      "http://127.0.0.1:52138/img/02-mapa-en-vivo.png",
+      "http://127.0.0.1:52138/img/01-panel.png",
+      "http://127.0.0.1:52138/img/05-reportes.png"
+     ],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "La ruta sigue",
+     "words": 3,
+     "chars": 13,
+     "lines": 1,
+     "size": 32,
+     "vw": 4.2,
+     "font": "Times New Roman",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.2,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.98,
+     "top": 65,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "La ruta sigue",
+     "words": 3,
+     "lines": 1,
+     "size": 32,
+     "font": "Times New Roman"
+    },
+    "headings": [
+     {
+      "text": "La ruta sigue",
+      "words": 3,
+      "chars": 13,
+      "lines": 1,
+      "size": 32,
+      "vw": 4.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.98,
+      "top": 65,
+      "tag": "h1",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 1,
+     "maxLines": 1,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": null,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Times New Roman",
+       "share": 0.99,
+       "mono": false
+      },
+      {
+       "family": "Arial",
+       "share": 0.01,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      16,
+      19,
+      24,
+      32
+     ],
+     "sizeCount": 5,
+     "notLoaded": [],
+     "body": {
+      "font": "Times New Roman",
+      "size": 16,
+      "leading": 1.2,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 14
+     },
+     "measureChars": 94,
+     "max": {
+      "size": 32,
+      "vw": 4.2,
+      "font": "Times New Roman",
+      "text": "La ruta sigue"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.01,
+     "smallText": 0
+    },
+    "eyebrows": [
+     {
+      "text": "Saltar al contenido",
+      "above": "La ruta sigue",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 16,
+      "top": 8
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#181a1b",
+     "bodyBgHsl": {
+      "h": 200,
+      "s": 0.06,
+      "l": 0.1
+     },
+     "dark": true,
+     "sectionBgs": [],
+     "textColors": [
+      {
+       "color": "#e8e6e3",
+       "share": 0.88
+      },
+      {
+       "color": "#3d96ff",
+       "share": 0.11
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.01
+      }
+     ],
+     "button": null,
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 0,
+     "inHero": 0,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": []
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 3,
+     "fixed": false,
+     "height": 338,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 768,
+     "h": 1024
+    },
+    "pageH": 4145,
+    "margins": {
+     "left": 8,
+     "right": 42
+    },
+    "sections": [
+     {
+      "sel": "header#inicio.hero",
+      "tag": "header",
+      "top": 26,
+      "height": 338,
+      "words": 54,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "La ruta sigue",
+       "size": 32,
+       "tag": "h1"
+      },
+      "left": 8,
+      "right": 129,
+      "textLeft": 8,
+      "textRight": 129,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section#panel.showcase",
+      "tag": "section",
+      "top": 384,
+      "height": 190,
+      "words": 34,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "El panel, por dentro",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 341,
+      "textLeft": 8,
+      "textRight": 341,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#como-funciona.how",
+      "tag": "section",
+      "top": 594,
+      "height": 955,
+      "words": 112,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Cómo funciona",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 413,
+      "textLeft": 8,
+      "textRight": 413,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#funciones.features",
+      "tag": "section",
+      "top": 1568,
+      "height": 545,
+      "words": 105,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Lo que se usa a diario",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 64,
+      "textLeft": 8,
+      "textRight": 64,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#precios.pricing",
+      "tag": "section",
+      "top": 2133,
+      "height": 126,
+      "words": 29,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "$15",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 42,
+      "textLeft": 8,
+      "textRight": 42,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#preguntas.faq",
+      "tag": "section",
+      "top": 2279,
+      "height": 529,
+      "words": 144,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Preguntas frecuentes",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 18,
+      "textLeft": 8,
+      "textRight": 18,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.close",
+      "tag": "section",
+      "top": 2824,
+      "height": 837,
+      "words": 11,
+      "media": 1,
+      "middle": 0,
+      "heading": null,
+      "left": 8,
+      "right": 437,
+      "textLeft": 8,
+      "textRight": 437,
+      "fullBleed": true,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.footer",
+      "tag": "footer",
+      "top": 3680,
+      "height": 456,
+      "words": 45,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Producto",
+       "size": 19,
+       "tag": "h3"
+      },
+      "left": 8,
+      "right": 442,
+      "textLeft": 8,
+      "textRight": 442,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "La ruta sigue",
+      "size": 32,
+      "top": 65,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [
+     {
+      "text": "Saltar al contenido",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Cómo funciona",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "La ruta sigue",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "RutaScan registra cada carga y cada entrega de su ",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "El panel",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Hoy",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Hoy en Cabimas",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "6 rutas, 9 camiones y 128 entregas",
+      "side": "left",
+      "px": 8
+     }
+    ],
+    "edges": [
+     {
+      "x": 8,
+      "n": 31
+     },
+     {
+      "x": 44,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 32,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  },
+  {
+   "width": 390,
+   "height": 844,
+   "load": "load",
+   "screens": 5,
+   "filled": [
+    0.59,
+    0.29,
+    0.53,
+    0.79,
+    0.5
+   ],
+   "motion": {
+    "elements": 0,
+    "css": 0,
+    "transitions": 0,
+    "scripted": 0,
+    "videos": 0,
+    "playingVideos": 0
+   },
+   "metrics": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "page": {
+     "height": 4163,
+     "screens": 4.9,
+     "words": 524,
+     "img": 8,
+     "video": 0,
+     "canvas": 0,
+     "svg": 1,
+     "sections": 6,
+     "horizontalOverflow": 0,
+     "overflowCulprits": [],
+     "uiFragments": 4,
+     "uiAbuse": false,
+     "realPictures": 0,
+     "videoCount": 0,
+     "uiPictures": 0,
+     "pictureSamples": [],
+     "blendText": 0,
+     "sideScrollers": 0,
+     "brokenImages": [
+      "http://127.0.0.1:52138/img/01-panel.png",
+      "http://127.0.0.1:52138/img/02-mapa-en-vivo.png",
+      "http://127.0.0.1:52138/img/03-rutas.png",
+      "http://127.0.0.1:52138/img/05-reportes.png",
+      "http://127.0.0.1:52138/img/03-rutas.png",
+      "http://127.0.0.1:52138/img/02-mapa-en-vivo.png",
+      "http://127.0.0.1:52138/img/01-panel.png",
+      "http://127.0.0.1:52138/img/05-reportes.png"
+     ],
+     "emoji": [],
+     "videosNoPoster": 0
+    },
+    "hero": {
+     "text": "La ruta sigue",
+     "words": 3,
+     "chars": 13,
+     "lines": 1,
+     "size": 32,
+     "vw": 8.2,
+     "font": "Times New Roman",
+     "weight": 700,
+     "tracking": 0,
+     "leading": 1.2,
+     "upper": false,
+     "italic": false,
+     "mono": false,
+     "align": "left",
+     "position": "center",
+     "widthRatio": 0.96,
+     "top": 65,
+     "tag": "h1",
+     "kind": "heading"
+    },
+    "h1": {
+     "text": "La ruta sigue",
+     "words": 3,
+     "lines": 1,
+     "size": 32,
+     "font": "Times New Roman"
+    },
+    "headings": [
+     {
+      "text": "La ruta sigue",
+      "words": 3,
+      "chars": 13,
+      "lines": 1,
+      "size": 32,
+      "vw": 8.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.96,
+      "top": 65,
+      "tag": "h1",
+      "kind": "heading"
+     },
+     {
+      "text": "El panel, por dentro",
+      "words": 4,
+      "chars": 20,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.96,
+      "top": 420,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Cómo funciona",
+      "words": 2,
+      "chars": 13,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.96,
+      "top": 702,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Lo que se usa a diario",
+      "words": 6,
+      "chars": 22,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.96,
+      "top": 1676,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "$15 por camión, cada mes",
+      "words": 5,
+      "chars": 24,
+      "lines": 2,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.96,
+      "top": 2385,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Preguntas frecuentes",
+      "words": 2,
+      "chars": 20,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.96,
+      "top": 2549,
+      "tag": "h2",
+      "kind": "heading"
+     },
+     {
+      "text": "Hablemos",
+      "words": 1,
+      "chars": 8,
+      "lines": 1,
+      "size": 24,
+      "vw": 6.2,
+      "font": "Times New Roman",
+      "weight": 700,
+      "tracking": 0,
+      "leading": 1.2,
+      "upper": false,
+      "italic": false,
+      "mono": false,
+      "align": "left",
+      "position": "center",
+      "widthRatio": 0.96,
+      "top": 3652,
+      "tag": "h2",
+      "kind": "heading"
+     }
+    ],
+    "headingSummary": {
+     "count": 7,
+     "maxLines": 2,
+     "over2Lines": 0,
+     "statements": 0,
+     "centered": 0,
+     "medianWords": 4,
+     "mixedFontHeadings": 0
+    },
+    "type": {
+     "families": [
+      {
+       "family": "Times New Roman",
+       "share": 0.99,
+       "mono": false
+      },
+      {
+       "family": "Arial",
+       "share": 0.01,
+       "mono": false
+      }
+     ],
+     "familyCount": 2,
+     "sizes": [
+      13,
+      16,
+      19,
+      24,
+      32
+     ],
+     "sizeCount": 5,
+     "notLoaded": [],
+     "body": {
+      "font": "Times New Roman",
+      "size": 16,
+      "leading": 1.2,
+      "weight": 400,
+      "tracking": 0,
+      "contrast": 14
+     },
+     "measureChars": 47,
+     "max": {
+      "size": 32,
+      "vw": 8.2,
+      "font": "Times New Roman",
+      "text": "La ruta sigue"
+     },
+     "monoShare": 0,
+     "monoProseShare": 0,
+     "monoFamilies": [],
+     "monoSamples": [],
+     "microLabels": 0,
+     "microLabelShare": 0,
+     "microSamples": [],
+     "upperShare": 0,
+     "centerShare": 0.01,
+     "smallText": 0
+    },
+    "eyebrows": [
+     {
+      "text": "Saltar al contenido",
+      "above": "La ruta sigue",
+      "upper": false,
+      "tracked": false,
+      "mono": false,
+      "pill": false,
+      "size": 16,
+      "top": 8
+     }
+    ],
+    "numbered": [],
+    "color": {
+     "bodyBg": "#181a1b",
+     "bodyBgHsl": {
+      "h": 200,
+      "s": 0.06,
+      "l": 0.1
+     },
+     "dark": true,
+     "sectionBgs": [],
+     "textColors": [
+      {
+       "color": "#e8e6e3",
+       "share": 0.88
+      },
+      {
+       "color": "#3d96ff",
+       "share": 0.11
+      },
+      {
+       "color": "#ffffff",
+       "share": 0.01
+      }
+     ],
+     "button": null,
+     "lowContrast": []
+    },
+    "buttons": {
+     "count": 0,
+     "inHero": 0,
+     "withShadow": 0,
+     "withGradient": 0,
+     "mono": 0,
+     "upper": 0,
+     "heroLabels": []
+    },
+    "surfaces": {
+     "shadowStatic": 0,
+     "shadowOverlay": 0,
+     "shadowSamples": [],
+     "gradients": 0,
+     "scrims": 0,
+     "gradientSamples": [],
+     "gradientText": 0,
+     "hairlines": 0,
+     "hairlineSamples": [],
+     "outlinedBoxes": 0,
+     "dashed": 0,
+     "blurred": 0,
+     "roundedBoxes": 0,
+     "boxRadius": 0,
+     "squareMedia": 0,
+     "roundedMedia": 0,
+     "mediaRadius": 0,
+     "textShadow": 0,
+     "cardRows": []
+    },
+    "heroMedia": [],
+    "nav": {
+     "links": 3,
+     "fixed": false,
+     "height": 374,
+     "floatingPill": false,
+     "blur": false
+    },
+    "fontsLoaded": []
+   },
+   "layout": {
+    "viewport": {
+     "w": 390,
+     "h": 844
+    },
+    "pageH": 4163,
+    "margins": {
+     "left": 8,
+     "right": 8
+    },
+    "sections": [
+     {
+      "sel": "header#inicio.hero",
+      "tag": "header",
+      "top": 26,
+      "height": 374,
+      "words": 54,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "La ruta sigue",
+       "size": 32,
+       "tag": "h1"
+      },
+      "left": 8,
+      "right": 48,
+      "textLeft": 8,
+      "textRight": 63,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": false,
+      "pinned": false
+     },
+     {
+      "sel": "section#panel.showcase",
+      "tag": "section",
+      "top": 420,
+      "height": 262,
+      "words": 34,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "El panel, por dentro",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 8,
+      "textLeft": 8,
+      "textRight": 22,
+      "fullBleed": false,
+      "footer": false,
+      "hero": true,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#como-funciona.how",
+      "tag": "section",
+      "top": 702,
+      "height": 955,
+      "words": 112,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Cómo funciona",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 35,
+      "textLeft": 8,
+      "textRight": 35,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#funciones.features",
+      "tag": "section",
+      "top": 1676,
+      "height": 689,
+      "words": 105,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Lo que se usa a diario",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 13,
+      "textLeft": 8,
+      "textRight": 13,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#precios.pricing",
+      "tag": "section",
+      "top": 2385,
+      "height": 144,
+      "words": 29,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "$15",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 12,
+      "textLeft": 8,
+      "textRight": 12,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section#preguntas.faq",
+      "tag": "section",
+      "top": 2549,
+      "height": 655,
+      "words": 144,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Preguntas frecuentes",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 9,
+      "textLeft": 8,
+      "textRight": 9,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "section.close",
+      "tag": "section",
+      "top": 3220,
+      "height": 459,
+      "words": 11,
+      "media": 1,
+      "middle": 0,
+      "heading": {
+       "text": "Hablemos",
+       "size": 24,
+       "tag": "h2"
+      },
+      "left": 8,
+      "right": 8,
+      "textLeft": 8,
+      "textRight": 59,
+      "fullBleed": false,
+      "footer": false,
+      "hero": false,
+      "continues": true,
+      "pinned": false
+     },
+     {
+      "sel": "footer.footer",
+      "tag": "footer",
+      "top": 3698,
+      "height": 456,
+      "words": 45,
+      "media": 0,
+      "middle": 0,
+      "heading": {
+       "text": "Producto",
+       "size": 19,
+       "tag": "h3"
+      },
+      "left": 8,
+      "right": 64,
+      "textLeft": 8,
+      "textRight": 64,
+      "fullBleed": false,
+      "footer": true,
+      "hero": false,
+      "continues": false,
+      "pinned": false
+     }
+    ],
+    "gaps": [],
+    "h1s": [
+     {
+      "text": "La ruta sigue",
+      "size": 32,
+      "top": 65,
+      "firstScreen": true
+     }
+    ],
+    "edgeText": [
+     {
+      "text": "Saltar al contenido",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Cómo funciona",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "La ruta sigue",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "RutaScan registra cada carga y cada entrega de su ",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "El panel",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Hoy",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "Hoy en Cabimas",
+      "side": "left",
+      "px": 8
+     },
+     {
+      "text": "6 rutas, 9 camiones y 128 entregas",
+      "side": "left",
+      "px": 8
+     }
+    ],
+    "edges": [
+     {
+      "x": 8,
+      "n": 31
+     },
+     {
+      "x": 44,
+      "n": 1
+     }
+    ],
+    "leftBlocks": 32,
+    "bodySize": 16,
+    "stage": false,
+    "explains": false,
+    "slivers": [],
+    "voidShare": 0,
+    "voidBox": null
+   },
+   "app": null,
+   "consoleErrors": []
+  }
+ ],
+ "findings": [
+  {
+   "level": "FAIL",
+   "id": "eyebrow",
+   "width": 1440,
+   "message": "1 eyebrow/kicker label(s) above headings: \"Saltar al contenido\" above \"La ruta sigue\"",
+   "fix": "Delete them. If the label carried real information, fold it into the headline or the supporting sentence.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "first-action",
+   "width": 1440,
+   "message": "No visible button in the first screen.",
+   "fix": "Give the one primary action a real button in the first screen (a filled or solid-bordered control, 44px or taller), not only a link in the navigation.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "few-pictures",
+   "width": 1440,
+   "message": "Only 0 picture(s) on the page (0 photographs, footage or raster images, 0 interface fragments). Drawings in SVG do not count.",
+   "fix": "Find real pictures of the subject's world with scripts/assets.mjs (photographs, archival images, maps, engravings, footage), download them to assets/ and give them room: a hero picture, one per section that has a subject, a full-width band. At least four, usually six to twelve."
+  },
+  {
+   "level": "WARN",
+   "id": "no-footage",
+   "width": 1440,
+   "message": "No video anywhere on the page.",
+   "fix": "Look for one honest clip with scripts/assets.mjs --video (the place, the material, the process) and use it as a muted loop with a poster frame. Defend its absence only if no clip fits the subject."
+  },
+  {
+   "level": "WARN",
+   "id": "measure",
+   "width": 1440,
+   "message": "Longest paragraph runs about 178 characters per line.",
+   "fix": "Cap paragraphs at 45–75 characters (max-width: 60ch).",
+   "alsoAt": [
+    768
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "broken-image",
+   "width": 1440,
+   "message": "Broken image(s): http://127.0.0.1:52138/img/01-panel.png, http://127.0.0.1:52138/img/02-mapa-en-vivo.png, http://127.0.0.1:52138/img/03-rutas.png, http://127.0.0.1:52138/img/05-reportes.png",
+   "fix": "Fix the URL or replace the asset.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "font-not-dealt",
+   "width": 1440,
+   "message": "The sheet dealt Roundo and Roundo, but the page renders Times New Roman, Arial.",
+   "fix": "Load the dealt face (the link on the sheet) and put it first in font-family. A build that falls back to a default face lands on the default look."
+  },
+  {
+   "level": "FAIL",
+   "id": "off-centre",
+   "width": 1440,
+   "message": "The page sits off-centre: its content comes to 8px from the left edge but only to 693px from the right, at 1440px.",
+   "fix": "Give the page one pair of equal margins. Check the wrapper for a max-width without margin-inline: auto, a grid with an empty last column, or padding on one side only. If one side is meant to hold air, it must still be closed by something that reaches the margin (a picture, the navigation's last item, a figure)."
+  },
+  {
+   "level": "FAIL",
+   "id": "lopsided",
+   "width": 1440,
+   "message": "3 sections keep all their content on one side and leave 75% of the width empty: \"Cómo funciona\" (right 1085px empty); \"Lo que se usa a diario\" (right 736px empty); \"Preguntas frecuentes\" (right 607px empty)",
+   "fix": "Use the whole width the page has set up: put the section's picture, its second column, its list or its figure in the empty half, or set the text larger across the grid. Empty space must be placed, with something on each side of it."
+  },
+  {
+   "level": "WARN",
+   "id": "name-only-title",
+   "width": 1440,
+   "message": "The h1 is a bare name (\"La ruta sigue\") and nothing else on the first screen says what this is.",
+   "fix": "Keep the name if it leads, and give the line under it (18px or more) the plain words: what it is, for whom, where or when. In the study of 97 Sites of the Day, first screens that named nothing lost usability and content points.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "WARN",
+   "id": "hero-void",
+   "width": 1440,
+   "message": "53% of the first screen is one empty block (960×720px at 480,180).",
+   "fix": "Place the void on purpose or fill it: move the picture, the film or one fact into it, grow the headline to meet it, or shrink the screen to its content. A void reads as placed only when something closes it on the far side and it is the screen's one rest."
+  },
+  {
+   "level": "FAIL",
+   "id": "edge-text",
+   "width": 1440,
+   "message": "8 text block(s) sit within 16px of the screen edge: \"Saltar al contenido\" (8px from the left); \"Cómo funciona\" (8px from the left); \"La ruta sigue\" (8px from the left); \"RutaScan registra cada carga y\" (8px from the left)",
+   "fix": "Keep text inside the page margin (16–32px or more). Only display type deliberately bled past the edge may touch it.",
+   "alsoAt": [
+    768,
+    390
+   ]
+  },
+  {
+   "level": "FAIL",
+   "id": "still-page",
+   "width": 1440,
+   "message": "Only 0 element(s) moved while the page loaded and scrolled.",
+   "fix": "Build the motion layer (SKILL.md step 9, references/motion.md): the signature move, an entrance for the parts of every section, feedback on every control, and one moving picture. Transform and opacity only, with a reduced-motion fallback."
+  },
+  {
+   "level": "FAIL",
+   "id": "empty-screens",
+   "width": 1440,
+   "message": "2 of 6 desktop screens are almost empty ground (under 20% of the screen holds text, a picture or a colour field): screens 1, 2.",
+   "fix": "An empty screen is a rest only once per page. Elsewhere it means the section is underbuilt: set its content larger, give it the full information, put it on a colour field, or cut it."
+  },
+  {
+   "level": "WARN",
+   "id": "off-centre",
+   "width": 768,
+   "message": "The margins differ: 8px on the left, 42px on the right, at 768px.",
+   "fix": "Put the navigation and the content on one pair of margins; check for padding on one side only, a scrollbar gutter, or a header on another inset than the page."
+  },
+  {
+   "level": "WARN",
+   "id": "lopsided",
+   "width": 768,
+   "message": "A section keeps its content on one side and leaves 413px of the width empty: \"Cómo funciona\".",
+   "fix": "Fill the other side with what the section has (its picture, a second column, the figure), or defend the void in one sentence."
+  }
+ ],
+ "images": [
+  {
+   "viewport": "desktop",
+   "width": 1440,
+   "fold": "C:\\Users\\Usuario\\Documents\\Default Project\\.taste-skill\\shots\\desktop-fold.jpg",
+   "pages": [
+    "C:\\Users\\Usuario\\Documents\\Default Project\\.taste-skill\\shots\\desktop-page-01.jpg",
+    "C:\\Users\\Usuario\\Documents\\Default Project\\.taste-skill\\shots\\desktop-page-02.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "tablet",
+   "width": 768,
+   "fold": "C:\\Users\\Usuario\\Documents\\Default Project\\.taste-skill\\shots\\tablet-fold.jpg",
+   "pages": [
+    "C:\\Users\\Usuario\\Documents\\Default Project\\.taste-skill\\shots\\tablet-page-01.jpg"
+   ],
+   "film": []
+  },
+  {
+   "viewport": "mobile",
+   "width": 390,
+   "fold": "C:\\Users\\Usuario\\Documents\\Default Project\\.taste-skill\\shots\\mobile-fold.jpg",
+   "pages": [
+    "C:\\Users\\Usuario\\Documents\\Default Project\\.taste-skill\\shots\\mobile-page-01.jpg"
+   ],
+   "film": []
+  }
+ ]
+}

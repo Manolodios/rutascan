@@ -1,0 +1,80 @@
+RutaScan Landing - Tropical-Bento Direction
+
+Paleta de colores Venezolana:
+- Hueso #e2dccf (fondo principal)
+- Rojo post #dc1928 (acentos principales, CTA)
+- Mostaza #e0a912 (secciones secundarias)
+- Slate #3d5c6f (secciones terciarias)
+- Maroon #952625 (secciones de cierre, footer)
+- Ink #2a1110 (texto sobre fondos claros)
+- Blanco #ffffff (texto sobre fondos oscuros)
+
+Tipografía:
+- Roundo (Google Font) - pesos 400, 500, 600
+- Cuerpo: Roundo 400, 18px
+- Titulares: Roundo 600, variados tamaños
+
+Diseño Modular Tipo Bento:
+Fondo hueso con bloques de color solido como secciones. Bordes redondeados grandes (24px). Sombras suaves en maroon 10% opacidad.
+
+Paginas a crear (frames separados en Figma):
+
+Pagina 1: Hero
+- Fondo hueso
+- Wordmark RutaScan arriba a la izquierda
+- Enlace Entrar al panel arriba a la derecha
+- Titulo principal La ruta sigue en Roundo 600, color maroon, tamaño mega
+- Subtitulo: RutaScan registra cada carga y cada entrega de su distribuidora, aunque el telefono pierda la senal.
+- Enlaces Como funciona y Entrar al panel en la parte superior
+
+Pagina 2: Showcase (El panel, por dentro)
+- Fondo hueso
+- Titulo: El panel, por dentro
+- Texto: Lo que ve la oficina mientras el camion esta en la calle.
+- Tabs: Mapa en vivo, Rutas, Reportes
+- Captura del panel como imagen dentro de un frame de navegador con borde redondeado
+- Caption dinamico debajo de la imagen
+
+Pagina 3: Como funciona (4 campos de color)
+Cuatro bloques tipo bento, cada uno con su color de fondo:
+1. Mostaza: Manifiesto - Primero se arma el manifiesto.
+2. Maroon: Sale el camion - Despues sale el camion.
+3. Slate: Escaneo - En la calle se escanea.
+4. Rojo: Cierre del dia - Al final se cuadra todo.
+Cada bloque tiene una tarjeta de ruta con datos de ejemplo venezolanos (Harina P.A.N., Aceite Vatel, etc.)
+
+Pagina 4: Funciones (Sheets apiladas)
+Cuatro tarjetas apiladas con desplazamiento sutil:
+1. Slate: Funciona sin senal - Escaneo sin internet, sube cuando vuelve la senal
+2. Mostaza: Prueba de cada entrega - Producto, cantidad, hora, ubicacion, firma
+3. Maroon: Nadie inventa una entrega - GPS falso, escaneos duplicados, reloj alterado
+4. Hueso: Se cuadra en Excel - Cumplimiento por ruta, camion, conductor, fecha
+Cada una con borde izquierdo grueso en su color de acento y captura de pantalla integrada
+
+Pagina 5: Precios
+- Fondo hueso
+- $15 por camion como frase principal (precio en bloque slate, por camion en maroon)
+- Cada mes, minimo $30. Desde 10 camiones, $12 por camion. 30 dias de prueba, sin contrato y pago por WhatsApp.
+- Fila lo incluye: 3 píldoras (Mapa en vivo, Escaneo sin senal, Reportes en Excel)
+- Boton CTA Pedir demo píldora rojo completo con texto hueso
+
+Pagina 6: CTA final (Hablemos)
+- Fondo maroon
+- Nota: Un mensaje y le mostramos la demo con sus rutas.
+- Palabra Hablemos gigante en hueso como boton
+- Flecha SVG apuntando a WhatsApp
+
+Pagina 7: Footer
+- Fondo maroon
+- Bloques de letras R-u-t-a-S-c-a-n cada uno con color diferente (hueso, mostaza, slate, rojo, hueso, mostaza, slate, rojo)
+- Columnas: Producto (App Android, App de 32 bits), La pagina (Como funciona, Funciones, Precios, Preguntas), Contacto (WhatsApp, +58 412 164 0277)
+- Footer-bottom: © 2026 RutaScan. Hecho en Venezuela. y Los datos de la demo son de una empresa ficticia.
+
+Detalles venezolanos:
+- Ubicacion: Cabimas, Zulia, Venezuela
+- Telefono: +58 412 164 0277
+- WhatsApp: wa.me/584121640277
+- Moneda: $ (dolar)
+- Productos ejemplo: Harina P.A.N., Aceite Vatel, Arroz Primor, Cafe Fama, Azucar
+
+Crea todos los frames con diseno premium, moderno, modulo bento, profesional para una empresa B2B venezolana de rastreo de carga.
