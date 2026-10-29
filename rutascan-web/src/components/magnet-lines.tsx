@@ -80,19 +80,50 @@ export default function MagnetLines({
     let mouseX = -10000;
     let mouseY = -10000;
 
-    const onMouseMove = (e: MouseEvent) => {
-      // Global mouse tracking — relative conversion done in draw loop using canvas rect
-      mouseX = e.clientX;
-      mouseY = e.clientY;
+    const updatePointer = (clientX: number, clientY: number) => {
+      mouseX = clientX;
+      mouseY = clientY;
     };
 
-    const onMouseLeave = () => {
+    const clearPointer = () => {
       mouseX = -10000;
       mouseY = -10000;
     };
 
+    const onMouseMove = (e: MouseEvent) => {
+      updatePointer(e.clientX, e.clientY);
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        updatePointer(touch.clientX, touch.clientY);
+        e.preventDefault(); // prevent scrolling while interacting with field
+      }
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        updatePointer(touch.clientX, touch.clientY);
+        e.preventDefault();
+      }
+    };
+
+    const onTouchEnd = () => {
+      clearPointer();
+    };
+
+    const onMouseLeave = () => {
+      clearPointer();
+    };
+
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseleave", onMouseLeave);
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchend", onTouchEnd);
+    window.addEventListener("touchcancel", onTouchEnd);
 
     let raf = 0;
 
@@ -145,6 +176,10 @@ export default function MagnetLines({
       ro.disconnect();
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseleave", onMouseLeave);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
     };
   }, [spacing, radius, lineColor, lineWidth, lineHeight, fade, stretch, bounce]);
 
