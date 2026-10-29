@@ -143,6 +143,13 @@ export function NewCompanyDialog({
 	}
 
 	if (created) {
+		const whatsappMsg = `Bienvenido a RutaScan. Tu prueba de 30 días está activa.
+Panel web: https://rutascan.onrender.com/app
+Usuario: ${adminCedula} · PIN: ${adminPin}
+License Key (para apps): ${created.license_key}
+Tope: ${created.max_trucks} camiones
+Vence: ${created.expiration_date}`;
+
 		return (
 			<Dialog onOpenChange={onOpenChange} open={open}>
 				<DialogContent className="sm:max-w-lg">
@@ -161,9 +168,29 @@ export function NewCompanyDialog({
 						<CopyField label="Tope de camiones" value={String(created.max_trucks)} />
 					</div>
 
-					<DialogFooter>
+					<div className="rounded-lg border border-amber-300/60 bg-amber-50 p-3 text-amber-900 text-xs dark:bg-amber-950/30 dark:text-amber-200">
+						<strong>Envía esto por WhatsApp al cliente:</strong>
+					</div>
+					<div className="rounded-lg border bg-muted/40 p-3 text-xs font-mono whitespace-pre-wrap">
+						{whatsappMsg}
+					</div>
+					<div className="flex gap-2">
+						<Button
+							onClick={async () => {
+								try {
+									await navigator.clipboard.writeText(whatsappMsg);
+									toast.success("Mensaje copiado al portapapeles");
+								} catch {
+									toast.error("No se pudo copiar");
+								}
+							}}
+							size="sm"
+							variant="outline"
+						>
+							Copiar mensaje WhatsApp
+						</Button>
 						<Button onClick={() => onOpenChange(false)}>Listo</Button>
-					</DialogFooter>
+					</div>
 				</DialogContent>
 			</Dialog>
 		);

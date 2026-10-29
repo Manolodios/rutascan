@@ -4,6 +4,8 @@ import {
 	CalendarClockIcon,
 	CircleCheckIcon,
 	CircleSlashIcon,
+	DownloadIcon,
+	EyeIcon,
 	LockIcon,
 	LogInIcon,
 	PencilIcon,
@@ -54,6 +56,15 @@ import {
 	type CompanyOut,
 } from "@/lib/platform";
 import { useAsyncData } from "@/lib/use-async";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+} from "@/components/ui/dialog";
+import { TruckIcon } from "lucide-react";
 
 /* ------------------------------- gate ----------------------------------- */
 
@@ -248,7 +259,47 @@ function PlatformDashboard({ onExit }: { onExit: () => void }) {
 	const [filter, setFilter] = useState<"ALL" | CompanyHealth>("ALL");
 	const [creating, setCreating] = useState(false);
 	const [editing, setEditing] = useState<CompanyOut | null>(null);
+	const [viewing, setViewing] = useState<CompanyOut | null>(null);
 	const [busyId, setBusyId] = useState<string | null>(null);
+
+	function exportCsv() {
+		const headers = [
+			"Empresa",
+			"RIF",
+			"Licencia",
+			"Estado",
+			"Vence",
+			"Días restantes",
+			"Camiones",
+			"Max camiones",
+			"Dispositivos",
+			"Usuarios",
+			"Creada",
+		];
+		const rows = companies.map((c) => [
+			c.name,
+			c.tax_id,
+			c.license_key,
+			HEALTH_LABEL[companyHealth(c)],
+			c.expiration_date,
+			String(daysUntil(c.expiration_date)),
+			String(c.trucks_count),
+			String(c.max_trucks),
+			String(c.active_devices),
+			String(c.users_count),
+			c.created_at,
+		]);
+		const csv = [headers, ...rows].map((r) => r.map((v) => `"${v}"`).join(",")).join("\n");
+		const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+		const url = URL.createObjectURL(blob);
+		const a = document.createElement("a");
+		a.href = url;
+		a.download = `rutascan-empresas-${new Date().toISOString().slice(0, 10)}.csv`;
+		document.body.appendChild(a);
+		a.click();
+		document.body.removeChild(a);
+		URL.revokeObjectURL(url);
+	}
 
 	const companies = state.data ?? [];
 
@@ -345,6 +396,10 @@ function PlatformDashboard({ onExit }: { onExit: () => void }) {
 					<div className="flex flex-wrap items-center gap-2">
 						<Button onClick={state.reload} size="sm" variant="outline">
 							Actualizar
+						</Button>
+						<Button onClick={exportCsv} size="sm" variant="outline">
+							<DownloadIcon />
+							Exportar CSV
 						</Button>
 						<Button onClick={() => setCreating(true)} size="sm">
 							<PlusIcon />
@@ -528,6 +583,14 @@ function PlatformDashboard({ onExit }: { onExit: () => void }) {
 												<TableCell className="pe-4 text-right">
 													<div className="flex justify-end gap-1">
 														<Button
+															onClick={() => setViewing(company)}
+															size="sm"
+															variant="ghost"
+														>
+															<EyeIcon />
+															Ver
+														</Button>
+														<Button
 															disabled={busyId === company.id}
 															onClick={() => void renew(company)}
 															size="sm"
@@ -565,7 +628,94 @@ function PlatformDashboard({ onExit }: { onExit: () => void }) {
 				onClose={() => setEditing(null)}
 				onSaved={state.reload}
 			/>
+			<CompanyDetailDialog
+				company={viewing}
+				onClose={() => setViewing(null)}
+			/>
 		</div>
+	);
+}
+
+/* --------------------------- company detail dialog ------------------------ */
+
+function CompanyDetailDialog({
+	company,
+	onClose,
+}: {
+	company: CompanyOut | null;
+	onClose: () => void;
+}) {
+	if (!company) return null;
+
+	const health = companyHealth(company);
+
+	return (
+		<Dialog onOpenChange={(next) => (next ? undefined : onClose())} open={company !== null}>
+			<DialogContent className="max-h-[88vh] overflow-y-auto sm:max-w-3xl">
+				<DialogHeader>
+					<DialogTitle>{company.name}</DialogTitle>
+					<DialogDescription>
+						RIF {company.tax_id} · {HEALTH_LABEL[health]} · {formatDate(company.expiration_date)}
+					</DialogDescription>
+				</DialogHeader>
+
+				<div className="grid gap-4">
+					<div className="grid gap-3 sm:grid-cols-2">
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Clave de licencia</div>
+							<div className="font-mono text-sm break-all">{company.license_key}</div>
+						</div>
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Estado suscripción</div>
+							<div className="font-medium capitalize">{company.subscription_status.toLowerCase()}</div>
+						</div>
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Vence</div>
+							<div className="font-medium">{formatDate(company.expiration_date)}</div>
+						</div>
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Tope de camiones</div>
+							<div className="font-medium">{formatInteger(company.max_trucks)}</div>
+						</div>
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Camiones registrados</div>
+							<div className="font-medium">{formatInteger(company.trucks_count)}</div>
+						</div>
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Dispositivos activos</div>
+							<div className="font-medium">{formatInteger(company.active_devices)}</div>
+						</div>
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Usuarios</div>
+							<div className="font-medium">{formatInteger(company.users_count)}</div>
+						</div>
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Cuenta</div>
+							<div className="font-medium">{company.is_active ? "Habilitada" : "Deshabilitada"}</div>
+						</div>
+						<div className="rounded-lg border p-3">
+							<div className="text-muted-foreground text-xs">Creada</div>
+							<div className="font-medium">{formatDate(company.created_at)}</div>
+						</div>
+					</div>
+
+					<div className="border-t pt-4">
+						<h4 className="font-medium mb-3 flex items-center gap-2">
+							<TruckIcon className="size-4" />
+							Flota y usuarios
+						</h4>
+						<p className="text-muted-foreground text-sm">
+							Para ver camiones, conductores y dispositivos en detalle, entre al panel de la empresa
+							con su license_key.
+						</p>
+					</div>
+				</div>
+
+				<DialogFooter>
+					<Button onClick={onClose}>Cerrar</Button>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	);
 }
 
