@@ -98,7 +98,6 @@ export default function MagnetLines({
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         updatePointer(touch.clientX, touch.clientY);
-        e.preventDefault(); // prevent scrolling while interacting with field
       }
     };
 
@@ -106,7 +105,6 @@ export default function MagnetLines({
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         updatePointer(touch.clientX, touch.clientY);
-        e.preventDefault();
       }
     };
 
@@ -120,8 +118,8 @@ export default function MagnetLines({
 
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseleave", onMouseLeave);
-    window.addEventListener("touchmove", onTouchMove, { passive: false });
-    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: true });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchend", onTouchEnd);
     window.addEventListener("touchcancel", onTouchEnd);
 

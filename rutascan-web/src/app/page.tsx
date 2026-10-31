@@ -93,14 +93,7 @@ export default function Home() {
           </div>
         </section>
 
-        <section className="relative py-16 sm:py-24">
-          <div className="mx-auto max-w-4xl px-4 text-center">
-            <h2 className="text-[clamp(2rem,5vw,4rem)] font-semibold tracking-tight leading-[0.95] text-white">
-              Todo lo que necesitas saber
-            </h2>
-            <FAQ />
-          </div>
-        </section>
+        <FAQ />
 
         <section className="relative bg-gradient-to-t from-black/50 to-transparent py-16 text-center sm:py-24">
           <div className="mx-auto max-w-3xl px-4">

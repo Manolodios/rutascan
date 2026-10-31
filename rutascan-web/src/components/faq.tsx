@@ -45,10 +45,13 @@ export function FAQ() {
             return (
               <button
                 key={item.q}
+                type="button"
+                aria-expanded={isOpen}
+                aria-controls={`faq-answer-${index}`}
                 onClick={() => setOpen(isOpen ? null : index)}
                 className={cn(
-                  "w-full rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-5 text-left transition-all backdrop-blur",
-                  isOpen && "border-[#dc1928]/40"
+                  "w-full cursor-pointer rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-5 text-left transition-all backdrop-blur",
+                  isOpen ? "border-[#dc1928]/40" : "hover:border-white/20"
                 )}
               >
                 <div className="flex items-center justify-between gap-4">
@@ -56,6 +59,7 @@ export function FAQ() {
                   <ChevronDown className={cn("h-5 w-5 text-neutral-400 transition-transform", isOpen && "rotate-180 text-[#dc1928]")} />
                 </div>
                 <div
+                  id={`faq-answer-${index}`}
                   className={cn(
                     "grid transition-all duration-300",
                     isOpen ? "mt-3 grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"

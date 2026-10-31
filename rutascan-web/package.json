@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "copy:landing": "node scripts/copy-to-landing.mjs",
     "start": "next start",
     "lint": "eslint"
   },
