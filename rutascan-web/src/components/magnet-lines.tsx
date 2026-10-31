@@ -150,9 +150,13 @@ export default function MagnetLines({
     window.addEventListener("scroll", onScroll, { passive: true });
 
     let raf = 0;
+    let lastFrameTime = 0;
 
     function schedule() {
-      if (!raf) raf = requestAnimationFrame(draw);
+      if (!raf) {
+        lastFrameTime = 0;
+        raf = requestAnimationFrame(draw);
+      }
     }
 
     const colorRGB = hexToRgb(lineColor);
@@ -160,6 +164,12 @@ export default function MagnetLines({
 
     const draw = () => {
       raf = 0;
+
+      // Frame-rate independent easing: identical feel at 60, 90 or 120 Hz.
+      const now = performance.now();
+      const dt = lastFrameTime ? Math.min(now - lastFrameTime, 50) : 16.667;
+      lastFrameTime = now;
+      const ease = 1 - Math.pow(1 - (0.09 + bounce * 0.06), dt / 16.667);
 
       const relX = mouseX - rect.left;
       const relY = mouseY - rect.top;
@@ -179,7 +189,7 @@ export default function MagnetLines({
 
         const targetAngle = influence > 0 ? Math.atan2(dy, dx) : line.targetAngle;
         const delta = targetAngle - line.angle;
-        line.angle += delta * (0.04 + bounce * 0.06);
+        line.angle += delta * ease;
         const absDelta = Math.abs(delta);
         if (absDelta > maxDelta) maxDelta = absDelta;
 
