@@ -43,16 +43,22 @@ export default function MagnetLines({
     let width = container.clientWidth;
     let height = container.clientHeight;
 
+    // Cached layout rect: reading it every frame forces layout work.
+    let rect = canvas.getBoundingClientRect();
+
+    canvas.width = width;
+    canvas.height = height;
+
     const resize = () => {
       width = container.clientWidth;
       height = container.clientHeight;
       canvas.width = width;
       canvas.height = height;
+      rect = canvas.getBoundingClientRect();
+      schedule();
     };
 
-    resize();
     const ro = new ResizeObserver(resize);
-    ro.observe(container);
 
     const cols = Math.ceil(width / spacing) + 2;
     const rows = Math.ceil(height / spacing) + 2;
@@ -79,22 +85,31 @@ export default function MagnetLines({
 
     let mouseX = -10000;
     let mouseY = -10000;
+    let lastTouch = 0;
+
+    ro.observe(container);
 
     const updatePointer = (clientX: number, clientY: number) => {
       mouseX = clientX;
       mouseY = clientY;
+      schedule();
     };
 
     const clearPointer = () => {
       mouseX = -10000;
       mouseY = -10000;
+      schedule();
     };
 
     const onMouseMove = (e: MouseEvent) => {
+      // Touch screens emit synthetic mouse events after a tap; ignore them so
+      // the lines do not stay stuck around the last tap position.
+      if (Date.now() - lastTouch < 1200) return;
       updatePointer(e.clientX, e.clientY);
     };
 
     const onTouchMove = (e: TouchEvent) => {
+      lastTouch = Date.now();
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         updatePointer(touch.clientX, touch.clientY);
@@ -102,6 +117,7 @@ export default function MagnetLines({
     };
 
     const onTouchStart = (e: TouchEvent) => {
+      lastTouch = Date.now();
       if (e.touches.length > 0) {
         const touch = e.touches[0];
         updatePointer(touch.clientX, touch.clientY);
@@ -109,11 +125,20 @@ export default function MagnetLines({
     };
 
     const onTouchEnd = () => {
+      lastTouch = Date.now();
       clearPointer();
     };
 
     const onMouseLeave = () => {
       clearPointer();
+    };
+
+    const onScroll = () => {
+      const next = canvas.getBoundingClientRect();
+      if (next.left !== rect.left || next.top !== rect.top) {
+        rect = next;
+        schedule();
+      }
     };
 
     window.addEventListener("mousemove", onMouseMove);
@@ -122,19 +147,29 @@ export default function MagnetLines({
     window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchend", onTouchEnd);
     window.addEventListener("touchcancel", onTouchEnd);
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     let raf = 0;
 
+    function schedule() {
+      if (!raf) raf = requestAnimationFrame(draw);
+    }
+
+    const colorRGB = hexToRgb(lineColor);
+    const strokeStyle = `rgb(${colorRGB.r}, ${colorRGB.g}, ${colorRGB.b})`;
+
     const draw = () => {
-      const rect = canvas.getBoundingClientRect();
+      raf = 0;
+
       const relX = mouseX - rect.left;
       const relY = mouseY - rect.top;
 
       ctx.clearRect(0, 0, width, height);
       ctx.lineCap = "round";
       ctx.lineJoin = "round";
+      ctx.strokeStyle = strokeStyle;
 
-      const colorRGB = hexToRgb(lineColor);
+      let maxDelta = 0;
 
       for (const line of lines) {
         const dx = relX - line.x;
@@ -143,7 +178,10 @@ export default function MagnetLines({
         const influence = dist < radius ? 1 - dist / radius : 0;
 
         const targetAngle = influence > 0 ? Math.atan2(dy, dx) : line.targetAngle;
-        line.angle += (targetAngle - line.angle) * (0.04 + bounce * 0.06);
+        const delta = targetAngle - line.angle;
+        line.angle += delta * (0.04 + bounce * 0.06);
+        const absDelta = Math.abs(delta);
+        if (absDelta > maxDelta) maxDelta = absDelta;
 
         const emphasis = Math.exp(-(dist * dist) / (radius * radius));
         const len = lineHeight * (1 + stretch * emphasis);
@@ -160,24 +198,41 @@ export default function MagnetLines({
           line.y + Math.sin(line.angle) * len / 2
         );
         ctx.lineWidth = w;
-        ctx.strokeStyle = `rgba(${colorRGB.r}, ${colorRGB.g}, ${colorRGB.b}, ${alphaVal})`;
+        ctx.globalAlpha = alphaVal;
         ctx.stroke();
       }
 
-      raf = requestAnimationFrame(draw);
+      ctx.globalAlpha = 1;
+
+      // Stop the loop once everything has settled: an idle page should not keep
+      // repainting (battery / scroll smoothness on phones). Any pointer, touch,
+      // resize or scroll movement schedules the next frame.
+      if (maxDelta > 0.0015) schedule();
     };
 
-    draw();
+    schedule();
+
+    const onVisibility = () => {
+      if (document.hidden) {
+        if (raf) cancelAnimationFrame(raf);
+        raf = 0;
+      } else {
+        schedule();
+      }
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
-      cancelAnimationFrame(raf);
+      if (raf) cancelAnimationFrame(raf);
       ro.disconnect();
+      document.removeEventListener("visibilitychange", onVisibility);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseleave", onMouseLeave);
       window.removeEventListener("touchmove", onTouchMove);
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchend", onTouchEnd);
       window.removeEventListener("touchcancel", onTouchEnd);
+      window.removeEventListener("scroll", onScroll);
     };
   }, [spacing, radius, lineColor, lineWidth, lineHeight, fade, stretch, bounce]);
 
