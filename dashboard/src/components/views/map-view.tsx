@@ -298,10 +298,10 @@ export function MapView() {
 							{withPosition === 0 ? (
 								<div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background/60 p-6">
 									<div className="max-w-xs rounded-lg border bg-card/95 px-4 py-3 text-center shadow-sm">
-										<p className="font-medium text-sm">Sin posiciones GPS hoy</p>
+										<p className="font-medium text-sm">Sin posiciones GPS para el {formatLongDate(day)}</p>
 										<p className="mt-1 text-muted-foreground text-xs">
 											{trucks.length === 0
-												? "No hay rutas para hoy."
+												? `No hay rutas para el ${formatLongDate(day)}.`
 												: "Los camiones aparecerán aquí cuando la app del conductor envíe su ubicación."}
 										</p>
 									</div>
@@ -332,7 +332,7 @@ export function MapView() {
 					<div className="flex-1 space-y-2 overflow-y-auto p-3">
 						{trucks.length === 0 ? (
 							<div className="py-10 text-center text-muted-foreground text-sm">
-								No hay rutas para hoy.
+								No hay rutas para el {formatLongDate(day)}.
 							</div>
 						) : (
 							trucks.map((truck) => (
