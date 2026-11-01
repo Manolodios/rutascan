@@ -304,7 +304,7 @@ export function LicenseDialog({
 	onSaved: () => void;
 }) {
 	const [status, setStatus] = useState("ACTIVE");
-	const [expiration, setExpiration] = useState(todayISO);
+	const [expiration, setExpiration] = useState(todayISO());
 	const [maxTrucks, setMaxTrucks] = useState("5");
 	const [active, setActive] = useState(true);
 	const [saving, setSaving] = useState(false);

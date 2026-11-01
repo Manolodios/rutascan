@@ -34,7 +34,7 @@ function daysAgoISO(days: number): string {
 
 export function ReportsView() {
 	const [from, setFrom] = useState(() => daysAgoISO(6));
-	const [to, setTo] = useState(todayISO);
+	const [to, setTo] = useState(todayISO());
 	const [routeId, setRouteId] = useState(NONE);
 	const [routes, setRoutes] = useState<RouteOut[]>([]);
 	const [busy, setBusy] = useState<"xlsx" | "pdf" | null>(null);

@@ -51,7 +51,7 @@ import { useAsyncData } from "@/lib/use-async";
 const NONE = "__none__";
 
 export function RoutesView() {
-	const [day, setDay] = useState(todayISO);
+	const [day, setDay] = useState(todayISO());
 	const [manifestId, setManifestId] = useState<string | null>(null);
 	const [creating, setCreating] = useState(false);
 
@@ -108,7 +108,7 @@ export function RoutesView() {
 						<Skeleton className="h-44 w-full" key={`route-skeleton-${index}`} />
 					))}
 				</div>
-			) : routes.length === 0 ? (
+			) : !state.error && routes.length === 0 ? (
 				<Card className="p-10 text-center text-muted-foreground text-sm">
 					No hay rutas creadas para el {formatLongDate(day)}.
 				</Card>

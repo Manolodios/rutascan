@@ -181,7 +181,7 @@ function TruckCard({ truck }: { truck: LiveMapTruck }) {
 }
 
 export function MapView() {
-	const [day, setDay] = useState(todayISO);
+	const [day, setDay] = useState(todayISO());
 	const state = useAsyncData<LiveMap>(
 		() => api<LiveMap>(`/api/v1/admin/dashboard/live-map?day=${day}`),
 		[day],
