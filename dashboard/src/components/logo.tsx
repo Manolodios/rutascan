@@ -1,7 +1,7 @@
 import type React from "react";
 
-/** Brand blue: the same accent used by the desktop splash and the app icon. */
-export const BRAND_BLUE = "#2f7ef7";
+/** Brand red: matches the landing MagnetLines and editorial dark style. */
+export const BRAND_BLUE = "#dc2626";
 
 /**
  * RutaScan symbol: a cargo truck outline in `currentColor`.

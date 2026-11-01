@@ -30,7 +30,7 @@ function escapeHtml(value: string): string {
 }
 
 function pinHtml(fresh: boolean, mockGps: boolean): string {
-	const color = mockGps ? "#dc2626" : fresh ? "#16a34a" : "#2f7ef7";
+	const color = mockGps ? "#dc2626" : fresh ? "#ef4444" : "#f87171";
 	return (
 		`<div style="background:${color};width:18px;height:18px;border-radius:9999px;` +
 		`border:3px solid #fff;box-shadow:0 1px 6px rgba(0,0,0,.45)"></div>`
@@ -310,11 +310,11 @@ export function MapView() {
 						</div>
 						<div className="flex flex-wrap items-center gap-4 border-t px-4 py-2 text-muted-foreground text-xs">
 							<span className="flex items-center gap-1.5">
-								<span className="size-2.5 rounded-full bg-[#16a34a]" />
+								<span className="size-2.5 rounded-full bg-[#ef4444]" />
 								Menos de {FRESH_MINUTES} min
 							</span>
 							<span className="flex items-center gap-1.5">
-								<span className="size-2.5 rounded-full bg-[#2f7ef7]" />
+								<span className="size-2.5 rounded-full bg-[#f87171]" />
 								Posición anterior
 							</span>
 							<span className="flex items-center gap-1.5">
