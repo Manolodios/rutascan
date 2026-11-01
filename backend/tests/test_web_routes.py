@@ -11,7 +11,7 @@ def test_root_serves_landing_not_panel():
     client = TestClient(create_app())
     response = client.get("/")
     assert response.status_code == 200
-    assert "/styles.css" in response.text
+    assert "/_next/static/" in response.text
     assert "/app/assets/" not in response.text
     assert "wa.me/584121640277" in response.text
 
@@ -29,3 +29,16 @@ def test_app_without_slash_redirects():
     response = client.get("/app", follow_redirects=False)
     assert response.status_code in (307, 308)
     assert response.headers["location"].endswith("/app/")
+
+
+def test_csp_allows_openstreetmap_tile_subdomains():
+    """Leaflet loads tiles from a./b./c.tile.openstreetmap.org (not the apex)."""
+    client = TestClient(create_app())
+    csp = client.get("/").headers["content-security-policy"]
+    assert "https://*.tile.openstreetmap.org" in csp
+    img_src = next(part for part in csp.split(";") if part.strip().startswith("img-src"))
+    connect_src = next(
+        part for part in csp.split(";") if part.strip().startswith("connect-src")
+    )
+    assert "https://*.tile.openstreetmap.org" in img_src
+    assert "https://*.tile.openstreetmap.org" in connect_src

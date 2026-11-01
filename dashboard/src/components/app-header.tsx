@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { DecorIcon } from "@/components/decor-icon";
 import { AppBreadcrumbs } from "@/components/app-breadcrumbs";
@@ -9,7 +8,6 @@ import { CustomSidebarTrigger } from "@/components/custom-sidebar-trigger";
 import { NavUser } from "@/components/nav-user";
 import { useAuth } from "@/lib/auth";
 import { useHash } from "@/lib/use-hash";
-import { SendIcon, BellIcon } from "lucide-react";
 
 export function AppHeader() {
 	const { user } = useAuth();
@@ -38,18 +36,6 @@ export function AppHeader() {
 				<AppBreadcrumbs page={activeItem} />
 			</div>
 			<div className="flex items-center gap-3">
-				<Button size="icon-sm" variant="outline">
-					<SendIcon
-					/>
-				</Button>
-				<Button aria-label="Notifications" size="icon-sm" variant="outline">
-					<BellIcon
-					/>
-				</Button>
-				<Separator
-					className="h-4 data-[orientation=vertical]:self-center"
-					orientation="vertical"
-				/>
 				<NavUser />
 			</div>
 		</header>

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export type AsyncState<T> = {
 	data: T | null;
@@ -20,15 +20,18 @@ export function useAsyncData<T>(
 	const [error, setError] = useState<string | null>(null);
 	const [loading, setLoading] = useState(true);
 	const [nonce, setNonce] = useState(0);
+	const hasLoadedRef = useRef(false);
 
 	const reload = useCallback(() => setNonce((value) => value + 1), []);
 
 	useEffect(() => {
 		let alive = true;
-		setLoading(true);
+		// Los refrescos en segundo plano no deben tapar los datos ya visibles.
+		if (!hasLoadedRef.current) setLoading(true);
 		loader()
 			.then((value) => {
 				if (!alive) return;
+				hasLoadedRef.current = true;
 				setData(value);
 				setError(null);
 			})

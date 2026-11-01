@@ -1,8 +1,8 @@
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { Logo } from "@/components/logo";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ApiError } from "@/lib/api";
+import { ApiError, SESSION_EXPIRED_FLAG } from "@/lib/api";
 import { useAuth } from "@/lib/auth";
 
 /** Alta de clientes: el prospecto escribe por WhatsApp y se le crea su empresa. */
@@ -17,7 +17,18 @@ export function LoginForm() {
 	const [pin, setPin] = useState("");
 	const [error, setError] = useState<string | null>(null);
 	const [busy, setBusy] = useState(false);
-	const [showDemo, setShowDemo] = useState(false);
+	const [notice, setNotice] = useState<string | null>(null);
+
+	useEffect(() => {
+		try {
+			if (sessionStorage.getItem(SESSION_EXPIRED_FLAG)) {
+				sessionStorage.removeItem(SESSION_EXPIRED_FLAG);
+				setNotice("Su sesión expiró por seguridad. Vuelva a iniciar sesión.");
+			}
+		} catch {
+			/* storage no disponible */
+		}
+	}, []);
 
 	async function onSubmit(event: FormEvent<HTMLFormElement>) {
 		event.preventDefault();
@@ -62,7 +73,7 @@ export function LoginForm() {
 							id="cedula"
 							inputMode="numeric"
 							onChange={(e) => setCedula(e.target.value)}
-							placeholder="13598742"
+							placeholder="Ej. 12345678"
 							value={cedula}
 						/>
 					</div>
@@ -83,6 +94,12 @@ export function LoginForm() {
 						/>
 					</div>
 
+					{notice ? (
+						<p className="rounded-md border border-amber-300/60 bg-amber-50 px-3 py-2 text-amber-900 text-sm dark:bg-amber-950/30 dark:text-amber-200">
+							{notice}
+						</p>
+					) : null}
+
 					{error ? (
 						<p className="rounded-md bg-destructive/10 px-3 py-2 text-destructive text-sm">
 							{error}
@@ -93,24 +110,6 @@ export function LoginForm() {
 						{busy ? "Ingresando…" : "Ingresar"}
 					</Button>
 				</form>
-
-				<div className="space-y-2 text-center text-xs">
-					<button
-						className="text-muted-foreground underline-offset-4 hover:underline"
-						onClick={() => setShowDemo((value) => !value)}
-						type="button"
-					>
-						{showDemo ? "Ocultar" : "Ver"} credenciales de demostración
-					</button>
-					{showDemo ? (
-						<div className="space-y-1 rounded-lg bg-muted px-4 py-3 text-left text-muted-foreground">
-							<p className="font-medium text-foreground">Acceso de demostración</p>
-							<p>Administrador: 13598742 · PIN 1234</p>
-							<p>Bodega: 15874230 · PIN 2345</p>
-							<p>Conductor: 20148379 · PIN 3456</p>
-						</div>
-					) : null}
-				</div>
 
 				<div className="rounded-lg border border-dashed px-4 py-3 text-center text-xs">
 					<p className="font-medium text-foreground">¿Todavía no tiene cuenta?</p>
@@ -127,13 +126,6 @@ export function LoginForm() {
 						Pedir prueba por WhatsApp
 					</a>
 				</div>
-
-				<a
-					className="block text-center text-muted-foreground text-xs underline-offset-4 hover:underline"
-					href="#/plataforma"
-				>
-					Soy el operador de RutaScan (panel de plataforma)
-				</a>
 			</div>
 		</div>
 	);

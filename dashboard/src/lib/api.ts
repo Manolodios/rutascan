@@ -5,6 +5,9 @@
 
 const STORAGE_KEY = "rutascan.session.v1";
 
+/** Flag consumed by the login screen after a forced logout. */
+export const SESSION_EXPIRED_FLAG = "rutascan:session-expired";
+
 export type Role = "ADMIN" | "WAREHOUSE" | "DRIVER";
 
 export type SessionUser = {
@@ -75,11 +78,18 @@ export function setSession(data: Partial<Session>): void {
 	localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
 }
 
-export function clearSession(): void {
+export function clearSession(reason: "expired" | "logout" = "logout"): void {
 	session = null;
 	localStorage.removeItem(STORAGE_KEY);
 	// Let React know the session went away (e.g. a failed token refresh).
 	if (typeof window !== "undefined") {
+		if (reason === "expired") {
+			try {
+				sessionStorage.setItem(SESSION_EXPIRED_FLAG, "1");
+			} catch {
+				/* storage no disponible */
+			}
+		}
 		window.dispatchEvent(new CustomEvent("rutascan:session-lost"));
 	}
 }
@@ -132,7 +142,7 @@ async function request(
 			refreshing = refreshing ?? refreshTokens().finally(() => (refreshing = null));
 			await refreshing;
 		} catch {
-			clearSession();
+			clearSession("expired");
 			throw new ApiError(401, "Sesión expirada, vuelva a iniciar sesión.", "SESSION_EXPIRED");
 		}
 		headers.Authorization = `Bearer ${session?.access_token}`;
@@ -157,7 +167,7 @@ async function toApiError(res: Response): Promise<ApiError> {
 			message = String((data.detail as { detail?: unknown }).detail ?? message);
 		else if (Array.isArray(data.errors) && data.errors[0]?.msg) message = data.errors[0].msg;
 	}
-	if (res.status === 401) clearSession();
+	if (res.status === 401 && session) clearSession("expired");
 	if (res.status === 402 && data?.code?.startsWith("SUBSCRIPTION_")) {
 		window.dispatchEvent(new CustomEvent("rutascan:license-blocked"));
 	}

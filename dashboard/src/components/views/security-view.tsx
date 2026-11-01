@@ -28,7 +28,12 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 import { api, type SecurityEventOut } from "@/lib/api";
-import { SECURITY_EVENT_LABEL, formatDateTime, formatInteger } from "@/lib/format";
+import {
+	SECURITY_EVENT_LABEL,
+	formatDateTime,
+	formatInteger,
+	formatSecurityDetail,
+} from "@/lib/format";
 import { useAsyncData } from "@/lib/use-async";
 
 const ALL_TYPES = [
@@ -135,7 +140,7 @@ export function SecurityView() {
 							</TableRow>
 						) : (
 							events.map((event) => {
-								const detail = JSON.stringify(event.detail ?? {});
+								const detail = formatSecurityDetail(event.event_type, event.detail);
 								return (
 									<TableRow key={event.id}>
 										<TableCell className="ps-4 whitespace-nowrap text-muted-foreground text-xs">
@@ -179,10 +184,10 @@ export function SecurityView() {
 										</TableCell>
 										<TableCell className="pe-4 max-w-[280px]">
 											<span
-												className="block truncate font-mono text-xs text-muted-foreground"
+												className="block truncate text-muted-foreground text-xs"
 												title={detail}
 											>
-												{detail.slice(0, 90)}
+												{detail}
 											</span>
 										</TableCell>
 									</TableRow>

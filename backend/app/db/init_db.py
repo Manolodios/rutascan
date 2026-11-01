@@ -13,7 +13,7 @@ from decimal import Decimal
 import sqlalchemy as sa
 from sqlalchemy.orm import Session
 
-from app.core.geo import local_today, utcnow
+from app.core.geo import local_date, local_today, utcnow
 from app.core.security import hash_pin
 from app.db.base import Base
 from app.db.session import SessionLocal, engine
@@ -547,21 +547,29 @@ def refresh_demo_dates(target: date | None = None) -> int:
             logger.info("Demo refresh omitido: no existe la empresa demo.")
             return 0
 
-        # La ruta de mañana se asegura antes de medir "lo más reciente": esa
-        # ruta es del futuro y no debe contar para decidir el corrimiento.
-        ensure_demo_pending_route(db, company, day=target + timedelta(days=1))
-
-        latest = db.scalar(
-            sa.select(sa.func.max(Route.route_date)).where(
-                Route.company_id == company.id,
-                Route.route_date <= target,
+        # El ancla es la última actividad real del seed (escaneo), no la ruta más
+        # reciente: una ruta creada a mano para hoy no debe congelar el resto de
+        # los datos de demostración.
+        latest_scan = db.scalar(
+            sa.select(sa.func.max(DeliveryLog.scan_timestamp_utc)).where(
+                DeliveryLog.company_id == company.id
             )
         )
+        latest = local_date(latest_scan) if latest_scan is not None else None
+        if latest is None:
+            latest = db.scalar(
+                sa.select(sa.func.max(Route.route_date)).where(
+                    Route.company_id == company.id,
+                    Route.route_date <= target,
+                )
+            )
         if latest is None:
             return 0
 
         days = (target - latest).days
-        if days == 0:
+        if days <= 0:
+            ensure_demo_pending_route(db, company, day=target + timedelta(days=1))
+            db.commit()
             logger.info("Datos de demostración ya al día (%s).", latest.isoformat())
             return 0
 
@@ -574,6 +582,11 @@ def refresh_demo_dates(target: date | None = None) -> int:
         _shift_dates(db, company, models, far)
         db.commit()
         rows = _shift_dates(db, company, models, move - far)
+        db.commit()
+
+        # La ruta programada de mañana se crea después del corrimiento para que no
+        # se desplace con el resto y quede realmente para mañana.
+        ensure_demo_pending_route(db, company, day=target + timedelta(days=1))
         db.commit()
 
         logger.info(

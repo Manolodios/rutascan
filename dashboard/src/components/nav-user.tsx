@@ -11,7 +11,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/lib/auth";
-import { KeyRoundIcon, LogOutIcon, UserIcon } from "lucide-react";
+import { LogOutIcon } from "lucide-react";
 
 const ROLE_LABEL: Record<string, string> = {
 	ADMIN: "Administrador",
@@ -50,17 +50,6 @@ export function NavUser() {
 							</div>
 						</div>
 					</DropdownMenuLabel>
-				</DropdownMenuGroup>
-				<DropdownMenuSeparator />
-				<DropdownMenuGroup>
-					<DropdownMenuItem>
-						<UserIcon />
-						Cuenta
-					</DropdownMenuItem>
-					<DropdownMenuItem>
-						<KeyRoundIcon />
-						Cambiar PIN
-					</DropdownMenuItem>
 				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 				<DropdownMenuGroup>

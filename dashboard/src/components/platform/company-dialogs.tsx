@@ -263,7 +263,7 @@ Vence: ${created.expiration_date}`;
 							id="nc-cedula"
 							inputMode="numeric"
 							onChange={(event) => setAdminCedula(event.target.value)}
-							placeholder="13598742"
+							placeholder="Ej. 12345678"
 							value={adminCedula}
 						/>
 					</div>

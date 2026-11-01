@@ -7,7 +7,6 @@ import {
 	MapPinIcon,
 	PackageIcon,
 	RouteIcon,
-	ServerIcon,
 	ShieldAlertIcon,
 	SunIcon,
 	TruckIcon,
@@ -51,14 +50,6 @@ export const navGroups: SidebarNavGroup[] = [
 	},
 ];
 
-export const footerNavLinks: SidebarNavItem[] = [
-	{
-		title: "Panel de plataforma",
-		path: "#/plataforma",
-		icon: <ServerIcon />,
-	},
-];
-
 /** The driver only sees their own day: route, manifest and history. */
 export const driverNavGroups: SidebarNavGroup[] = [
 	{
@@ -93,7 +84,5 @@ export function filterNavGroups(role: string | undefined): SidebarNavGroup[] {
 
 /** Flat list of the links the given role can see (used by the header). */
 export function visibleNavLinks(role: string | undefined): SidebarNavItem[] {
-	const links = flatten(filterNavGroups(role));
-	// The SaaS-operator panel is not part of the driver's workspace.
-	return role === "DRIVER" ? links : [...links, ...footerNavLinks];
+	return flatten(filterNavGroups(role));
 }

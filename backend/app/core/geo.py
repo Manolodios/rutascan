@@ -20,6 +20,11 @@ def local_today() -> date:
     return datetime.now(ZoneInfo(get_settings().report_timezone)).date()
 
 
+def local_date(value: datetime) -> date:
+    """Fecha local (zona horaria de la empresa) de un instante UTC."""
+    return ensure_utc(value).astimezone(ZoneInfo(get_settings().report_timezone)).date()
+
+
 def local_day_start_utc(day: date | None = None) -> datetime:
     """Medianoche local de `day` expresada en UTC (para filtrar escaneos)."""
     tz = ZoneInfo(get_settings().report_timezone)

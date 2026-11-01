@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
-import { MapPinIcon, RefreshCwIcon } from "lucide-react";
+import { LocateFixedIcon, MapPinIcon, RefreshCwIcon } from "lucide-react";
 import { PageHeader } from "@/components/page-header";
 import { RouteStatusBadge } from "@/components/views/status-badge";
 import { Card } from "@/components/ui/card";
@@ -58,10 +58,18 @@ function popupHtml(truck: LiveMapTruck): string {
 	return `<div style="min-width:190px">${rows.join("<br/>")}</div>`;
 }
 
-function LiveMapCanvas({ trucks }: { trucks: LiveMapTruck[] }) {
+function LiveMapCanvas({
+	trucks,
+	focusToken,
+}: {
+	trucks: LiveMapTruck[];
+	focusToken: number;
+}) {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const mapRef = useRef<L.Map | null>(null);
 	const layerRef = useRef<L.LayerGroup | null>(null);
+	const hasFittedRef = useRef(false);
+	const lastFocusRef = useRef(0);
 
 	useEffect(() => {
 		const element = containerRef.current;
@@ -75,6 +83,8 @@ function LiveMapCanvas({ trucks }: { trucks: LiveMapTruck[] }) {
 
 		mapRef.current = map;
 		layerRef.current = L.layerGroup().addTo(map);
+		// Si el mapa se recrea (StrictMode / remount), vuelve a encuadrar.
+		hasFittedRef.current = false;
 
 		return () => {
 			map.remove();
@@ -110,9 +120,18 @@ function LiveMapCanvas({ trucks }: { trucks: LiveMapTruck[] }) {
 		}
 
 		if (bounds.length > 0) {
-			map.fitBounds(L.latLngBounds(bounds), { padding: [40, 40], maxZoom: 14 });
+			// Solo encuadrar la primera vez o cuando el usuario pulsa "Centrar":
+			// el sondeo no debe mover el mapa mientras lo está revisando.
+			if (!hasFittedRef.current || focusToken !== lastFocusRef.current) {
+				map.fitBounds(L.latLngBounds(bounds), { padding: [40, 40], maxZoom: 14 });
+				hasFittedRef.current = true;
+				lastFocusRef.current = focusToken;
+			}
+		} else if (focusToken !== lastFocusRef.current) {
+			map.setView(DEFAULT_CENTER, DEFAULT_ZOOM);
+			lastFocusRef.current = focusToken;
 		}
-	}, [trucks]);
+	}, [trucks, focusToken]);
 
 	return <div className="h-[560px] w-full" ref={containerRef} />;
 }
@@ -165,11 +184,16 @@ export function MapView() {
 		[],
 	);
 	const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
+	const [focusToken, setFocusToken] = useState(0);
 
 	const reload = state.reload;
 
 	useEffect(() => {
-		const timer = setInterval(reload, POLL_MS);
+		const tick = () => {
+			// No gastar peticiones ni CPU con la pestaña en segundo plano.
+			if (!document.hidden) reload();
+		};
+		const timer = setInterval(tick, POLL_MS);
 		return () => clearInterval(timer);
 	}, [reload]);
 
@@ -239,11 +263,36 @@ export function MapView() {
 								<MapPinIcon className="size-4 text-muted-foreground" />
 								Última posición por camión
 							</div>
-							<span className="text-muted-foreground text-xs">
-								{withPosition} de {trucks.length} camiones con GPS
-							</span>
+							<div className="flex items-center gap-2">
+								<span className="text-muted-foreground text-xs">
+									{withPosition} de {trucks.length} camiones con GPS
+								</span>
+								<Button
+									className="h-7 gap-1 px-2 text-xs"
+									onClick={() => setFocusToken((value) => value + 1)}
+									size="sm"
+									variant="ghost"
+								>
+									<LocateFixedIcon className="size-3.5" />
+									Centrar
+								</Button>
+							</div>
 						</div>
-						<LiveMapCanvas trucks={trucks} />
+						<div className="relative">
+							<LiveMapCanvas focusToken={focusToken} trucks={trucks} />
+							{withPosition === 0 ? (
+								<div className="pointer-events-none absolute inset-0 flex items-center justify-center bg-background/60 p-6">
+									<div className="max-w-xs rounded-lg border bg-card/95 px-4 py-3 text-center shadow-sm">
+										<p className="font-medium text-sm">Sin posiciones GPS hoy</p>
+										<p className="mt-1 text-muted-foreground text-xs">
+											{trucks.length === 0
+												? "No hay rutas para hoy."
+												: "Los camiones aparecerán aquí cuando la app del conductor envíe su ubicación."}
+										</p>
+									</div>
+								</div>
+							) : null}
+						</div>
 						<div className="flex flex-wrap items-center gap-4 border-t px-4 py-2 text-muted-foreground text-xs">
 							<span className="flex items-center gap-1.5">
 								<span className="size-2.5 rounded-full bg-[#16a34a]" />
