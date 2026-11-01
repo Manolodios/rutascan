@@ -43,7 +43,7 @@ import {
 	type TruckOut,
 	type UserBrief,
 } from "@/lib/api";
-import { formatDateTime, formatInteger, formatPercent, todayISO } from "@/lib/format";
+import { formatDateTime, formatInteger, formatLongDate, formatPercent, todayISO } from "@/lib/format";
 import { errorMessage } from "@/lib/mutate";
 import { useAsyncData } from "@/lib/use-async";
 
@@ -110,7 +110,7 @@ export function RoutesView() {
 				</div>
 			) : routes.length === 0 ? (
 				<Card className="p-10 text-center text-muted-foreground text-sm">
-					No hay rutas creadas para el {day}.
+					No hay rutas creadas para el {formatLongDate(day)}.
 				</Card>
 			) : (
 				<div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">

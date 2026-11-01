@@ -8,8 +8,10 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
 import { api, type LiveMap, type LiveMapTruck } from "@/lib/api";
-import { formatDateTime } from "@/lib/format";
+import { formatDateTime, formatLongDate, todayISO } from "@/lib/format";
 import { useAsyncData } from "@/lib/use-async";
 
 /** Cabimas (Zulia), used until there is at least one GPS point to fit. */
@@ -179,9 +181,10 @@ function TruckCard({ truck }: { truck: LiveMapTruck }) {
 }
 
 export function MapView() {
+	const [day, setDay] = useState(todayISO);
 	const state = useAsyncData<LiveMap>(
-		() => api<LiveMap>("/api/v1/admin/dashboard/live-map"),
-		[],
+		() => api<LiveMap>(`/api/v1/admin/dashboard/live-map?day=${day}`),
+		[day],
 	);
 	const [updatedAt, setUpdatedAt] = useState<Date | null>(null);
 	const [focusToken, setFocusToken] = useState(0);
@@ -230,7 +233,7 @@ export function MapView() {
 			<PageHeader
 				description={
 					<span>
-						Flota del {data?.date ?? "—"}
+						Flota del {data?.date ? formatLongDate(data.date) : "—"}
 						{updatedAt
 							? ` · actualizado ${updatedAt.toLocaleTimeString("es-VE", {
 									hour: "2-digit",
@@ -247,6 +250,18 @@ export function MapView() {
 					<RefreshCwIcon />
 					{state.loading ? "Actualizando…" : "Actualizar"}
 				</Button>
+				<div className="flex items-center gap-2">
+					<Label className="text-muted-foreground text-xs" htmlFor="map-day">
+						Fecha
+					</Label>
+					<Input
+						className="h-7 w-36 text-xs"
+						id="map-day"
+						onChange={(event) => setDay(event.target.value)}
+						type="date"
+						value={day}
+					/>
+				</div>
 			</PageHeader>
 
 			{state.error ? (
