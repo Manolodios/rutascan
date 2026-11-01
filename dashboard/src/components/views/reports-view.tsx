@@ -19,7 +19,7 @@ import {
 	type DashboardSummary,
 	type RouteOut,
 } from "@/lib/api";
-import { formatDate, formatInteger, formatPercent, todayISO } from "@/lib/format";
+import { formatInteger, formatLongDate, formatPercent, todayISO } from "@/lib/format";
 import { errorMessage } from "@/lib/mutate";
 import { useAsyncData } from "@/lib/use-async";
 
@@ -154,7 +154,7 @@ export function ReportsView() {
 						Últimos 30 días
 					</Button>
 					<span className="text-muted-foreground text-xs">
-						{formatDate(from)} → {formatDate(to)}
+						{formatLongDate(from)} → {formatLongDate(to)}
 					</span>
 				</div>
 
@@ -184,6 +184,8 @@ export function ReportsView() {
 						<Skeleton className="h-16 w-full" />
 					) : preview.error ? (
 						<p className="text-destructive text-sm">{preview.error}</p>
+					) : !summary ? (
+						<p className="text-muted-foreground text-sm">Sin datos en el rango seleccionado.</p>
 					) : summary ? (
 						<div className="grid grid-cols-2 gap-4 md:grid-cols-4">
 							<Kpi label="Rutas hoy" value={formatInteger(summary.routes.total)} />
