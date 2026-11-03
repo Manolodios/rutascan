@@ -1,0 +1,69 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="320" viewBox="0 0 1280 320" role="img" aria-label="larptok — descargas públicas, cero publicidad">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0B0713" />
+      <stop offset="0.55" stop-color="#171122" />
+      <stop offset="1" stop-color="#241736" />
+    </linearGradient>
+    <linearGradient id="warm" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#FFD7A1" />
+      <stop offset="0.5" stop-color="#FF9F43" />
+      <stop offset="1" stop-color="#FF6B6B" />
+    </linearGradient>
+    <radialGradient id="glowCoral" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FF6B6B" stop-opacity="0.34" />
+      <stop offset="1" stop-color="#FF6B6B" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="glowOrange" cx="50%" cy="50%" r="50%">
+      <stop offset="0" stop-color="#FF9F43" stop-opacity="0.24" />
+      <stop offset="1" stop-color="#FF9F43" stop-opacity="0" />
+    </radialGradient>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" fill="none" stroke="#FFFFFF" stroke-opacity="0.035" />
+    </pattern>
+    <clipPath id="frame">
+      <rect width="1280" height="320" rx="28" />
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#frame)">
+    <rect width="1280" height="320" fill="url(#bg)" />
+    <circle cx="1080" cy="40" r="300" fill="url(#glowCoral)" />
+    <circle cx="760" cy="300" r="260" fill="url(#glowOrange)" />
+    <rect width="1280" height="320" fill="url(#grid)" />
+
+    <g transform="translate(975 34)">
+      <rect width="225" height="270" rx="34" fill="#171122" stroke="#2A2140" stroke-width="3" />
+      <rect x="70" y="14" width="85" height="16" rx="8" fill="#000000" />
+      <rect x="22" y="52" width="92" height="12" rx="6" fill="#F5F1FF" opacity="0.92" />
+      <rect x="22" y="72" width="132" height="8" rx="4" fill="#9A90B5" opacity="0.55" />
+      <rect x="22" y="96" width="181" height="40" rx="12" fill="#231A35" stroke="#2A2140" />
+      <rect x="22" y="146" width="181" height="34" rx="11" fill="url(#warm)" />
+      <rect x="22" y="192" width="181" height="46" rx="13" fill="#231A35" stroke="#2A2140" />
+      <circle cx="60" cy="215" r="12" fill="#FF6B6B" opacity="0.92" />
+      <path d="M56 209l11 6-11 6z" fill="#FFFFFF" />
+      <rect x="82" y="209" width="82" height="8" rx="4" fill="#F5F1FF" opacity="0.82" />
+      <rect x="82" y="222" width="54" height="6" rx="3" fill="#9A90B5" opacity="0.5" />
+      <rect x="22" y="248" width="181" height="1" fill="#2A2140" />
+      <g fill="#9A90B5">
+        <circle cx="42" cy="261" r="4" />
+        <circle cx="84" cy="261" r="4" />
+        <circle cx="126" cy="261" r="4" />
+        <circle cx="168" cy="261" r="4" />
+      </g>
+    </g>
+
+    <text x="76" y="150" fill="url(#warm)" font-family="Segoe UI, Arial, sans-serif" font-size="96" font-weight="900" letter-spacing="-5">larptok</text>
+    <text x="80" y="196" fill="#F5F1FF" font-family="Segoe UI, Arial, sans-serif" font-size="26" font-weight="600">Descargas públicas. Cero publicidad.</text>
+    <text x="80" y="224" fill="#9A90B5" font-family="Segoe UI, Arial, sans-serif" font-size="17">Instagram · TikTok · Facebook</text>
+
+    <g transform="translate(80 248)" font-family="Segoe UI, Arial, sans-serif" font-size="13" font-weight="700">
+      <rect width="126" height="34" rx="17" fill="#231A35" stroke="#2A2140" />
+      <text x="63" y="22" text-anchor="middle" fill="#FF9F43">Android 8+</text>
+      <rect x="138" width="132" height="34" rx="17" fill="#231A35" stroke="#2A2140" />
+      <text x="204" y="22" text-anchor="middle" fill="#FF9F43">0 publicidad</text>
+      <rect x="282" width="172" height="34" rx="17" fill="#231A35" stroke="#2A2140" />
+      <text x="368" y="22" text-anchor="middle" fill="#FF9F43">Hecho en español</text>
+    </g>
+  </g>
+</svg>
