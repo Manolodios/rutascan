@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>larptok · interfaz con cinco pestañas</title>
+<style>
+  :root {
+    --bg: #0F0B1A;
+    --surface: #171122;
+    --surface-alt: #231A35;
+    --text: #F5F1FF;
+    --muted: #9A90B5;
+    --accent: #FF6B6B;
+    --accent-2: #FF9F43;
+    --badge: #FF4D6D;
+    --divider: #2A2140;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background:
+      radial-gradient(circle at 20% 10%, rgba(255, 107, 107, 0.18), transparent 35%),
+      radial-gradient(circle at 85% 85%, rgba(255, 159, 67, 0.14), transparent 35%),
+      #07050D;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    color: var(--text);
+  }
+  .phone {
+    width: 390px;
+    height: 844px;
+    background: var(--bg);
+    border-radius: 44px;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.75), 0 0 0 8px #16121F, 0 0 0 10px #2A2140;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+  .notch {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 118px;
+    height: 28px;
+    background: #000;
+    border-radius: 20px;
+    z-index: 20;
+  }
+  .status-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 26px 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    opacity: 0.85;
+    flex: none;
+  }
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 22px 10px;
+    flex: none;
+  }
+  .brand h1 {
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: -1.2px;
+    line-height: 1;
+    background: linear-gradient(90deg, #FFD7A1, var(--accent-2) 55%, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .brand p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11.5px;
+  }
+  .ads-chip {
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--accent-2);
+    background: var(--surface-alt);
+    border: 1px solid var(--divider);
+    border-radius: 999px;
+    padding: 7px 11px;
+    white-space: nowrap;
+  }
+  .content {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+  }
+  .panel {
+    position: absolute;
+    inset: 0;
+    padding: 10px 22px 18px;
+    overflow-y: auto;
+    display: none;
+    animation: fade 0.22s ease;
+  }
+  .panel.active { display: flex; flex-direction: column; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+  .panel h2 {
+    font-size: 22px;
+    letter-spacing: -0.4px;
+  }
+  .panel .sub {
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.45;
+  }
+  .input {
+    margin-top: 16px;
+    background: var(--surface-alt);
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    padding: 14px 16px;
+    color: var(--text);
+    font-size: 13px;
+    width: 100%;
+    outline: none;
+  }
+  .input::placeholder { color: var(--muted); }
+  .input:focus { border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.16); }
+  .cta {
+    margin-top: 12px;
+    width: 100%;
+    height: 52px;
+    border: none;
+    border-radius: 16px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    color: #fff;
+    font-size: 15px;
+    font-weight: 800;
+    letter-spacing: 0.1px;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(255, 107, 107, 0.24);
+  }
+  .status {
+    margin-top: 9px;
+    color: var(--muted);
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .status .live {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #59D98C;
+    box-shadow: 0 0 8px #59D98C;
+    flex: none;
+  }
+  .preview {
+    margin-top: 14px;
+    flex: 1;
+    min-height: 220px;
+    border-radius: 20px;
+    border: 1px solid var(--divider);
+    background:
+      radial-gradient(circle at 30% 15%, rgba(255, 107, 107, 0.16), transparent 45%),
+      radial-gradient(circle at 75% 80%, rgba(255, 159, 67, 0.14), transparent 45%),
+      var(--surface);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
+  }
+  .preview::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 34px 34px;
+    mask-image: radial-gradient(circle at center, #000, transparent 78%);
+    pointer-events: none;
+  }
+  .orb {
+    width: 74px;
+    height: 74px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    display: grid;
+    place-items: center;
+    box-shadow: 0 16px 40px rgba(255, 107, 107, 0.32);
+    z-index: 1;
+  }
+  .orb svg { width: 38px; height: 38px; }
+  .preview strong { font-size: 16px; z-index: 1; }
+  .preview span { color: var(--muted); font-size: 11px; z-index: 1; }
+  .platforms {
+    display: flex;
+    gap: 7px;
+    margin-top: 4px;
+    z-index: 1;
+  }
+  .platforms b {
+    font-size: 9.5px;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    color: var(--text);
+    background: rgba(255,255,255,0.06);
+    border: 1px solid var(--divider);
+    border-radius: 999px;
+    padding: 5px 8px;
+    font-weight: 700;
+  }
+  .empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 8px;
+    padding: 20px 12px;
+  }
+  .empty .icon-wrap {
+    width: 76px;
+    height: 76px;
+    border-radius: 26px;
+    display: grid;
+    place-items: center;
+    background: var(--surface-alt);
+    border: 1px solid var(--divider);
+    margin-bottom: 4px;
+  }
+  .empty .icon-wrap svg { width: 34px; height: 34px; color: var(--accent-2); }
+  .empty h3 { font-size: 18px; }
+  .empty p { color: var(--muted); font-size: 12px; line-height: 1.5; max-width: 250px; }
+  .profile-card {
+    margin-top: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--surface-alt);
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--accent-2);
+    display: grid;
+    place-items: center;
+    flex: none;
+    color: var(--accent-2);
+  }
+  .avatar svg { width: 32px; height: 32px; }
+  .profile-card h3 { font-size: 15px; }
+  .profile-card p { margin-top: 4px; color: var(--muted); font-size: 11.5px; line-height: 1.45; }
+  .profile-actions { display: flex; gap: 14px; margin-top: 7px; font-size: 11.5px; font-weight: 800; }
+  .profile-actions .change { color: var(--accent-2); }
+  .profile-actions .remove { color: var(--badge); }
+  .settings-card {
+    margin-top: 14px;
+    background: var(--surface-alt);
+    border: 1px solid var(--divider);
+    border-radius: 16px;
+    padding: 16px;
+  }
+  .settings-card + .settings-card { margin-top: 10px; }
+  .settings-card h3 { font-size: 15px; color: var(--accent-2); }
+  .settings-card p { margin-top: 5px; color: var(--muted); font-size: 11.5px; line-height: 1.5; }
+  .settings-card .version { color: var(--text); font-size: 13px; }
+  .settings-card .warning { margin-top: 9px; }
+  .tabbar {
+    flex: none;
+    display: flex;
+    gap: 2px;
+    padding: 8px 8px 16px;
+    background: var(--surface);
+    border-top: 1px solid var(--divider);
+    border-radius: 24px 24px 0 0;
+    box-shadow: 0 -12px 30px rgba(0, 0, 0, 0.28);
+    position: relative;
+    z-index: 5;
+  }
+  .tab {
+    flex: 1;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 7px 2px 5px;
+    border-radius: 18px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.18s, color 0.18s;
+    position: relative;
+  }
+  .tab:hover { color: var(--text); }
+  .tab.active { background: var(--surface-alt); color: var(--accent-2); }
+  .tab svg { width: 23px; height: 23px; }
+  .tab span { font-size: 9.5px; font-weight: 600; letter-spacing: 0.1px; }
+  .tab .badge {
+    position: absolute;
+    top: 3px;
+    right: calc(50% - 23px);
+    min-width: 16px;
+    height: 16px;
+    border-radius: 999px;
+    background: var(--badge);
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    padding: 0 4px;
+    border: 2px solid var(--surface);
+  }
+  .tab .dot {
+    position: absolute;
+    top: 6px;
+    right: calc(50% - 20px);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--badge);
+    border: 2px solid var(--surface);
+  }
+  .tab.active .badge, .tab.active .dot { border-color: var(--surface-alt); }
+  @media (max-height: 880px) {
+    .phone { width: min(390px, calc(100vw - 32px)); height: min(844px, calc(100vh - 32px)); }
+  }
+</style>
+</head>
+<body>
+  <div class="phone" aria-label="Simulación de la app larptok">
+    <div class="notch" aria-hidden="true"></div>
+    <div class="status-bar" aria-hidden="true">
+      <span>9:41</span>
+      <span>5G · 72%</span>
+    </div>
+
+    <header class="header">
+      <div class="brand">
+        <h1>larptok</h1>
+        <p>Descargas sin publicidad</p>
+      </div>
+      <div class="ads-chip">0 publicidad</div>
+    </header>
+
+    <main class="content">
+      <section class="panel active" data-panel="home">
+        <h2>Pega el link</h2>
+        <p class="sub">Instagram, TikTok o Facebook · descarga directa</p>
+        <input class="input" type="text" value="https://www.instagram.com/reel/abc123/" readonly aria-label="Ejemplo de link pegado">
+        <button class="cta" type="button">Procesar link</button>
+        <div class="status" aria-live="polite"><span class="live"></span>Listo · 0 publicidad — sin anuncios ni banners</div>
+        <div class="preview">
+          <div class="orb">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M12 3v11m0 0 4.2-4.2M12 14l-4.2-4.2M5 17.5V19a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-1.5" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <strong>Listo para descargar</strong>
+          <span>Videos, reels, imágenes, historias y portadas</span>
+          <div class="platforms"><b>Instagram</b><b>TikTok</b><b>Facebook</b></div>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="downloads">
+        <h2>Descargas</h2>
+        <p class="sub">Tus archivos van a la carpeta Downloads del teléfono.</p>
+        <div class="empty">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+          </div>
+          <h3>Todavía no hay descargas</h3>
+          <p>Los videos e imágenes que descargues van a aparecer acá.</p>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="favorites">
+        <h2>Favoritos</h2>
+        <p class="sub">Guardá los links que quieras volver a bajar.</p>
+        <div class="empty">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+          </div>
+          <h3>Sin favoritos</h3>
+          <p>Guardá acá los links que quieras volver a bajar.</p>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="history">
+        <h2>Historial</h2>
+        <p class="sub">Tus links procesados se van a listar acá.</p>
+        <div class="empty">
+          <div class="icon-wrap">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 7 7 6.98 6.98 0 0 1-4.9-2l-1.42 1.42A8.94 8.94 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+          </div>
+          <h3>Historial vacío</h3>
+          <p>Tus links procesados se van a listar acá.</p>
+        </div>
+      </section>
+
+      <section class="panel" data-panel="settings">
+        <h2>Ajustes</h2>
+        <p class="sub">larptok · versión 1.0</p>
+        <div class="profile-card">
+          <div class="avatar" aria-label="Foto de perfil">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+          </div>
+          <div>
+            <h3>Foto de perfil</h3>
+            <p>Tocá la foto para elegir una imagen de tu galería.</p>
+            <div class="profile-actions">
+              <span class="change">Cambiar foto</span>
+              <span class="remove">Quitar foto</span>
+            </div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <h3>0 publicidad</h3>
+          <p>Sin anuncios, banners ni pop-ups. Nunca.</p>
+        </div>
+        <div class="settings-card">
+          <p class="version">Versión 1.0 · larptok</p>
+          <p class="warning">Usá la app solo para contenido público y de forma personal. Según la plataforma y el tipo de publicación, el archivo descargado puede incluir marca de agua. Descargar contenido sin autorización viola los términos de servicio de las plataformas.</p>
+        </div>
+      </section>
+    </main>
+
+    <nav class="tabbar" aria-label="Navegación principal">
+      <button class="tab active" type="button" data-tab="home" aria-current="page">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Inicio</span>
+      </button>
+      <button class="tab" type="button" data-tab="downloads">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        <span>Descargas</span>
+        <i class="badge" aria-label="3 descargas">3</i>
+      </button>
+      <button class="tab" type="button" data-tab="favorites">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        <span>Favoritos</span>
+      </button>
+      <button class="tab" type="button" data-tab="history">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 7 7 6.98 6.98 0 0 1-4.9-2l-1.42 1.42A8.94 8.94 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+        <span>Historial</span>
+        <i class="dot" aria-label="Novedades"></i>
+      </button>
+      <button class="tab" type="button" data-tab="settings">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.49.49 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.48.48 0 0 0-.48-.41h-3.84a.48.48 0 0 0-.48.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.48.48 0 0 0-.59.22L2.75 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.48-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32a.49.49 0 0 0-.12-.61l-2.01-1.58zM12 15.6A3.6 3.6 0 1 1 12 8.4a3.6 3.6 0 0 1 0 7.2z"/></svg>
+        <span>Ajustes</span>
+      </button>
+    </nav>
+  </div>
+
+<script>
+  const tabs = document.querySelectorAll(".tab");
+  const panels = document.querySelectorAll(".panel");
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      tabs.forEach((t) => {
+        t.classList.toggle("active", t === tab);
+        if (t === tab) t.setAttribute("aria-current", "page");
+        else t.removeAttribute("aria-current");
+      });
+      const name = tab.dataset.tab;
+      panels.forEach((panel) => panel.classList.toggle("active", panel.dataset.panel === name));
+      if (name === "history") {
+        const dot = tab.querySelector(".dot");
+        if (dot) dot.remove();
+      }
+    });
+  });
+</script>
+</body>
+</html>

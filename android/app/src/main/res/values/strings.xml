@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">larptok</string>
+    <string name="tagline">Descargas sin publicidad</string>
+    <string name="tab_home">Inicio</string>
+    <string name="tab_downloads">Descargas</string>
+    <string name="tab_favorites">Favoritos</string>
+    <string name="tab_history">Historial</string>
+    <string name="tab_settings">Ajustes</string>
+    <string name="home_title">Pega el link</string>
+    <string name="home_subtitle">Instagram, TikTok o Facebook · descarga directa</string>
+    <string name="hint_url">https://www.instagram.com/reel/…</string>
+    <string name="action_procesar">Procesar link</string>
+    <string name="status_ready">Listo · 0 publicidad — sin anuncios ni banners</string>
+    <string name="empty_downloads">Todavía no hay descargas</string>
+    <string name="empty_downloads_sub">Los videos e imágenes que descargues van a aparecer acá.</string>
+    <string name="downloads_summary">%1$d descargas iniciadas</string>
+    <string name="empty_favorites">Próximamente</string>
+    <string name="empty_favorites_sub">Muy pronto vas a poder guardar tus links favoritos.</string>
+    <string name="empty_history">Próximamente</string>
+    <string name="empty_history_sub">Muy pronto vas a ver acá tus links procesados.</string>
+    <string name="settings_title">Ajustes</string>
+    <string name="profile_photo_title">Foto de perfil</string>
+    <string name="profile_photo_hint">Tocá la foto para elegir una imagen de tu galería.</string>
+    <string name="profile_photo_hint_saved">Foto guardada en este dispositivo.</string>
+    <string name="profile_photo_change">Cambiar foto</string>
+    <string name="profile_photo_remove">Quitar foto</string>
+    <string name="profile_photo_error">No se pudo abrir esa imagen. Probá con otra.</string>
+    <string name="profile_photo_content_description">Foto de perfil de larptok</string>
+    <string name="profile_photo_placeholder">Agregar foto de perfil</string>
+    <string name="settings_zero_ads">0 publicidad</string>
+    <string name="settings_zero_ads_sub">Sin anuncios, banners ni pop-ups. Nunca.</string>
+    <string name="settings_version">Versión 1.0 · larptok</string>
+    <string name="settings_warning">Usá la app solo para contenido público y de forma personal. Según la plataforma y el tipo de publicación, el archivo descargado puede incluir marca de agua. Descargar contenido sin autorización viola los términos de servicio de las plataformas.</string>
+</resources>
