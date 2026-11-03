@@ -1,4 +1,4 @@
-# RutaScan
+> **Proyecto derivado:** [`larptok`](https://github.com/Manolodios/larptok) â€” app Android independiente con cinco pestaÃ±as, descargas pÃºblicas sin publicidad y foto de perfil.`r`n> Su propio repositorio y release: https://github.com/Manolodios/larptok/releases`r`n`r`n# RutaScan
 
 [![CI](https://github.com/Manolodios/rutascan/actions/workflows/ci.yml/badge.svg)](https://github.com/Manolodios/rutascan/actions/workflows/ci.yml)
 [![Licencia: AGPL-3.0](https://img.shields.io/badge/licencia-AGPL--3.0-blue.svg)](LICENSE)
