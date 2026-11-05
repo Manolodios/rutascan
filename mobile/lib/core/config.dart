@@ -1,16 +1,17 @@
 /// Static configuration compiled into the app.
 ///
-/// Point the app at your backend at build time, e.g.:
-///   flutter build apk --dart-define=API_BASE_URL=https://api.tuempresa.com
+/// Defaults to the production backend so an installed APK works on a real
+/// phone without any extra setup. Override at build time for local/LAN work:
+///   flutter build apk --dart-define=API_BASE_URL=http://192.168.1.139:8000
 ///
-/// Default targets the Android emulator's host loopback (10.0.2.2 = host PC).
+/// The in-app "Dirección del servidor" dialog can also change it at runtime.
 class AppConfig {
   AppConfig._();
 
   /// Base URL of the RutaScan backend (no trailing slash).
   static const String apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://10.0.2.2:8000',
+    defaultValue: 'https://rutascan.onrender.com',
   );
 
   /// Sent as X-App-Version; keep in sync with pubspec `version`.

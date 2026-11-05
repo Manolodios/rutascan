@@ -4,11 +4,11 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  static const Color navy = Color(0xFF0F2A43);
-  static const Color primary = Color(0xFF1565C0);
-  static const Color loadGreen = Color(0xFF2E7D32);
-  static const Color deliverBlue = Color(0xFF1565C0);
-  static const Color rejectOrange = Color(0xFFE65100);
+  static const Color navy = Color(0xFFdc2626); // rojo RutaScan, combina con landing MagnetLines
+  static const Color primary = Color(0xFFdc2626);
+  static const Color loadGreen = Color(0xFFef4444); // rojo brillante para carga
+  static const Color deliverBlue = Color(0xFFf87171); // rojo claro para entrega
+  static const Color rejectOrange = Color(0xFFdc2626); // rojo intenso para rechazo
   static const Color success = Color(0xFF2E7D32);
   static const Color danger = Color(0xFFC62828);
   static const Color warning = Color(0xFFEF6C00);

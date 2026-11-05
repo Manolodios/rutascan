@@ -57,9 +57,9 @@ Future<bool> showServerUrlDialog(
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  'Debe apuntar a la PC donde corre RutaScan:\n'
-                  '• Misma red WiFi: http://IP-DE-LA-PC:8000\n'
-                  '• Por internet: https://su-dominio.com',
+                  'Debe apuntar al servidor de RutaScan:\n'
+                  '• Producción: https://rutascan.onrender.com\n'
+                  '• Red local: http://IP-DE-LA-PC:8000',
                   style: TextStyle(fontSize: 12, color: Colors.black54),
                 ),
                 const SizedBox(height: 6),
