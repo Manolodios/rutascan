@@ -66,12 +66,12 @@ let win = null;
 
 const LOADING = `<!doctype html><html><head><meta charset="utf-8"><style>
 html,body{height:100%;margin:0}
-body{display:flex;align-items:center;justify-content:center;background:#0f172a;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif}
+body{display:flex;align-items:center;justify-content:center;background:#09090b;color:#f4f4f5;font-family:'Segoe UI',system-ui,sans-serif}
 .box{text-align:center}
 .logo{font-size:48px;font-weight:800;letter-spacing:-1px}
-.logo span{color:#59a1ff}
-.sub{margin-top:12px;color:#94a3b8;font-size:14px}
-.spin{margin:28px auto 0;width:40px;height:40px;border:4px solid #1e293b;border-top-color:#2f7ef7;border-radius:50%;animation:s 1s linear infinite}
+.logo span{color:#ef4444}
+.sub{margin-top:12px;color:#a1a1aa;font-size:14px}
+.spin{margin:28px auto 0;width:40px;height:40px;border:4px solid #27272a;border-top-color:#dc2626;border-radius:50%;animation:s 1s linear infinite}
 @keyframes s{to{transform:rotate(360deg)}}
 </style></head><body><div class="box">
 <div class="logo">Ruta<span>Scan</span></div>
@@ -81,13 +81,13 @@ body{display:flex;align-items:center;justify-content:center;background:#0f172a;c
 
 const MISSING = `<!doctype html><html><head><meta charset="utf-8"><style>
 html,body{height:100%;margin:0}
-body{display:flex;align-items:center;justify-content:center;background:#0f172a;color:#e2e8f0;font-family:'Segoe UI',system-ui,sans-serif}
+body{display:flex;align-items:center;justify-content:center;background:#09090b;color:#f4f4f5;font-family:'Segoe UI',system-ui,sans-serif}
 .box{max-width:640px;padding:32px;line-height:1.55}
 h1{font-size:22px;margin:0 0 6px}
-h1 span{color:#59a1ff}
-p{color:#cbd5e1;font-size:14px}
-code{background:#1e293b;padding:2px 6px;border-radius:6px;font-size:13px}
-ul{color:#cbd5e1;font-size:14px}
+h1 span{color:#ef4444}
+p{color:#d4d4d8;font-size:14px}
+code{background:#27272a;padding:2px 6px;border-radius:6px;font-size:13px}
+ul{color:#d4d4d8;font-size:14px}
 </style></head><body><div class="box">
 <h1>Ruta<span>Scan</span> - no encontre el proyecto</h1>
 <p>La aplicacion necesita la carpeta del proyecto (la que tiene <code>backend</code> y <code>.venv</code>).</p>
@@ -140,7 +140,7 @@ function createWindow() {
     height: 900,
     minWidth: 1024,
     minHeight: 700,
-    backgroundColor: '#0f172a',
+    backgroundColor: '#09090b',
     title: 'RutaScan',
     autoHideMenuBar: true,
     icon: path.join(__dirname, 'build', 'icon.png'),

@@ -8,7 +8,7 @@ arranca el backend automáticamente y lo apaga al cerrar.
 1. Comprueba si el backend ya responde en `http://127.0.0.1:8000/health`.
    Si no responde, lo arranca con el `.venv` del proyecto.
 2. Muestra la pantalla de carga y luego abre el panel web en
-   `http://127.0.0.1:8000/`.
+   `http://127.0.0.1:8000/app/` (el landing público vive en `/`).
 3. Acepta `--remote-debugging-port=9222` (útil para verificar qué URL cargó).
 
 Los enlaces internos (secciones del panel) se abren en la misma ventana; las
@@ -25,8 +25,10 @@ etiquetas QR generadas se abren en una ventana pequeña y los enlaces externos
 | Python | `<proyecto>\.venv\Scripts\python.exe` |
 | Panel servido | `<proyecto>\web` (`WEB_DIR`) — lo genera `dashboard`: `npm run build:web` |
 
-> El proyecto **no debe moverse de carpeta**: la ruta está fijada por defecto en
-> `main.js`. Si se mueve, defina `RUTASCAN_PROJECT` o actualice la constante.
+> La carpeta se detecta automáticamente (variable `RUTASCAN_PROJECT`, luego
+> `%LOCALAPPDATA%\RutaScan\project.txt`, luego las carpetas superiores a la app).
+> Si mueve el proyecto, vuelva a ejecutar el instalador o defina
+> `RUTASCAN_PROJECT`.
 
 ## Comandos
 
@@ -86,6 +88,6 @@ de solo `resources\app`.
 $exe = "$env:LOCALAPPDATA\Programs\RutaScan\RutaScan.exe"
 Start-Process $exe -ArgumentList "--remote-debugging-port=9222"
 Start-Sleep 8
-(Invoke-RestMethod http://127.0.0.1:9222/json).url    # debe ser .../
+(Invoke-RestMethod http://127.0.0.1:9222/json).url    # debe ser .../app/
 Get-Process RutaScan | Stop-Process -Force
 ```
