@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import '../core/config.dart';
 import '../core/theme.dart';
+import '../core/theme_controller.dart';
 import '../data/api_client.dart';
 import '../data/models.dart';
 import '../data/repository.dart';
@@ -112,6 +113,55 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return ListView(
       children: [
         SectionCard(
+          title: 'Apariencia',
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Elige cómo se ve RutaScan en este dispositivo.',
+                style: TextStyle(
+                  fontSize: 12.5,
+                  color: AppColors.muted(context),
+                ),
+              ),
+              const SizedBox(height: 12),
+              SizedBox(
+                width: double.infinity,
+                child: SegmentedButton<ThemeMode>(
+                  segments: const [
+                    ButtonSegment(
+                      value: ThemeMode.system,
+                      icon: Icon(Icons.brightness_auto_rounded, size: 18),
+                      label: Text('Auto'),
+                    ),
+                    ButtonSegment(
+                      value: ThemeMode.light,
+                      icon: Icon(Icons.light_mode_rounded, size: 18),
+                      label: Text('Claro'),
+                    ),
+                    ButtonSegment(
+                      value: ThemeMode.dark,
+                      icon: Icon(Icons.dark_mode_rounded, size: 18),
+                      label: Text('Oscuro'),
+                    ),
+                  ],
+                  selected: {ThemeController.instance.mode},
+                  showSelectedIcon: false,
+                  expandedInsets: EdgeInsets.zero,
+                  onSelectionChanged: (selection) {
+                    final mode = selection.first;
+                    ThemeController.instance.setMode(mode);
+                    widget.session.setThemeMode(
+                      ThemeController.serialize(mode),
+                    );
+                    setState(() {});
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+        SectionCard(
           title: 'Usuario',
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -143,7 +193,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 _row('Dispositivos',
                     '${license.activeDevices} de ${license.maxTrucks}'),
               ] else
-                const Text('Sin datos de licencia en caché.'),
+                Text(
+                  'Sin datos de licencia en caché.',
+                  style: TextStyle(color: AppColors.muted(context)),
+                ),
               _row(
                 'Última validación',
                 session.lastLicenseCheckAt != null
@@ -221,7 +274,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             width: 150,
             child: Text(
               label,
-              style: const TextStyle(fontSize: 13, color: Colors.black54),
+              style: TextStyle(fontSize: 13, color: AppColors.muted(context)),
             ),
           ),
           Expanded(
@@ -230,7 +283,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               style: TextStyle(
                 fontSize: 13.5,
                 fontWeight: highlight ? FontWeight.w700 : FontWeight.w500,
-                color: highlight ? AppColors.success : Colors.black87,
+                color: highlight
+                    ? AppColors.brand
+                    : Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ),

@@ -27,6 +27,7 @@ class SessionStore {
   static const _kGraceExpiresAt = 'rs_grace_expires_at';
   static const _kLastLicenseCheck = 'rs_last_license_check';
   static const _kServerUrl = 'rs_server_url';
+  static const _kThemeMode = 'rs_theme_mode';
 
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
 
@@ -45,6 +46,9 @@ class SessionStore {
 
   /// Custom backend address; `null` means "use the compiled default".
   String? serverUrl;
+
+  /// Appearance preference: `system`, `light` or `dark`.
+  String? themeMode;
 
   bool get isLoggedIn => accessToken != null && user != null;
 
@@ -85,6 +89,7 @@ class SessionStore {
     graceExpiresAt = _parseDate(await _read(_kGraceExpiresAt));
     lastLicenseCheckAt = _parseDate(await _read(_kLastLicenseCheck));
     serverUrl = await _read(_kServerUrl);
+    themeMode = await _read(_kThemeMode);
   }
 
   Future<void> setLicenseKey(String value) async {
@@ -101,6 +106,12 @@ class SessionStore {
   Future<void> setServerUrl(String? value) async {
     serverUrl = normalizeServerUrl(value);
     await _write(_kServerUrl, serverUrl);
+  }
+
+  /// Persists the appearance preference (`system`, `light` or `dark`).
+  Future<void> setThemeMode(String value) async {
+    themeMode = value;
+    await _write(_kThemeMode, value);
   }
 
   /// Accepts `192.168.1.5`, `192.168.1.5:8000`, `http://host:8000/` or a full

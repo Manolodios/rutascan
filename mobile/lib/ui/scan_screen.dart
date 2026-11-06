@@ -481,6 +481,8 @@ class _ScanScreenState extends State<ScanScreen> {
                       child: OutlinedButton.icon(
                         style: OutlinedButton.styleFrom(
                           backgroundColor: Colors.white,
+                          foregroundColor: AppColors.brandDeep,
+                          side: const BorderSide(color: Colors.white),
                           minimumSize: const Size.fromHeight(48),
                         ),
                         onPressed: _busy ? null : _openManualEntry,

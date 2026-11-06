@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'core/theme.dart';
+import 'core/theme_controller.dart';
 import 'data/api_client.dart';
 import 'data/repository.dart';
 import 'data/session_store.dart';
@@ -23,16 +24,23 @@ class RutaScanApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'RutaScan',
-      debugShowCheckedModeBanner: false,
-      theme: buildAppTheme(),
-      home: SplashScreen(
-        session: session,
-        api: api,
-        repository: repository,
-        sync: sync,
-      ),
+    return AnimatedBuilder(
+      animation: ThemeController.instance,
+      builder: (context, _) {
+        return MaterialApp(
+          title: 'RutaScan',
+          debugShowCheckedModeBanner: false,
+          theme: buildLightTheme(),
+          darkTheme: buildDarkTheme(),
+          themeMode: ThemeController.instance.mode,
+          home: SplashScreen(
+            session: session,
+            api: api,
+            repository: repository,
+            sync: sync,
+          ),
+        );
+      },
     );
   }
 }

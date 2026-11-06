@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../core/config.dart';
+import '../core/theme.dart';
 import '../data/session_store.dart';
 
 /// Lets the user point the app at a different backend (PC on the LAN, a tunnel
@@ -56,16 +57,22 @@ Future<bool> showServerUrlDialog(
                   onSubmitted: (_) => save(),
                 ),
                 const SizedBox(height: 12),
-                const Text(
+                Text(
                   'Debe apuntar al servidor de RutaScan:\n'
                   '• Producción: https://rutascan.onrender.com\n'
                   '• Red local: http://IP-DE-LA-PC:8000',
-                  style: TextStyle(fontSize: 12, color: Colors.black54),
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: AppColors.muted(context),
+                  ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
+                Text(
                   'Predeterminado de fábrica: ${AppConfig.apiBaseUrl}',
-                  style: TextStyle(fontSize: 11, color: Colors.black38),
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: AppColors.faint(context),
+                  ),
                 ),
               ],
             ),

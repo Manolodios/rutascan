@@ -78,8 +78,10 @@ class _QueueScreenState extends State<QueueScreen> {
                       Text(
                         'Última sincronización: '
                         '${fmt.format(sync.lastSyncAt!.toLocal())}',
-                        style: const TextStyle(
-                            fontSize: 12, color: Colors.black54),
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: AppColors.muted(context),
+                        ),
                       ),
                     if (sync.lastSyncError != null)
                       Padding(
@@ -116,14 +118,19 @@ class _QueueScreenState extends State<QueueScreen> {
                 ),
               ),
               if (scans.isEmpty)
-                const Padding(
-                  padding: EdgeInsets.all(32),
+                Padding(
+                  padding: const EdgeInsets.all(32),
                   child: Column(
                     children: [
-                      Icon(Icons.cloud_done,
+                      const Icon(Icons.cloud_done,
                           size: 56, color: AppColors.success),
-                      SizedBox(height: 8),
-                      Text('Todo sincronizado. No hay escaneos pendientes.'),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Todo sincronizado. No hay escaneos pendientes.',
+                        style: TextStyle(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
+                      ),
                     ],
                   ),
                 ),

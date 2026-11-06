@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 import 'app.dart';
+import 'core/theme_controller.dart';
 import 'data/api_client.dart';
 import 'data/local_db.dart';
 import 'data/repository.dart';
@@ -12,8 +14,10 @@ import 'services/feedback.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   try {
+    await initializeDateFormatting('es');
     final session = SessionStore.instance;
     await session.load();
+    ThemeController.instance.hydrate(session.themeMode);
     await FeedbackService.instance.init();
 
     final deviceUuid = await DeviceIdService.getOrCreate();

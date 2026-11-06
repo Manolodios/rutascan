@@ -54,12 +54,20 @@ class _ManifestScreenState extends State<ManifestScreen> {
               physics: const AlwaysScrollableScrollPhysics(),
               children: [
                 const SizedBox(height: 80),
-                const Icon(Icons.inbox_outlined, size: 64, color: Colors.black26),
+                Icon(
+                  Icons.inbox_outlined,
+                  size: 64,
+                  color: AppColors.faint(context),
+                ),
                 const SizedBox(height: 12),
                 Center(
                   child: Text(
                     manifest.message ?? 'No tiene ruta asignada para hoy.',
-                    style: const TextStyle(fontSize: 16),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.onSurface,
+                    ),
                   ),
                 ),
               ],
@@ -86,7 +94,10 @@ class _ManifestScreenState extends State<ManifestScreen> {
                 child: Text(
                   '${manifest.deliveredUnits}/${manifest.assignedUnits} unidades · '
                   '${manifest.pendingUnits} pendientes · ${manifest.rejectedLines} rechazos',
-                  style: const TextStyle(fontSize: 13),
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.muted(context),
+                  ),
                 ),
               ),
               const SizedBox(height: 4),
@@ -150,7 +161,7 @@ class _ManifestTile extends StatelessWidget {
               'Entregado ${item.deliveredQuantity} de ${item.assignedQuantity}'
               '${item.returnRequired ? ' · requiere devolución' : ''}'
               '${lastScan != null ? ' · último: $lastScan' : ''}',
-              style: const TextStyle(fontSize: 12, color: Colors.black54),
+              style: TextStyle(fontSize: 12, color: AppColors.muted(context)),
             ),
           ],
         ),
@@ -174,7 +185,10 @@ class _ErrorState extends StatelessWidget {
         children: [
           const Icon(Icons.wifi_off, size: 56, color: AppColors.warning),
           const SizedBox(height: 12),
-          const Text('No hay ruta disponible sin conexión.'),
+          Text(
+            'No hay ruta disponible sin conexión.',
+            style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+          ),
           const SizedBox(height: 12),
           FilledButton.icon(
             onPressed: onRetry,

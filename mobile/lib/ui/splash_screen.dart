@@ -142,9 +142,27 @@ class _SplashScreenState extends State<SplashScreen> {
             ? Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.qr_code_scanner,
-                      size: 92, color: Colors.white),
-                  const SizedBox(height: 12),
+                  Container(
+                    width: 96,
+                    height: 96,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(26),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withAlpha(60),
+                          blurRadius: 28,
+                          offset: const Offset(0, 12),
+                        ),
+                      ],
+                    ),
+                    child: const Icon(
+                      Icons.qr_code_2_rounded,
+                      size: 58,
+                      color: AppColors.brand,
+                    ),
+                  ),
+                  const SizedBox(height: 18),
                   const Text(
                     'RutaScan',
                     style: TextStyle(
