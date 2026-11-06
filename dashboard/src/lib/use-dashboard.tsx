@@ -43,6 +43,7 @@ const DashboardContext = createContext<DashboardState | null>(null);
 export function DashboardProvider({ children }: { children: ReactNode }) {
 	const { logged, user } = useAuth();
 	const enabled = logged && user?.role !== "DRIVER";
+	const isAdmin = user?.role === "ADMIN";
 
 	const [summary, setSummary] = useState<DashboardSummary | null>(null);
 	const [liveMap, setLiveMap] = useState<LiveMap | null>(null);
@@ -65,7 +66,9 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
 			const [s, m, l, events] = await Promise.all([
 				api<DashboardSummary>("/api/v1/admin/dashboard/summary"),
 				api<LiveMap>("/api/v1/admin/dashboard/live-map"),
-				api<LicenseInfo>("/api/v1/admin/license").catch(() => null),
+				isAdmin
+					? api<LicenseInfo>("/api/v1/admin/license").catch(() => null)
+					: Promise.resolve<LicenseInfo | null>(null),
 				api<SecurityEventOut[]>("/api/v1/admin/security-events?limit=5").catch(
 					() => [] as SecurityEventOut[],
 				),
@@ -84,7 +87,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
 			inFlight.current = false;
 			if (alive.current) setLoading(false);
 		}
-	}, [enabled]);
+	}, [enabled, isAdmin]);
 
 	useEffect(() => {
 		alive.current = true;

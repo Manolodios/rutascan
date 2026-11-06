@@ -5,9 +5,11 @@ import { RsLicenseCard } from "@/components/rs-license-card";
 import { RsStats } from "@/components/rs-stats";
 import { RsTrucksTable } from "@/components/rs-trucks-table";
 import { RsWeeklyChart } from "@/components/rs-weekly-chart";
+import { useAuth } from "@/lib/auth";
 import { useDashboardData } from "@/lib/use-dashboard";
 
 export function RsDashboard() {
+	const { user } = useAuth();
 	const { summary, liveMap, license, error, loading, lastUpdated, reload } =
 		useDashboardData();
 
@@ -68,7 +70,7 @@ export function RsDashboard() {
 				<RsStats summary={summary} />
 				<RsWeeklyChart summary={summary} />
 				<RsTrucksTable liveMap={liveMap} />
-				<RsLicenseCard license={license} />
+				{user?.role === "ADMIN" ? <RsLicenseCard license={license} /> : null}
 				<RsActivity activity={summary.recent_activity} />
 			</div>
 
