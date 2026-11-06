@@ -246,6 +246,18 @@ export async function logout(): Promise<void> {
 	clearSession();
 }
 
+/** Changes the authenticated user's PIN after verifying the current one. */
+export async function changePin(
+	currentPin: string,
+	newPin: string,
+): Promise<void> {
+	await api("/auth/change-pin", {
+		method: "POST",
+		body: { current_pin: currentPin, new_pin: newPin },
+		expect: "none",
+	});
+}
+
 /* ------------------------------- API types ------------------------------- */
 
 export type DashboardSummary = {

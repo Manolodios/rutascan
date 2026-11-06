@@ -68,6 +68,11 @@ class RefreshRequest(BaseModel):
     refresh_token: str
 
 
+class ChangePinRequest(BaseModel):
+    current_pin: str = Field(min_length=4, max_length=4, pattern=r"^\d{4}$")
+    new_pin: str = Field(min_length=4, max_length=4, pattern=r"^\d{4}$")
+
+
 class LogoutRequest(BaseModel):
     refresh_token: str | None = None
 

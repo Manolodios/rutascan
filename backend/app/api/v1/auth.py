@@ -24,6 +24,7 @@ from app.core.security import (
     create_grace_token,
     create_refresh_token,
     decode_token,
+    hash_pin,
     token_seconds_remaining,
     verify_pin,
 )
@@ -33,6 +34,7 @@ from app.models.enums import Role, SecurityEventType
 from app.models.security_event import SecurityEvent
 from app.models.user import User
 from app.schemas.auth import (
+    ChangePinRequest,
     CompanyPublic,
     HeartbeatResponse,
     LicenseStatusOut,
@@ -274,6 +276,48 @@ def me(user: User = Depends(get_current_user), db: Session = Depends(get_db)) ->
         "company": CompanyPublic.model_validate(company) if company else None,
         "license": licensing.license_snapshot(db, company) if company else None,
     }
+
+
+@router.post("/change-pin", response_model=Message)
+def change_pin(
+    payload: ChangePinRequest,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> Message:
+    """Cambia el PIN del usuario autenticado verificando el PIN actual."""
+    settings = get_settings()
+    scope_id = str(user.id)
+    limit = check_rate_limit(
+        "change-pin",
+        scope_id,
+        settings.pin_max_attempts,
+        settings.pin_lockout_minutes * 60,
+    )
+    if not limit.allowed:
+        raise _error(
+            429,
+            "Demasiados intentos. Espere antes de reintentar.",
+            "PIN_LOCKOUT",
+            retry_after=limit.retry_after,
+        )
+
+    if not verify_pin(payload.current_pin, user.pin_hash):
+        register_failed_attempt(
+            "change-pin", scope_id, settings.pin_lockout_minutes * 60
+        )
+        raise _error(401, "El PIN actual no es correcto.", "INVALID_CURRENT_PIN")
+
+    if payload.current_pin == payload.new_pin:
+        raise _error(
+            400,
+            "El PIN nuevo debe ser distinto al actual.",
+            "PIN_UNCHANGED",
+        )
+
+    user.pin_hash = hash_pin(payload.new_pin)
+    db.commit()
+    reset_rate_limit("change-pin", scope_id)
+    return Message(detail="PIN actualizado correctamente.")
 
 
 @router.get("/heartbeat", response_model=HeartbeatResponse)

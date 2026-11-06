@@ -31,6 +31,8 @@ Códigos relevantes:
 | ---- | ------------------------ | ------------------------------------------------- |
 | 400  | `MISSING_LICENSE_HEADERS`| Faltan `X-License-Key` o `X-Device-UUID`.          |
 | 401  | `INVALID_CREDENTIALS`    | Cédula/PIN incorrectos.                            |
+| 401  | `INVALID_CURRENT_PIN`    | El PIN actual no coincide al cambiarlo.            |
+| 400  | `PIN_UNCHANGED`          | El PIN nuevo es igual al actual.                   |
 | 401  | `INVALID_TOKEN` / `INVALID_REFRESH_TOKEN` / `TOKEN_REVOKED` | Token inválido, vencido o rotado. |
 | 402  | `INVALID_LICENSE_KEY`    | Licencia inexistente.                              |
 | 402  | `SUBSCRIPTION_EXPIRED` / `SUBSCRIPTION_SUSPENDED` | Suscripción vencida/suspendida. |
@@ -85,6 +87,18 @@ queda revocado). Incluya `X-License-Key` para recibir un nuevo `grace_token`.
 ### `POST /auth/logout`
 
 `{ "refresh_token": "…" }` → `{ "detail": "…", "code": "LOGGED_OUT" }`.
+
+### `POST /auth/change-pin`
+
+Requiere `Authorization: Bearer …`.
+
+```json
+{ "current_pin": "1234", "new_pin": "5678" }
+```
+
+→ `{ "detail": "PIN actualizado correctamente." }`. Verifica el PIN actual,
+rechaza reutilizar el mismo PIN y aplica el mismo límite de intentos que el
+login (`PIN_LOCKOUT`).
 
 ### `GET /auth/me`
 
