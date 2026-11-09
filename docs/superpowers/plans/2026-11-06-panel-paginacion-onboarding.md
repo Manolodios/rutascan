@@ -19,8 +19,9 @@ Alcance aprobado por el usuario ("hazlo"):
       (persistida por empresa en `localStorage`).
 
 ## 3. Verificación
-- [ ] `pytest` backend completo.
-- [ ] `tsc` + build del panel, `oxlint` sin errores nuevos.
-- [ ] Prueba local end-to-end: empresa nueva (onboarding 0/4, ocultar) y
+- [x] `pytest` backend completo (44 passed).
+- [x] `tsc` + build del panel, `oxlint` sin errores nuevos.
+- [x] Prueba local end-to-end: empresa nueva (onboarding 0/4, ocultar) y
       catálogo con >50 productos (paginación real) + eventos >50 (offset).
-- [ ] `build:web`, commit, push, smoke test en producción.
+- [x] `build:web`, commit, push, smoke test en producción (bundle
+      `index-CD_rJKcz.js` live; health ok; `setup` y `offset` responden).
