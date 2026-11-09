@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { MapPinIcon, RefreshCwIcon } from "lucide-react";
 import { DataCard, PageHeader } from "@/components/page-header";
+import { PaginationFooter } from "@/components/pagination-footer";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -51,20 +52,23 @@ const ALL_TYPES = [
 
 const NONE = "__none__";
 
+const PAGE_SIZE = 50;
+
 type Coords = { latitude: number; longitude: number };
 
 export function SecurityView() {
 	const [type, setType] = useState(NONE);
+	const [page, setPage] = useState(0);
 	const [coords, setCoords] = useState<Coords | null>(null);
 
 	const state = useAsyncData<SecurityEventOut[]>(
 		() =>
 			api<SecurityEventOut[]>(
-				`/api/v1/admin/security-events?limit=200${
+				`/api/v1/admin/security-events?limit=${PAGE_SIZE}&offset=${page * PAGE_SIZE}${
 					type === NONE ? "" : `&event_type=${type}`
 				}`,
 			),
-		[type],
+		[type, page],
 	);
 
 	const events = state.data ?? [];
@@ -75,7 +79,7 @@ export function SecurityView() {
 				description={
 					state.loading && !state.data
 						? "Cargando eventos…"
-						: `${formatInteger(events.length)} evento(s)`
+						: `Página ${page + 1} · ${formatInteger(events.length)} evento(s)`
 				}
 				title="Seguridad"
 			>
@@ -83,7 +87,13 @@ export function SecurityView() {
 					<Label className="text-muted-foreground text-xs" htmlFor="s-type">
 						Tipo
 					</Label>
-					<Select onValueChange={setType} value={type}>
+					<Select
+						onValueChange={(value) => {
+							setType(value);
+							setPage(0);
+						}}
+						value={type}
+					>
 						<SelectTrigger className="w-56" id="s-type">
 							<SelectValue />
 						</SelectTrigger>
@@ -135,7 +145,11 @@ export function SecurityView() {
 									className="py-10 text-center text-muted-foreground"
 									colSpan={6}
 								>
-									Sin eventos de seguridad. Todo en orden.
+									{page > 0
+										? `No hay más eventos en la página ${page + 1}. Vuelve a la página anterior.`
+										: type === NONE
+											? "Sin eventos de seguridad. Todo en orden."
+											: "Sin eventos de este tipo."}
 								</TableCell>
 							</TableRow>
 						) : (
@@ -196,6 +210,14 @@ export function SecurityView() {
 						)}
 					</TableBody>
 				</Table>
+				<PaginationFooter
+					count={events.length}
+					noun="evento(s)"
+					onNext={() => setPage((value) => value + 1)}
+					onPrevious={() => setPage((value) => Math.max(0, value - 1))}
+					page={page}
+					pageSize={PAGE_SIZE}
+				/>
 			</DataCard>
 
 			<p className="text-muted-foreground text-xs">

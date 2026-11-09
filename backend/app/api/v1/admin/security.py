@@ -45,6 +45,7 @@ def list_security_events(
     event_type: SecurityEventType | None = None,
     date_from: datetime | None = None,
     limit: int = Query(default=100, ge=1, le=500),
+    offset: int = Query(default=0, ge=0),
     db: Session = Depends(get_db),
     user: User = Depends(get_current_staff),
 ) -> list[SecurityEventOut]:
@@ -52,8 +53,9 @@ def list_security_events(
         sa.select(SecurityEvent)
         .options(joinedload(SecurityEvent.user))
         .where(SecurityEvent.company_id == user.company_id)
-        .order_by(SecurityEvent.created_at.desc())
+        .order_by(SecurityEvent.created_at.desc(), SecurityEvent.id.desc())
         .limit(limit)
+        .offset(offset)
     )
     if event_type is not None:
         stmt = stmt.where(SecurityEvent.event_type == event_type)

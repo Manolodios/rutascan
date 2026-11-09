@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { OnboardingCard } from "@/components/onboarding-card";
 import { RsActivity } from "@/components/rs-activity";
 import { RsLicenseCard } from "@/components/rs-license-card";
 import { RsStats } from "@/components/rs-stats";
@@ -9,7 +10,7 @@ import { useAuth } from "@/lib/auth";
 import { useDashboardData } from "@/lib/use-dashboard";
 
 export function RsDashboard() {
-	const { user } = useAuth();
+	const { session, user } = useAuth();
 	const { summary, liveMap, license, error, loading, lastUpdated, reload } =
 		useDashboardData();
 
@@ -64,6 +65,14 @@ export function RsDashboard() {
 				<div className="rounded-lg border border-destructive/30 bg-destructive/5 px-4 py-2 text-destructive text-sm">
 					{error}
 				</div>
+			) : null}
+
+			{user?.role === "ADMIN" && summary.setup ? (
+				<OnboardingCard
+					companyId={session?.company?.id ?? user.id}
+					key={session?.company?.id ?? user.id}
+					setup={summary.setup}
+				/>
 			) : null}
 
 			<div className="grid grid-cols-1 gap-px bg-border p-px md:grid-cols-2 lg:grid-cols-4">

@@ -8,6 +8,7 @@ import {
 	UploadIcon,
 } from "lucide-react";
 import { DataCard, PageHeader } from "@/components/page-header";
+import { PaginationFooter } from "@/components/pagination-footer";
 import { ActiveBadge } from "@/components/views/status-badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -41,9 +42,12 @@ import { formatDateTime, formatInteger } from "@/lib/format";
 import { errorMessage } from "@/lib/mutate";
 import { useAsyncData } from "@/lib/use-async";
 
+const PAGE_SIZE = 50;
+
 export function ProductsView() {
 	const [query, setQuery] = useState("");
 	const [term, setTerm] = useState("");
+	const [page, setPage] = useState(0);
 	const [selected, setSelected] = useState<Set<string>>(new Set());
 	const [copies, setCopies] = useState("1");
 	const [editing, setEditing] = useState<ProductOut | null>(null);
@@ -52,16 +56,21 @@ export function ProductsView() {
 	const fileRef = useRef<HTMLInputElement>(null);
 
 	useEffect(() => {
-		const timer = setTimeout(() => setTerm(query.trim()), 280);
+		const timer = setTimeout(() => {
+			setTerm(query.trim());
+			setPage(0);
+		}, 280);
 		return () => clearTimeout(timer);
 	}, [query]);
 
 	const state = useAsyncData<ProductOut[]>(
 		() =>
 			api<ProductOut[]>(
-				`/api/v1/admin/products?limit=2000${term ? `&q=${encodeURIComponent(term)}` : ""}`,
+				`/api/v1/admin/products?limit=${PAGE_SIZE}&offset=${page * PAGE_SIZE}${
+					term ? `&q=${encodeURIComponent(term)}` : ""
+				}`,
 			),
-		[term],
+		[term, page],
 	);
 
 	const products = state.data ?? [];
@@ -140,7 +149,7 @@ export function ProductsView() {
 				description={
 					state.loading && !state.data
 						? "Cargando catálogo…"
-						: `${formatInteger(products.length)} producto(s)${
+						: `Página ${page + 1} · ${formatInteger(products.length)} producto(s)${
 								selected.size ? ` · ${selected.size} seleccionado(s)` : ""
 							}`
 				}
@@ -225,11 +234,14 @@ export function ProductsView() {
 									aria-label="Seleccionar todos"
 									checked={allSelected}
 									onCheckedChange={(checked) => {
-										if (checked === true) {
-											setSelected(new Set(products.map((p) => p.id)));
-										} else {
-											setSelected(new Set());
-										}
+										setSelected((prev) => {
+											const next = new Set(prev);
+											for (const product of products) {
+												if (checked === true) next.add(product.id);
+												else next.delete(product.id);
+											}
+											return next;
+										});
 									}}
 								/>
 							</TableHead>
@@ -257,7 +269,11 @@ export function ProductsView() {
 									className="py-10 text-center text-muted-foreground"
 									colSpan={8}
 								>
-									Sin productos en el catálogo.
+									{page > 0
+										? `No hay más productos en la página ${page + 1}. Vuelve a la página anterior.`
+										: term
+											? `Sin resultados para “${term}”.`
+											: "Sin productos en el catálogo."}
 								</TableCell>
 							</TableRow>
 						) : (
@@ -315,6 +331,14 @@ export function ProductsView() {
 						)}
 					</TableBody>
 				</Table>
+				<PaginationFooter
+					count={products.length}
+					noun="producto(s)"
+					onNext={() => setPage((value) => value + 1)}
+					onPrevious={() => setPage((value) => Math.max(0, value - 1))}
+					page={page}
+					pageSize={PAGE_SIZE}
+				/>
 			</DataCard>
 
 			<ProductEditorDialog

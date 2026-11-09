@@ -273,6 +273,13 @@ export type DashboardSummary = {
 		completion_pct: number;
 	};
 	alerts: { security_events_24h: number; by_type: Record<string, number> };
+	setup: {
+		trucks: number;
+		products: number;
+		team: number;
+		routes: number;
+		complete: boolean;
+	};
 	weekly: Array<{ date: string; DELIVER: number; REJECT: number; LOAD: number }>;
 	recent_activity: ActivityRow[];
 };

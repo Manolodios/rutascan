@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session, joinedload
 from app.core.geo import ensure_utc, local_today, utcnow
 from app.models.company import Company
 from app.models.delivery import DeliveryLog
-from app.models.enums import DetailStatus, RouteStatus
+from app.models.enums import DetailStatus, Role, RouteStatus
 from app.models.product import Product
 from app.models.route import Route, RouteDetail
 from app.models.security_event import SecurityEvent
@@ -80,6 +80,40 @@ def dashboard_summary(db: Session, company: Company, day: date | None = None) ->
     )
     active_trucks = routes_by_status.get(RouteStatus.IN_PROGRESS.value, 0)
 
+    # First-run checklist: real counts so the panel can hide each completed step.
+    products_total = int(
+        db.scalar(
+            sa.select(sa.func.count()).select_from(Product).where(
+                Product.company_id == company_id, Product.is_active.is_(True)
+            )
+        )
+        or 0
+    )
+    team_total = int(
+        db.scalar(
+            sa.select(sa.func.count()).select_from(User).where(
+                User.company_id == company_id,
+                User.is_active.is_(True),
+                User.role != Role.ADMIN,
+            )
+        )
+        or 0
+    )
+    routes_ever = int(
+        db.scalar(
+            sa.select(sa.func.count()).select_from(Route).where(
+                Route.company_id == company_id
+            )
+        )
+        or 0
+    )
+    setup_counts = {
+        "trucks": trucks_total,
+        "products": products_total,
+        "team": team_total,
+        "routes": routes_ever,
+    }
+
     since = utcnow() - timedelta(hours=24)
     security_rows = db.execute(
         sa.select(SecurityEvent.event_type, sa.func.count())
@@ -101,6 +135,10 @@ def dashboard_summary(db: Session, company: Company, day: date | None = None) ->
         "alerts": {
             "security_events_24h": sum(alerts_by_type.values()),
             "by_type": alerts_by_type,
+        },
+        "setup": {
+            **setup_counts,
+            "complete": all(value > 0 for value in setup_counts.values()),
         },
         "weekly": weekly_stats(db, company_id, days=7),
         "recent_activity": recent_activity(db, company_id, limit=12),

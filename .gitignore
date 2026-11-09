@@ -63,6 +63,7 @@ desktop/*.log
 npm-debug.log*
 
 # --- OS / editor -------------------------------------------------------
+.superpowers/
 .DS_Store
 Thumbs.db
 desktop.ini

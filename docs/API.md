@@ -230,7 +230,7 @@ la URL en la cola local y viaja con el batch).
 
 | Método y ruta | Descripción |
 | --- | --- |
-| `GET /dashboard/summary` | KPIs: entregas, rechazos, eventos, licencia. |
+| `GET /dashboard/summary` | KPIs: entregas, rechazos, eventos, licencia y conteos `setup` (camiones, productos, equipo, rutas) para los primeros pasos. |
 | `GET /dashboard/live-map` | Última posición por camión + eventos. |
 | `GET /dashboard/activity` | Actividad reciente. |
 | `GET /routes?route_date=…` | Rutas (filtro por fecha). |
@@ -239,7 +239,7 @@ la URL en la cola local y viaja con el batch).
 | `POST /routes/{id}/details` | Asignar productos `{items: [{product_id, assigned_quantity}]}`. |
 | `POST /routes/{id}/details/import` | Importar manifiesto CSV/Excel. |
 | `POST /routes/{id}/dispatch` | Despachar ruta (PENDING → IN_PROGRESS). |
-| `GET /products` · `POST /products` | Listar/crear productos. |
+| `GET /products` · `POST /products` | Listar/crear productos. Listado con `limit` (1–2000) y `offset`. |
 | `PATCH /products/{id}` | Actualizar producto. |
 | `GET /products/template.csv` | Plantilla de importación. |
 | `POST /products/import` | Importar productos (upsert). |
@@ -254,7 +254,7 @@ la URL en la cola local y viaja con el batch).
 | `GET /license` | Snapshot de licencia + dispositivos. |
 | `GET /license/devices` | Dispositivos registrados. |
 | `POST /license/devices/{id}/block` | Bloquear dispositivo. |
-| `GET /security-events` | Eventos anti-fraude. |
+| `GET /security-events` | Eventos anti-fraude paginados con `limit` (1–500) y `offset`; filtro opcional `event_type`. |
 
 Todos exigen Bearer y aíslan por `company_id` del token (multi-tenant estricto).
 

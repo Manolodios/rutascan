@@ -59,7 +59,9 @@ def list_products(
             )
         )
     return list(
-        db.scalars(stmt.order_by(Product.description).limit(limit).offset(offset)).all()
+        db.scalars(
+            stmt.order_by(Product.description, Product.id).limit(limit).offset(offset)
+        ).all()
     )
 
 
