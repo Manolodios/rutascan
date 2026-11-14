@@ -41,13 +41,16 @@ set "DEMO_AUTO_REFRESH=true"
 set "WEB_DIR=%ROOT%web"
 set "UPLOAD_DIR=%ROOT%uploads"
 set "PYTHONPATH=%ROOT%backend"
+REM Solo localhost por defecto. Para usar el celular en la misma red WiFi,
+REM ejecute "PREPARAR CELULAR.bat" (deja RUTASCAN_BIND=0.0.0.0).
+if not defined RUTASCAN_BIND set "RUTASCAN_BIND=127.0.0.1"
 
 echo   ----------------------------------------------------------
 echo    PARA CERRAR RutaScan: cierra esta ventana negra.
 echo   ----------------------------------------------------------
 echo.
 
-"%PY%" -m uvicorn app.main:app --host 0.0.0.0 --port 8000
+"%PY%" -m uvicorn app.main:app --host %RUTASCAN_BIND% --port 8000
 
 echo.
 echo   El servidor se ha detenido.

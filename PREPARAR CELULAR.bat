@@ -26,6 +26,10 @@ echo.
 netsh advfirewall firewall delete rule name="RutaScan (celular)" >nul 2>&1
 netsh advfirewall firewall add rule name="RutaScan (celular)" dir=in action=allow protocol=TCP localport=8000 profile=private,domain >nul 2>&1
 
+REM Por seguridad, RutaScan escucha solo en 127.0.0.1. Este script es el
+REM opt-in explicito para abrirlo a la red local (cierre y reabra RutaScan).
+setx RUTASCAN_BIND 0.0.0.0 >nul 2>&1
+
 if %errorlevel%==0 (
   echo   [OK] Puerto 8000 abierto para la red local.
 ) else (
@@ -40,6 +44,8 @@ echo.
 echo   IMPORTANTE:
 echo     - El celular y este PC deben estar en la MISMA red WiFi.
 echo     - Deje RutaScan abierto en este PC mientras usa el celular.
+echo     - Cierre y vuelva a abrir RutaScan para que tome el cambio.
+echo     - Para volver a solo-PC:  setx RUTASCAN_BIND 127.0.0.1
 echo.
 pause
 exit /b

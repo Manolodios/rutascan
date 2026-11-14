@@ -88,7 +88,7 @@ la ventana.
 | **RutaScan** (Escritorio / Inicio) | abre la app de escritorio (ventana propia, ícono de camión) |
 | `INSTALAR RutaScan.bat` | (re)crea el acceso directo, el ícono y la entrada de desinstalación |
 | `ABRIR RutaScan.bat` | igual que el acceso directo (sin instalación) |
-| `PREPARAR CELULAR.bat` | abre el puerto 8000 en el firewall y muestra la IP del PC (una vez) |
+| `PREPARAR CELULAR.bat` | abre el puerto 8000 y habilita la red local (`RUTASCAN_BIND=0.0.0.0`) una vez |
 | `PUBLICAR RutaScan en Internet.bat` | enlace público HTTPS (Cloudflare Tunnel) para usar la app desde cualquier red |
 | `CERRAR RutaScan.bat` | cierra backend, túnel y ventanas |
 | `DESINSTALAR RutaScan.bat` | quita la app de Windows (el proyecto y los datos quedan intactos) |
@@ -208,9 +208,9 @@ cd mobile
 flutter build apk --release --dart-define=API_BASE_URL=http://<IP-del-PC>:8000
 ```
 
-Ejecute antes `PREPARAR CELULAR.bat` (abre el puerto 8000 en el firewall y le
-muestra la IP). El APK queda en
-`mobile/build/app/outputs/flutter-apk/app-release.apk`.
+Ejecute antes `PREPARAR CELULAR.bat` (abre el puerto 8000, habilita
+`RUTASCAN_BIND=0.0.0.0` y le muestra la IP del PC; cierre y reabra RutaScan).
+El APK queda en `mobile/build/app/outputs/flutter-apk/app-release.apk`.
 
 > En la app, la dirección del servidor se puede cambiar sin recompilar:
 > pantalla de inicio de sesión → `Servidor: …`, o **Ajustes → Cambiar

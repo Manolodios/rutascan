@@ -16,10 +16,12 @@ const fs = require('fs');
 const PORT = 8000;
 const ORIGIN = `http://127.0.0.1:${PORT}`;
 /**
- * Bind on every interface so the Android app can reach the backend over the
- * local network. Set RUTASCAN_BIND=127.0.0.1 to keep it PC-only.
+ * Bind only on localhost by default: the panel and the API carry session tokens
+ * over plain HTTP, so exposing them to the whole office WiFi is opt-in.
+ * To use the phone on the same network run "PREPARAR CELULAR.bat" (sets
+ * RUTASCAN_BIND=0.0.0.0) or set it by hand.
  */
-const BIND = process.env.RUTASCAN_BIND || '0.0.0.0';
+const BIND = process.env.RUTASCAN_BIND || '127.0.0.1';
 /** The React panel is served under /app by the RutaScan backend (the root is the public landing). */
 const HOME = `${ORIGIN}/app/`;
 

@@ -24,6 +24,13 @@ etiquetas QR generadas se abren en una ventana pequeña y los enlaces externos
 | Lo guarda el instalador | `%LOCALAPPDATA%\RutaScan\project.txt` |
 | Python | `<proyecto>\.venv\Scripts\python.exe` |
 | Panel servido | `<proyecto>\web` (`WEB_DIR`) — lo genera `dashboard`: `npm run build:web` |
+| Interfaz de red | `127.0.0.1` por defecto (`RUTASCAN_BIND=0.0.0.0` para el celular) |
+
+> **Red local (opt-in).** La app escucha solo en `127.0.0.1`: el panel y la API
+> viajan por HTTP plano, así que no se exponen a la WiFi de la oficina sin
+> querer. Para conectar el celular ejecute `PREPARAR CELULAR.bat` (abre el
+> puerto 8000 y deja `RUTASCAN_BIND=0.0.0.0`); para volver a solo-PC:
+> `setx RUTASCAN_BIND 127.0.0.1` y reabra la app.
 
 > La carpeta se detecta automáticamente (variable `RUTASCAN_PROJECT`, luego
 > `%LOCALAPPDATA%\RutaScan\project.txt`, luego las carpetas superiores a la app).
