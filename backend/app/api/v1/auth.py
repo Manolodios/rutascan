@@ -305,7 +305,7 @@ def change_pin(
         register_failed_attempt(
             "change-pin", scope_id, settings.pin_lockout_minutes * 60
         )
-        raise _error(401, "El PIN actual no es correcto.", "INVALID_CURRENT_PIN")
+        raise _error(400, "El PIN actual no es correcto.", "INVALID_CURRENT_PIN")
 
     if payload.current_pin == payload.new_pin:
         raise _error(

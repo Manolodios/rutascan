@@ -33,7 +33,9 @@ def test_change_pin_rejects_wrong_current(db, tenant):
     with pytest.raises(HTTPException) as exc:
         change_pin(_payload(current="0000"), user=tenant.admin, db=db)
 
-    assert exc.value.status_code == 401
+    # 400, no 401: un PIN actual equivocado no es una sesión inválida. El panel
+    # trata cualquier 401 como sesión vencida y cerraría la sesión del usuario.
+    assert exc.value.status_code == 400
     assert exc.value.detail["code"] == "INVALID_CURRENT_PIN"
     db.refresh(tenant.admin)
     assert verify_pin("1234", tenant.admin.pin_hash)
