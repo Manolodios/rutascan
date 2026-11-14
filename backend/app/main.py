@@ -119,6 +119,8 @@ def create_app() -> FastAPI:
             "connect-src 'self' https://tile.openstreetmap.org "
             "https://*.tile.openstreetmap.org; "
             "font-src 'self' data:; "
+            # El panel abre el mapa de un evento en un iframe de OSM (Seguridad).
+            "frame-src https://www.openstreetmap.org; "
             "frame-ancestors 'none'; "
             "base-uri 'self'; "
             "form-action 'self'"

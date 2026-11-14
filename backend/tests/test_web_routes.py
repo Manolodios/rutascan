@@ -42,3 +42,13 @@ def test_csp_allows_openstreetmap_tile_subdomains():
     )
     assert "https://*.tile.openstreetmap.org" in img_src
     assert "https://*.tile.openstreetmap.org" in connect_src
+
+
+def test_csp_allows_openstreetmap_embed_iframe():
+    """Seguridad > Ubicacion del evento abre el mapa en un iframe de OSM."""
+    client = TestClient(create_app())
+    csp = client.get("/").headers["content-security-policy"]
+    frame_src = next(
+        (part for part in csp.split(";") if part.strip().startswith("frame-src")), ""
+    )
+    assert "https://www.openstreetmap.org" in frame_src
