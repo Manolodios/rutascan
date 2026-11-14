@@ -67,8 +67,9 @@ class Settings(BaseSettings):
     # Move the demo tenant's dates to "today" on every startup. Only touches the
     # demo licence (DEMO_LICENSE_KEY); a real customer's data is never modified.
     demo_auto_refresh: bool = True
-    # La demo pública usa credenciales publicadas: en producción se deja en solo
-    # lectura para que nadie borre/altere los datos que ve el siguiente prospecto.
+    # La demo pública usa credenciales publicadas: se deja en solo lectura para
+    # que nadie borre/altere los datos que ve el siguiente prospecto. En
+    # producción siempre aplica, aunque esta variable no esté definida.
     demo_read_only: bool = False
 
     # ------------------------------------------------------------------

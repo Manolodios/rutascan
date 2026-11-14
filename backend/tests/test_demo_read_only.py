@@ -74,3 +74,23 @@ def test_real_tenant_writes_are_allowed(db, tenant, monkeypatch):
     # Llega al handler: el PIN del tenant de prueba no es 1234 -> 400, no 403.
     assert response.status_code == 400
     assert response.json()["code"] == "INVALID_CURRENT_PIN"
+
+
+def test_production_blocks_demo_writes_even_without_the_flag(db, tenant, monkeypatch):
+    """Si Render no aplica render.yaml, la demo no puede quedar escribible."""
+    tenant.company.license_key = DEMO_LICENSE_KEY
+    db.commit()
+    monkeypatch.setenv("ENVIRONMENT", "production")
+    monkeypatch.setenv("SECRET_KEY", "s" * 64)
+    monkeypatch.setenv("PLATFORM_API_KEY", "p" * 64)
+    monkeypatch.delenv("DEMO_READ_ONLY", raising=False)
+
+    client, headers = _client(db, tenant.admin)
+    response = client.post(
+        "/auth/change-pin",
+        json={"current_pin": "1234", "new_pin": "5678"},
+        headers=headers,
+    )
+
+    assert response.status_code == 403
+    assert response.json()["code"] == "DEMO_READ_ONLY"

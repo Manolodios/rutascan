@@ -37,7 +37,10 @@ def _is_blocked_demo_write(request: Request, user: User, db: Session) -> bool:
     """True si la demo pública está en solo lectura y esto intenta escribir."""
     if request.method in _SAFE_METHODS:
         return False
-    if not get_settings().demo_read_only:
+    settings = get_settings()
+    # En producción la demo SIEMPRE es de solo lectura, aunque el despliegue no
+    # tenga la variable DEMO_READ_ONLY (las credenciales son públicas).
+    if not (settings.demo_read_only or settings.is_production):
         return False
     if request.url.path.rstrip("/").endswith(_DEMO_WRITE_EXEMPT):
         return False
