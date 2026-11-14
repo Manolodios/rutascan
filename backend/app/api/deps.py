@@ -11,6 +11,7 @@ from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
 
 from app.core.cache import cache
+from app.core.config import get_settings
 from app.core.security import TokenError, decode_token
 from app.db.session import get_db
 from app.models.company import Company
@@ -22,12 +23,34 @@ from app.services.audit import PendingSecurityEvent, persist_security_events
 
 bearer_scheme = HTTPBearer(auto_error=False)
 
+_SAFE_METHODS = frozenset({"GET", "HEAD", "OPTIONS"})
+# POSTs de solo sesión: no tocan datos del tenant y la demo los necesita para
+# refrescar el permiso offline del celular y para cerrar sesión.
+_DEMO_WRITE_EXEMPT = ("/auth/logout", "/api/v1/mobile/heartbeat")
+
 
 def _http_error(status_code: int, message: str, code: str, **extra) -> HTTPException:
     return HTTPException(status_code=status_code, detail={"detail": message, "code": code, **extra})
 
 
+def _is_blocked_demo_write(request: Request, user: User, db: Session) -> bool:
+    """True si la demo pública está en solo lectura y esto intenta escribir."""
+    if request.method in _SAFE_METHODS:
+        return False
+    if not get_settings().demo_read_only:
+        return False
+    if request.url.path.rstrip("/").endswith(_DEMO_WRITE_EXEMPT):
+        return False
+    company = db.get(Company, user.company_id)
+    if company is None:
+        return False
+    from app.db.init_db import DEMO_LICENSE_KEY  # noqa: PLC0415  (evita import pesado al cargar)
+
+    return company.license_key == DEMO_LICENSE_KEY
+
+
 def get_current_user(
+    request: Request,
     credentials: HTTPAuthorizationCredentials | None = Depends(bearer_scheme),
     db: Session = Depends(get_db),
 ) -> User:
@@ -49,6 +72,12 @@ def get_current_user(
     user = db.get(User, user_id)
     if user is None or not user.is_active:
         raise _http_error(401, "Usuario inexistente o desactivado.", "USER_DISABLED")
+    if _is_blocked_demo_write(request, user, db):
+        raise _http_error(
+            403,
+            "La demo pública es de solo lectura. Cree una empresa de prueba para modificar datos.",
+            "DEMO_READ_ONLY",
+        )
     return user
 
 

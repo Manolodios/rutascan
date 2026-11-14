@@ -36,8 +36,9 @@ El APK ya viene **apuntando a la nube** (se compila con `--dart-define`) y pide
 **Android 7 o superior**; no hay que configurar nada en el teléfono. También
 está publicado en **[GitHub Releases](https://github.com/Manolodios/rutascan/releases)**.
 
-- **Entrada de demo:** botón *"Ver credenciales de demostración"* en el login, o
-  la tabla de credenciales de más abajo.
+- **Entrada de demo:** use la tabla de credenciales de más abajo. La demo es de
+  **solo lectura**: se puede recorrer todo el panel, pero no crear, editar ni
+  borrar (así el siguiente prospecto encuentra los datos intactos).
 - **Servidor:** Render (`rutascan`, plan free, región Virginia). Duerme tras
   15 minutos sin visitas y despierta en ~30-60 s; ábralo un minuto antes de una
   demostración.

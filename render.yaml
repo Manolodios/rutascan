@@ -33,5 +33,9 @@ services:
         sync: false          # pegar la URI de Supabase (Session pooler)
       - key: SEED_DEMO_DATA
         value: "true"
+      - key: DEMO_READ_ONLY
+        # Las credenciales de la demo son públicas: sin esto, cualquiera puede
+        # entrar como ADMIN y borrar los datos que verá el siguiente prospecto.
+        value: "true"
       - key: WEB_DIR
         value: ../web
