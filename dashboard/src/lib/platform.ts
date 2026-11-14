@@ -173,6 +173,26 @@ export function isOperative(company: CompanyOut): boolean {
 }
 
 /**
+ * yyyy-mm-dd N days after `from`, or after today when `from` is missing or
+ * already in the past.
+ */
+export function addDays(days: number, from?: string): string {
+	const now = new Date();
+	const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+	if (from) {
+		const parsed = new Date(`${from}T00:00:00`);
+		if (!Number.isNaN(parsed.getTime()) && parsed.getTime() > start.getTime()) {
+			start.setTime(parsed.getTime());
+		}
+	}
+
+	const result = new Date(start.getFullYear(), start.getMonth(), start.getDate() + days);
+	const offset = result.getTimezoneOffset();
+	return new Date(result.getTime() - offset * 60000).toISOString().slice(0, 10);
+}
+
+/**
  * yyyy-mm-dd N months after `from`, or after today when `from` is missing or
  * already in the past (so "renew 12 months" always extends forward).
  */

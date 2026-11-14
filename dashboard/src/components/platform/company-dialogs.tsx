@@ -22,6 +22,7 @@ import {
 import { todayISO } from "@/lib/format";
 import { errorMessage } from "@/lib/mutate";
 import {
+	addDays,
 	addMonths,
 	platformApi,
 	type CompanyCreatedOut,
@@ -73,7 +74,7 @@ export function NewCompanyDialog({
 	const [name, setName] = useState("");
 	const [taxId, setTaxId] = useState("");
 	const [maxTrucks, setMaxTrucks] = useState("5");
-	const [expiration, setExpiration] = useState(() => addMonths(12));
+	const [expiration, setExpiration] = useState(() => addDays(30));
 	const [adminName, setAdminName] = useState("");
 	const [adminCedula, setAdminCedula] = useState("");
 	const [adminPin, setAdminPin] = useState("");
@@ -85,7 +86,7 @@ export function NewCompanyDialog({
 		setName("");
 		setTaxId("");
 		setMaxTrucks("5");
-		setExpiration(addMonths(12));
+		setExpiration(addDays(30));
 		setAdminName("");
 		setAdminCedula("");
 		setAdminPin("");
@@ -246,6 +247,9 @@ Vence: ${created.expiration_date}`;
 							type="date"
 							value={expiration}
 						/>
+						<span className="text-muted-foreground text-xs">
+							Por defecto, 30 días de prueba desde hoy.
+						</span>
 					</div>
 
 					<div className="grid gap-1.5 sm:col-span-2">
