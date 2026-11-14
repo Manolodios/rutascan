@@ -29,12 +29,14 @@ RutaScan ya está publicado y funcionando 24/7, **sin depender de ningún PC**
 | --- | --- |
 | Sitio web (promoción) | <https://rutascan.onrender.com> |
 | Panel web (PC / tablet) | <https://rutascan.onrender.com/app/> |
-| App del celular (APK, 23 MB) | <https://rutascan.onrender.com/uploads/RutaScan-Celular.apk> |
-| App para teléfonos antiguos (32 bits, 19 MB) | <https://rutascan.onrender.com/uploads/RutaScan-Celular-32bits.apk> |
+| App del celular (APK, 24 MB) | <https://rutascan.onrender.com/uploads/RutaScan-Celular.apk> |
+| App para teléfonos antiguos (32 bits, 20 MB) | <https://rutascan.onrender.com/uploads/RutaScan-Celular-32bits.apk> |
 
 El APK ya viene **apuntando a la nube** (se compila con `--dart-define`) y pide
-**Android 7 o superior**; no hay que configurar nada en el teléfono. También
-está publicado en **[GitHub Releases](https://github.com/Manolodios/rutascan/releases)**.
+**Android 7 o superior**; no hay que configurar nada en el teléfono. Está firmado
+con la llave de publicación del proyecto (no con la de depuración): si va a
+publicar actualizaciones, respalde `mobile/android/keystore/` y
+`mobile/android/key.properties` (procedimiento: `docs/FIRMA-APK.md`).
 
 - **Entrada de demo:** use la tabla de credenciales de más abajo. La demo es de
   **solo lectura**: se puede recorrer todo el panel, pero no crear, editar ni

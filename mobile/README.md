@@ -44,21 +44,37 @@ flutter run --dart-define=API_BASE_URL=http://192.168.1.50:8000
 
 ### Compilar el APK en este PC
 
+La firma de publicación vive **fuera de git**, en `android/key.properties` y
+`android/keystore/rutascan-release.jks`. Sin esos archivos el build release queda
+**sin firmar** (nunca se usa la llave de depuración). Procedimiento completo:
+`../docs/FIRMA-APK.md`.
+
 ```powershell
 cd mobile
-flutter build apk --release --dart-define=API_BASE_URL=http://192.168.1.139:8000
+# APK universal (todas las arquitecturas, ~65 MB)
+flutter build apk --release --dart-define=API_BASE_URL=https://rutascan.onrender.com
+
+# APK por arquitectura (los que se publican en /uploads)
+flutter build apk --release --split-per-abi --dart-define=API_BASE_URL=https://rutascan.onrender.com
 ```
 
-> El APK queda en `build/app/outputs/flutter-apk/app-release.apk`.
+> Los APK quedan en `build/app/outputs/flutter-apk/`:
+> `app-arm64-v8a-release.apk` (celulares modernos) y
+> `app-armeabi-v7a-release.apk` (32 bits).
+>
+> Verifique la firma antes de publicar:
+> `C:\Android\Sdk\build-tools\36.0.0\apksigner.bat verify --print-certs <apk>`
+> — debe decir `CN=RutaScan`, no `CN=Android Debug`.
 
 Para instalarlo: copie ese archivo al teléfono (cable o WhatsApp/Drive) y ábralo;
 Android pedirá autorizar "instalar apps de origen desconocido" la primera vez.
 
 **Para que el teléfono alcance el PC** (misma red WiFi):
 
-1. Ejecute `..\PREPARAR CELULAR.bat` (abre el puerto 8000 en el firewall, pide
-   permiso de administrador) — solo hace falta una vez.
-2. Abra RutaScan en el PC (el backend ya escucha en toda la red local).
+1. Ejecute `..\PREPARAR CELULAR.bat` (abre el puerto 8000 y habilita
+   `RUTASCAN_BIND=0.0.0.0`, pide permiso de administrador) — solo hace falta una
+   vez; después cierre y reabra RutaScan.
+2. Abra RutaScan en el PC (con ese ajuste el backend escucha en la red local).
 3. Compile/instale el APK con `API_BASE_URL=http://<IP-LAN-del-PC>:8000`
    (el propio `.bat` le muestra la IP).
 

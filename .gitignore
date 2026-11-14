@@ -35,6 +35,7 @@ mobile/android/app/profile/
 mobile/android/app/release/
 mobile/android/local.properties
 mobile/android/key.properties
+mobile/android/keystore/
 mobile/ios/Pods/
 mobile/ios/.symlinks/
 mobile/ios/Flutter/Flutter.framework
