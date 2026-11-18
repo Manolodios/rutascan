@@ -112,16 +112,32 @@ def _route_out(route: Route, counts: RouteCounts) -> RouteOut:
 @router.get("", response_model=list[RouteOut])
 def list_routes(
     day: date | None = Query(default=None, description="Por defecto: hoy"),
+    date_from: date | None = Query(
+        default=None, description="Desde (inclusive); usa el rango en vez de 'day'"
+    ),
+    date_to: date | None = Query(
+        default=None, description="Hasta (inclusive); usa el rango en vez de 'day'"
+    ),
     status: RouteStatus | None = None,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_staff),
 ) -> list[RouteOut]:
+    if date_from is not None and date_to is not None and date_to < date_from:
+        raise _error(422, "date_to debe ser >= date_from.", "INVALID_DATE_RANGE")
+
     stmt = (
         sa.select(Route)
         .options(joinedload(Route.truck).joinedload(Truck.assigned_driver))
-        .where(Route.company_id == user.company_id, Route.route_date == (day or local_today()))
-        .order_by(Route.created_at)
+        .where(Route.company_id == user.company_id)
+        .order_by(Route.route_date, Route.created_at)
     )
+    if date_from is not None or date_to is not None:
+        if date_from is not None:
+            stmt = stmt.where(Route.route_date >= date_from)
+        if date_to is not None:
+            stmt = stmt.where(Route.route_date <= date_to)
+    else:
+        stmt = stmt.where(Route.route_date == (day or local_today()))
     if status is not None:
         stmt = stmt.where(Route.status == status)
     routes = db.scalars(stmt).all()
@@ -212,6 +228,33 @@ def get_route(
         ).all()
         last_scan = {row[0]: row[1] for row in rows}
 
+    # Evidencia de entrega: se muestra la firma/foto más reciente de cada línea.
+    # Se consulta aparte del último escaneo porque la firma puede llegar después
+    # (adjunta por scan_uuid) y porque un escaneo nuevo puede no traer foto.
+    pod_signature: dict[uuid.UUID, str] = {}
+    pod_photo: dict[uuid.UUID, str] = {}
+    if details:
+        rows = db.execute(
+            sa.select(
+                DeliveryLog.route_detail_id,
+                DeliveryLog.pod_signature_url,
+                DeliveryLog.pod_photo_url,
+            )
+            .where(
+                DeliveryLog.route_detail_id.in_([d.id for d in details]),
+                sa.or_(
+                    DeliveryLog.pod_signature_url.is_not(None),
+                    DeliveryLog.pod_photo_url.is_not(None),
+                ),
+            )
+            .order_by(DeliveryLog.scan_timestamp_utc)
+        ).all()
+        for detail_id, signature, photo in rows:
+            if signature:
+                pod_signature[detail_id] = signature
+            if photo:
+                pod_photo[detail_id] = photo
+
     base = _route_out(route, counts)
     return RouteFullOut(
         **base.model_dump(),
@@ -231,6 +274,8 @@ def get_route(
                 return_required=d.return_required,
                 rejection_reason=d.rejection_reason,
                 last_scan_at=last_scan.get(d.id),
+                pod_signature_url=pod_signature.get(d.id),
+                pod_photo_url=pod_photo.get(d.id),
             )
             for d in details
         ],

@@ -233,9 +233,9 @@ la URL en la cola local y viaja con el batch).
 | `GET /dashboard/summary` | KPIs: entregas, rechazos, eventos, licencia y conteos `setup` (camiones, productos, equipo, rutas) para los primeros pasos. |
 | `GET /dashboard/live-map` | Última posición por camión + eventos. |
 | `GET /dashboard/activity` | Actividad reciente. |
-| `GET /routes?route_date=…` | Rutas (filtro por fecha). |
+| `GET /routes` | Rutas. `day` (por defecto hoy) o el rango `date_from`/`date_to` (inclusive, reemplaza a `day`); `status` opcional. |
 | `POST /routes` | Crear ruta `{truck_id, route_date, driver_id?, notes?}`. |
-| `GET /routes/{id}` | Ruta completa con líneas (`RouteFullOut`). |
+| `GET /routes/{id}` | Ruta completa con líneas (`RouteFullOut`). Cada línea incluye `pod_signature_url` y `pod_photo_url` (firma/foto de la entrega, rutas internas `/uploads/...`). |
 | `POST /routes/{id}/details` | Asignar productos `{items: [{product_id, assigned_quantity}]}`. |
 | `POST /routes/{id}/details/import` | Importar manifiesto CSV/Excel. |
 | `POST /routes/{id}/dispatch` | Despachar ruta (PENDING → IN_PROGRESS). |

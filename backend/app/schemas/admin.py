@@ -164,6 +164,9 @@ class RouteDetailItem(BaseModel):
     return_required: bool = False
     rejection_reason: str | None = None
     last_scan_at: datetime | None = None
+    # Prueba de entrega capturada en el celular (rutas internas /uploads/...).
+    pod_signature_url: str | None = None
+    pod_photo_url: str | None = None
 
 
 class RouteFullOut(RouteOut):
