@@ -3,9 +3,7 @@
 from __future__ import annotations
 
 import hashlib
-import secrets
 from datetime import datetime
-from pathlib import Path
 from typing import Literal
 
 import sqlalchemy as sa
@@ -19,6 +17,7 @@ from app.core.security import create_grace_token
 from app.db.session import get_db
 from app.models.delivery import DeliveryLog
 from app.models.enums import Role
+from app.models.pod import PodFile
 from app.schemas.auth import HeartbeatResponse, LicenseStatusOut
 from app.schemas.common import Message
 from app.schemas.mobile import (
@@ -33,6 +32,7 @@ from app.schemas.mobile import (
 from app.services import licensing
 from app.services.audit import persist_security_events
 from app.services.manifest import build_today_manifest
+from app.services.pod import InvalidPodImage, prepare_pod
 from app.services.scans import ScanError, process_scan, process_scan_batch
 
 router = APIRouter(prefix="/mobile", tags=["mobile"])
@@ -180,6 +180,7 @@ async def upload_pod(
     kind: Literal["signature", "photo"] = Form(...),
     file: UploadFile = File(...),
     ctx: MobileContext = Depends(get_mobile_context),
+    db: Session = Depends(get_db),
 ) -> PodUploadResponse:
     """Store a PoD artifact (signature PNG or evidence photo) and return its URL."""
     settings = get_settings()
@@ -199,8 +200,7 @@ async def upload_pod(
         )
 
     content_type = (file.content_type or "").lower().split(";")[0].strip()
-    extension = ALLOWED_POD_TYPES.get(content_type)
-    if extension is None:
+    if content_type not in ALLOWED_POD_TYPES:
         raise HTTPException(
             status_code=415,
             detail={
@@ -209,17 +209,31 @@ async def upload_pod(
             },
         )
 
-    digest = hashlib.sha256(data).hexdigest()
-    target_dir = Path(settings.upload_dir) / str(ctx.company.id) / kind
-    target_dir.mkdir(parents=True, exist_ok=True)
-    filename = (
-        f"{kind}_{utcnow().strftime('%Y%m%dT%H%M%S')}_{digest[:12]}_{secrets.token_hex(6)}{extension}"
-    )
-    (target_dir / filename).write_bytes(data)
+    # La evidencia se guarda en la base, no en disco: el filesystem de Render es
+    # efímero y las firmas/fotos se perderían en cada despliegue o reinicio.
+    try:
+        stored, stored_type = prepare_pod(data, kind)
+    except InvalidPodImage as exc:
+        raise HTTPException(
+            status_code=422,
+            detail={"detail": str(exc), "code": "INVALID_POD_IMAGE"},
+        ) from exc
 
-    url = f"/uploads/{ctx.company.id}/{kind}/{filename}"
+    digest = hashlib.sha256(stored).hexdigest()
+    pod = PodFile(
+        company_id=ctx.company.id,
+        kind=kind,
+        content_type=stored_type,
+        size_bytes=len(stored),
+        sha256=digest,
+        data=stored,
+    )
+    db.add(pod)
+    db.flush()  # asigna el UUID sin releer el blob
+    url = f"/api/v1/pod/{pod.id}"
+    db.commit()
     return PodUploadResponse(
-        url=url, kind=kind, size_bytes=len(data), sha256=digest
+        url=url, kind=kind, size_bytes=len(stored), sha256=digest
     )
 
 
@@ -232,9 +246,9 @@ def attach_pod(
     """Attach signature/photo URLs to an already-synced scan (by scan_uuid)."""
     _ensure_field_role(ctx)
     for url in (payload.pod_signature_url, payload.pod_photo_url):
-        # Solo rutas internas de /uploads: evita que un cliente guarde URLs
+        # Solo rutas internas de RutaScan: evita que un cliente guarde URLs
         # externas o esquemas peligrosos que luego se muestren en el panel.
-        if url and not url.startswith("/uploads/"):
+        if url and not url.startswith(("/uploads/", "/api/v1/pod/")):
             raise HTTPException(
                 status_code=422,
                 detail={"detail": "URL de evidencia no válida.", "code": "INVALID_POD_URL"},

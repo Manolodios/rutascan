@@ -703,7 +703,9 @@ function ManifestDialog({
 
 /** Solo se muestran evidencias servidas por RutaScan, nunca URLs externas. */
 function evidenceUrl(url: string | null): string | null {
-	return url && url.startsWith("/uploads/") ? url : null;
+	return url && (url.startsWith("/uploads/") || url.startsWith("/api/v1/pod/"))
+		? url
+		: null;
 }
 
 function EvidenceDialog({

@@ -61,6 +61,7 @@ HTTP → LicenseGuardMiddleware (/api/v1/mobile/*)
 | `sync_batches`   | metadatos del flush offline (`received/accepted/rejected/duplicates`). |
 | `devices`        | `device_uuid`, `user_id`, `platform`, `last_seen_at`; cupo de licencia. |
 | `security_events`| tipo (MOCK_GPS, SPEED_ANOMALY, TIMESTAMP_SKEW, STALE_SCAN, PIN_LOCKOUT, DEVICE_LIMIT, CROSS_TENANT, MANIFEST_MISMATCH, …), coordenadas y detalle. |
+| `pod_files`      | firma/foto de entrega en bytes (`data`), `content_type`, `sha256`; se sirve en `/api/v1/pod/{id}`. Vive en la base para sobrevivir a reinicios de Render. |
 
 Aislamiento multi-tenant: **toda** consulta filtra por `company_id` derivado
 del token/licencia; nunca de parámetros del cliente.

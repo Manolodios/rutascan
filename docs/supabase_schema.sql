@@ -226,3 +226,21 @@ CREATE INDEX IF NOT EXISTS ix_devices_user_id ON devices (user_id);
 CREATE INDEX IF NOT EXISTS ix_routes_created_by_id ON routes (created_by_id);
 CREATE INDEX IF NOT EXISTS ix_security_events_user_id ON security_events (user_id);
 CREATE INDEX IF NOT EXISTS ix_sync_batches_user_id ON sync_batches (user_id);
+
+-- ---------------------------------------------------------------------------
+-- Evidencia de entrega (firma/foto). La crea `create_all` al arrancar; se
+-- guarda en la base porque el disco de Render es efimero.
+CREATE TABLE pod_files (
+	kind VARCHAR(16) NOT NULL,
+	content_type VARCHAR(64) NOT NULL,
+	size_bytes INTEGER NOT NULL,
+	sha256 VARCHAR(64) NOT NULL,
+	data BYTEA NOT NULL,
+	id UUID NOT NULL,
+	company_id UUID NOT NULL,
+	created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+	updated_at TIMESTAMP WITH TIME ZONE NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY(company_id) REFERENCES companies (id) ON DELETE CASCADE
+);
+CREATE INDEX ix_pod_files_company_id ON pod_files (company_id);

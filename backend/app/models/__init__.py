@@ -12,6 +12,7 @@ from app.models.enums import (
     SecurityEventType,
     SubscriptionStatus,
 )
+from app.models.pod import PodFile
 from app.models.product import Product
 from app.models.route import Route, RouteDetail
 from app.models.security_event import SecurityEvent
@@ -24,6 +25,7 @@ __all__ = [
     "SyncBatch",
     "Device",
     "Product",
+    "PodFile",
     "Route",
     "RouteDetail",
     "SecurityEvent",

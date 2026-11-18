@@ -207,18 +207,28 @@ Respuesta 200:
 ### `POST /api/v1/mobile/pod` (multipart)
 
 - `kind`: `signature` | `photo`
-- `file`: PNG/JPEG/WEBP (máx. `MAX_UPLOAD_MB`, defecto 10)
+- `file`: PNG/JPEG/WEBP (máx. `MAX_UPLOAD_MB`, defecto 12)
 
-Respuesta: `{ "url": "/uploads/<company>/signature/…png", "kind": "signature",
+La imagen se normaliza antes de guardarse: las firmas quedan en PNG (máx. 1000
+px) y las fotos en JPEG (máx. 1600 px, sin EXIF). El archivo se guarda en la
+base (`pod_files`), no en el disco, para que sobreviva a reinicios y despliegues.
+
+Respuesta: `{ "url": "/api/v1/pod/<uuid>", "kind": "signature",
 "size_bytes": 1234, "sha256": "…" }`.
+
+`GET /api/v1/pod/{id}` devuelve la imagen con `Cache-Control: immutable` y su
+`ETag`. La URL es impredecible y no hay listado: el UUID es la llave.
 
 ### `POST /api/v1/mobile/deliveries/pod-attach`
 
 Asocia evidencias a un escaneo ya sincronizado (clave: `scan_uuid`):
 
 ```json
-{ "scan_uuid": "…", "pod_signature_url": "/uploads/…", "pod_photo_url": null }
+{ "scan_uuid": "…", "pod_signature_url": "/api/v1/pod/…", "pod_photo_url": null }
 ```
+
+Se aceptan rutas internas nuevas (`/api/v1/pod/…`) y heredadas (`/uploads/…`)
+para no romper escaneos que quedaron en la cola de un APK anterior.
 
 Respuesta: `{ "detail": "Evidencia de entrega adjuntada.", "code": "POD_ATTACHED" }`.
 Si el escaneo aún no está en el servidor → 404 `SCAN_NOT_FOUND` (la app inyecta
@@ -235,7 +245,7 @@ la URL en la cola local y viaja con el batch).
 | `GET /dashboard/activity` | Actividad reciente. |
 | `GET /routes` | Rutas. `day` (por defecto hoy) o el rango `date_from`/`date_to` (inclusive, reemplaza a `day`); `status` opcional. |
 | `POST /routes` | Crear ruta `{truck_id, route_date, driver_id?, notes?}`. |
-| `GET /routes/{id}` | Ruta completa con líneas (`RouteFullOut`). Cada línea incluye `pod_signature_url` y `pod_photo_url` (firma/foto de la entrega, rutas internas `/uploads/...`). |
+| `GET /routes/{id}` | Ruta completa con líneas (`RouteFullOut`). Cada línea incluye `pod_signature_url` y `pod_photo_url` (firma/foto de la entrega; rutas internas `/api/v1/pod/...`, y `/uploads/...` heredadas). |
 | `POST /routes/{id}/details` | Asignar productos `{items: [{product_id, assigned_quantity}]}`. |
 | `POST /routes/{id}/details/import` | Importar manifiesto CSV/Excel. |
 | `POST /routes/{id}/dispatch` | Despachar ruta (PENDING → IN_PROGRESS). |

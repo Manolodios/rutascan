@@ -31,7 +31,9 @@ asistente ya creó y verificó todo por usted con las migraciones:
 | `rutascan_add_fk_indexes` | Índices que recomendó el asesor de rendimiento |
 
 El esquema exacto quedó guardado en `docs/supabase_schema.sql`. Los datos de
-demostración se siembran solos al arrancar (en Render o en el PC).
+demostración se siembran solos al arrancar (en Render o en el PC). La tabla
+`pod_files` (firmas y fotos de entrega) también la crea la aplicación al
+arrancar con `create_all`, sin migración manual.
 
 **Conexión: ya está hecha y probada ✅.** La aplicación no usa el usuario total
 de la base: se creó un usuario dedicado `rutascan_app` con permisos justos
@@ -178,10 +180,11 @@ En la app instalada:
   aplicación con su cadena de conexión, que vive únicamente en Render (variable
   segura) y en `CLAVES.txt` en su PC. Los asesores de seguridad de Supabase no
   reportan hallazgos.
-- Las **fotos de evidencia** que sube el celular quedan en el disco temporal de
-  Render: se pierden si Render reinicia el servicio (el APK sí queda, porque
-  viene del repositorio). Los datos (empresa, usuarios, escaneos) viven en
-  Supabase y no se pierden.
+- Las **fotos y firmas de evidencia** se guardan en la base de datos (tabla
+  `pod_files`), comprimidas (foto JPEG de máx. 1600 px, firma PNG de máx. 1000
+  px): sobreviven a reinicios y despliegues de Render. El APK también queda,
+  porque viene del repositorio. Los datos (empresa, usuarios, escaneos) viven
+  en Supabase y no se pierden.
 - **Sin Redis**: `cache_backend` queda en `memory` (suficiente para la demo). El
   rate-limit del login funciona igual.
 - No hay claves en el repositorio: `SECRET_KEY` la genera Render y los dos
