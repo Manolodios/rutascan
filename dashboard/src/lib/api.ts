@@ -404,6 +404,9 @@ export type RouteDetailItem = {
 	return_required: boolean;
 	rejection_reason: string | null;
 	last_scan_at: string | null;
+	/** Firma y foto de la entrega (rutas internas /uploads/...). */
+	pod_signature_url: string | null;
+	pod_photo_url: string | null;
 };
 
 export type RouteFullOut = RouteOut & { details: RouteDetailItem[] };

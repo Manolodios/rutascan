@@ -45,13 +45,25 @@ export function ReportsView() {
 	);
 
 	useEffect(() => {
+		if (from && to && from > to) {
+			setRoutes([]);
+			return;
+		}
 		let alive = true;
-		const days = Array.from(new Set([from, to])).filter(Boolean);
-		void Promise.all(
-			days.map((day) => api<RouteOut[]>(`/api/v1/admin/routes?day=${day}`)),
-		)
-			.then((lists) => {
-				if (alive) setRoutes(lists.flat());
+		const search = new URLSearchParams();
+		if (from) search.set("date_from", from);
+		if (to) search.set("date_to", to);
+		// Una sola consulta por rango: antes se pedían solo los dos extremos y
+		// las rutas de los días intermedios no aparecían en el selector.
+		void api<RouteOut[]>(`/api/v1/admin/routes?${search.toString()}`)
+			.then((list) => {
+				if (!alive) return;
+				setRoutes(list);
+				setRouteId((current) =>
+					current !== NONE && !list.some((route) => route.id === current)
+						? NONE
+						: current,
+				);
 			})
 			.catch(() => {
 				/* non-blocking */

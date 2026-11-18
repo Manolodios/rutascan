@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { PlusIcon, RocketIcon, Trash2Icon, UploadIcon } from "lucide-react";
+import { PlusIcon, PaperclipIcon, RocketIcon, Trash2Icon, UploadIcon } from "lucide-react";
 import { DataCard, PageHeader } from "@/components/page-header";
 import { ConfirmDialog } from "@/components/views/confirm-dialog";
 import { DetailStatusBadge, RouteStatusBadge } from "@/components/views/status-badge";
@@ -38,6 +38,7 @@ import {
 	api,
 	type ImportResult,
 	type ProductOut,
+	type RouteDetailItem,
 	type RouteFullOut,
 	type RouteOut,
 	type TruckOut,
@@ -392,6 +393,7 @@ function ManifestDialog({
 	const [quantity, setQuantity] = useState("1");
 	const [busy, setBusy] = useState(false);
 	const [importing, setImporting] = useState(false);
+	const [evidence, setEvidence] = useState<RouteDetailItem | null>(null);
 	const fileRef = useRef<HTMLInputElement>(null);
 
 	const load = useCallback(async () => {
@@ -414,6 +416,7 @@ function ManifestDialog({
 	useEffect(() => {
 		if (!open) {
 			setRoute(null);
+			setEvidence(null);
 			return;
 		}
 		setProductId("");
@@ -615,6 +618,7 @@ function ManifestDialog({
 										<TableHead className="text-right">Asignado</TableHead>
 										<TableHead className="text-right">Entregado</TableHead>
 										<TableHead>Estado</TableHead>
+										<TableHead>Evidencia</TableHead>
 										<TableHead>Último escaneo</TableHead>
 										{pending ? <TableHead className="pe-4" /> : null}
 									</TableRow>
@@ -645,6 +649,20 @@ function ManifestDialog({
 											<TableCell>
 												<DetailStatusBadge status={detail.status} />
 											</TableCell>
+											<TableCell>
+												{detail.pod_signature_url || detail.pod_photo_url ? (
+													<Button
+														aria-label="Ver prueba de entrega"
+														onClick={() => setEvidence(detail)}
+														size="icon-sm"
+														variant="ghost"
+													>
+														<PaperclipIcon />
+													</Button>
+												) : (
+													<span className="text-muted-foreground text-xs">—</span>
+												)}
+											</TableCell>
 											<TableCell className="text-muted-foreground text-xs">
 												{formatDateTime(detail.last_scan_at)}
 											</TableCell>
@@ -666,7 +684,7 @@ function ManifestDialog({
 										<TableRow>
 											<TableCell
 												className="py-10 text-center text-muted-foreground"
-												colSpan={pending ? 7 : 6}
+												colSpan={pending ? 8 : 7}
 											>
 												Manifiesto vacío: agregue productos o importe un CSV.
 											</TableCell>
@@ -678,6 +696,64 @@ function ManifestDialog({
 					</div>
 				) : null}
 			</DialogContent>
+			<EvidenceDialog detail={evidence} onClose={() => setEvidence(null)} />
 		</Dialog>
+	);
+}
+
+/** Solo se muestran evidencias servidas por RutaScan, nunca URLs externas. */
+function evidenceUrl(url: string | null): string | null {
+	return url && url.startsWith("/uploads/") ? url : null;
+}
+
+function EvidenceDialog({
+	detail,
+	onClose,
+}: {
+	detail: RouteDetailItem | null;
+	onClose: () => void;
+}) {
+	const signature = evidenceUrl(detail?.pod_signature_url ?? null);
+	const photo = evidenceUrl(detail?.pod_photo_url ?? null);
+
+	return (
+		<Dialog onOpenChange={(next) => (next ? undefined : onClose())} open={detail !== null}>
+			<DialogContent className="max-h-[88vh] overflow-y-auto sm:max-w-2xl">
+				<DialogHeader>
+					<DialogTitle>Prueba de entrega</DialogTitle>
+					<DialogDescription>{detail?.product.description ?? ""}</DialogDescription>
+				</DialogHeader>
+
+				{signature || photo ? (
+					<div className="space-y-5">
+						{signature ? <EvidenceImage label="Firma del cliente" src={signature} /> : null}
+						{photo ? <EvidenceImage label="Foto de la entrega" src={photo} /> : null}
+						<p className="text-muted-foreground text-xs">
+							Capturada por el conductor en el momento de la entrega. Haga clic en la
+							imagen para verla en tamaño completo.
+						</p>
+					</div>
+				) : (
+					<p className="text-muted-foreground text-sm">
+						Esta línea no tiene firma ni foto de entrega.
+					</p>
+				)}
+			</DialogContent>
+		</Dialog>
+	);
+}
+
+function EvidenceImage({ label, src }: { label: string; src: string }) {
+	return (
+		<figure className="space-y-2">
+			<figcaption className="font-medium text-sm">{label}</figcaption>
+			<a href={src} rel="noreferrer" target="_blank">
+				<img
+					alt={label}
+					className="max-h-80 w-full rounded-md border bg-muted object-contain"
+					src={src}
+				/>
+			</a>
+		</figure>
 	);
 }
