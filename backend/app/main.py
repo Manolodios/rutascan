@@ -166,7 +166,7 @@ def create_app() -> FastAPI:
     app.include_router(auth_router)
     app.include_router(api_router, prefix=settings.api_v1_prefix)
 
-    @app.get("/health", tags=["meta"])
+    @app.api_route("/health", methods=["GET", "HEAD"], tags=["meta"])
     def health() -> dict:
         db_ok = True
         try:

@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# El panel es una aplicación privada con datos de clientes: no se indexa.
+Disallow: /app/
+Disallow: /api/
+Disallow: /uploads/
+
+Sitemap: https://rutascan.onrender.com/sitemap.xml

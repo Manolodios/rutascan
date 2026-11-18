@@ -52,3 +52,24 @@ def test_csp_allows_openstreetmap_embed_iframe():
         (part for part in csp.split(";") if part.strip().startswith("frame-src")), ""
     )
     assert "https://www.openstreetmap.org" in frame_src
+
+
+def test_health_answers_head():
+    """Los monitores de disponibilidad usan HEAD; un 404 se lee como caída."""
+    client = TestClient(create_app())
+    assert client.head("/health").status_code == 200
+
+
+def test_robots_and_sitemap_are_served():
+    client = TestClient(create_app())
+
+    robots = client.get("/robots.txt")
+    assert robots.status_code == 200
+    assert "Sitemap:" in robots.text
+    # El panel no se indexa: es una aplicación privada.
+    assert "Disallow: /app/" in robots.text
+
+    sitemap = client.get("/sitemap.xml")
+    assert sitemap.status_code == 200
+    assert "<urlset" in sitemap.text
+    assert "rutascan.onrender.com" in sitemap.text

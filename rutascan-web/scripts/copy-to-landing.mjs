@@ -36,7 +36,15 @@ await mkdir(resolve(landing, "_next"), { recursive: true });
 await cp(staticSrc, resolve(landing, "_next/static"), { recursive: true });
 
 await copyFile(htmlSrc, resolve(landing, "index.html"));
-await copyFile(htmlSrc, resolve(landing, "index-editorial.html"));
+
+// SEO: viven en public/ para que `next build` y este script no los pierdan.
+for (const file of ["robots.txt", "sitemap.xml"]) {
+  try {
+    await copyFile(resolve(root, "public", file), resolve(landing, file));
+  } catch {
+    // optional
+  }
+}
 
 try {
   await copyFile(
