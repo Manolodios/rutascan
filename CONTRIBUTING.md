@@ -44,7 +44,7 @@ Redis.
 ## Pruebas
 
 ```bash
-cd backend && pytest          # 15 pruebas, sin servicios externos (SQLite en memoria)
+cd backend && pytest          # 55 pruebas, sin servicios externos (SQLite en memoria)
 cd dashboard && npm run build # el panel tiene que compilar sin errores
 ```
 

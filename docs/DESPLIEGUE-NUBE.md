@@ -9,10 +9,10 @@ PC**: ya está **completado y verificado**.
 > | --- | --- |
 > | `/health` | `200` · `database: up` · `environment: production` |
 > | Login ADMIN demo | `200` — Yasmín Bracho (ADMIN) |
-> | Panel web | `200` (HTML + JS + CSS servidos desde la nube) |
-> | APK del celular | `200` — 64,3 MB descargables |
+> | Panel web y sitio | `200` en `/app/` (panel) y `/` (sitio), servidos desde la nube |
+> | APK del celular | `200` — 24,7 MB descargables (arm64) |
 > | Datos demo | 3 rutas del día · 4 camiones · 30 entregas asignadas (11 entregadas, 2 rechazos) · 36,7 % |
-> | Licencia | `RUTA-4F7Q-2MX9-BN38` ACTIVA hasta 18/10/2027 |
+> | Licencia | `RUTA-4F7Q-2MX9-BN38` ACTIVA (la demo renueva su vencimiento al arrancar) |
 > | Primer despliegue | 1 min 40 s |
 >
 > No hizo falta tarjeta: todo en plan gratuito (Render + Supabase).
@@ -63,7 +63,7 @@ configuración (la misma que describe `render.yaml`):
 
 Variables cargadas: `PYTHON_VERSION=3.12.7`, `ENVIRONMENT=production`,
 `SECRET_KEY` (aleatoria), `SEED_DEMO_DATA=true`, `DEMO_AUTO_REFRESH=true`,
-`WEB_DIR=../web`, `UPLOAD_DIR=../uploads`, más `PLATFORM_API_KEY` y
+`DEMO_READ_ONLY=true`, `WEB_DIR=../web`, `UPLOAD_DIR=../uploads`, más `PLATFORM_API_KEY` y
 `DATABASE_URL` (los dos secretos viven en `CLAVES.txt`, secciones 6 y 7 — nunca
 en el repositorio).
 
@@ -91,16 +91,17 @@ en el repositorio).
 3. Verifique Panel / Productos / Seguridad / Licencia y el menú **Plataforma**
    (`#/plataforma`) con la clave de plataforma.
 
-Comprobaciones realizadas el 17/10/2026 **desde fuera de la red del PC**:
+Comprobaciones realizadas el 17/10/2026 y reverificadas el 18/11/2026
+**desde fuera de la red del PC**:
 
 | Endpoint | Resultado |
 | --- | --- |
-| `GET /health` | `200` · `{"status":"ok","database":"up","environment":"production"}` |
+| `GET /health` | `200` · `{"status":"ok","database":"up","environment":"production"}` (también responde a `HEAD`) |
 | `POST /auth/login` (ADMIN) | `200` — token válido (Yasmín Bracho) |
-| `GET /` (panel) | `200` — HTML + `assets/*.js` + `*.css` |
-| `HEAD /uploads/RutaScan-Celular.apk` | `200` — 23,3 MB (arm64) |
+| `GET /` (sitio) · `GET /app/` (panel) | `200` — landing y HTML + `assets/*.js` + `*.css` |
+| `HEAD /uploads/RutaScan-Celular.apk` | `200` — 24,7 MB (arm64) |
 | `GET /api/v1/admin/dashboard/summary` | `200` — 3 rutas del día, 4 camiones, 30 entregas asignadas (11 entregadas, 2 rechazos), 36,7 % |
-| `GET /api/v1/admin/license` | `200` — `RUTA-4F7Q-2MX9-BN38`, ACTIVA hasta 18/10/2027 |
+| `GET /api/v1/admin/license` | `200` — `RUTA-4F7Q-2MX9-BN38`, ACTIVA (vencimiento renovado por la demo) |
 
 ## Parte 4 - El celular
 
@@ -238,7 +239,7 @@ además le avisa por correo si la web alguna vez se cae de verdad.
 | Servicio Render | `rutascan` · `srv-dba060qjnfac73droohg` · python · free · Virginia |
 | Panel del servicio | <https://dashboard.render.com/web/srv-dba060qjnfac73droohg> |
 | Env obligatorias | `DATABASE_URL` y `PLATFORM_API_KEY` (ver `CLAVES.txt`, secciones 6-7) |
-| Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `DEMO_AUTO_REFRESH=true`, `WEB_DIR=../web`, `UPLOAD_DIR=../uploads` |
+| Env automáticas | `SECRET_KEY` (generada), `SEED_DEMO_DATA=true`, `DEMO_AUTO_REFRESH=true`, `DEMO_READ_ONLY=true`, `WEB_DIR=../web`, `UPLOAD_DIR=../uploads` |
 | Python | 3.12.7 (`PYTHON_VERSION`) |
 | Arranque | `cd backend && python -m scripts.init_db && uvicorn app.main:app --host 0.0.0.0 --port $PORT` |
 | Healthcheck | `/health` |

@@ -197,7 +197,7 @@ Pruebas:
 
 ```bash
 # desde backend/
-python -m pytest -q                      # 15 pruebas unitarias/integración
+python -m pytest -q                      # 55 pruebas unitarias/integración
 PYTHONPATH=. python -m scripts.smoke_test  # E2E con TestClient (SQLite)
 ```
 

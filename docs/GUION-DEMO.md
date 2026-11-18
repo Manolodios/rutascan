@@ -187,7 +187,8 @@ La cuenta la creas tú en 1 minuto:
 > ya tiene cuenta en otra empresa, usa otra cédula para él.
 >
 > Para **cobrar**, cambia la fecha de vencimiento en la misma pantalla (o crea
-> la empresa con 12 meses desde el principio, si ya pagó).
+> la empresa con 14 meses desde el principio: 12 pagados + los 2 de regalo por
+> pagar el año completo).
 
 ---
 
