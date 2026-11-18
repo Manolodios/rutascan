@@ -11,6 +11,10 @@
     <!-- Optional: keep the screen awake while scanning -->
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
+    <!-- HTTP sin cifrar es necesario para el modo en sitio: la app se puede
+         apuntar a http://IP-DE-LA-PC:8000 en la WiFi de la oficina (ver
+         PREPARAR CELULAR.bat). El valor de fábrica y el APK publicado usan
+         https://rutascan.onrender.com, así que el tráfico normal va cifrado. -->
     <application
         android:label="RutaScan"
         android:name="${applicationName}"
