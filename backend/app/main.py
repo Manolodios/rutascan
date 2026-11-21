@@ -31,6 +31,31 @@ logging.basicConfig(
 logger = logging.getLogger("rutascan")
 
 
+def _initialize_database(settings) -> None:
+    """Prepara la base al arrancar sin tumbar la API si está temporalmente caída.
+
+    El pooler de Supabase bloquea conexiones nuevas tras varios fallos de
+    autenticación (ECIRCUITBREAKER). En ese caso la API debe levantar en modo
+    degradado y recuperarse sola; si el contenedor muere, Render lo reinicia en
+    bucle y el bloqueo temporal no expira nunca. Los errores de esquema o
+    permisos siguen fallando rápido en producción.
+    """
+    try:
+        from app.db.init_db import init_db  # local import: avoids engine work at import time
+
+        init_db(seed=settings.seed_demo_data, refresh_demo=settings.demo_auto_refresh)
+    except sa.exc.OperationalError:
+        logger.warning(
+            "Base de datos no disponible al arrancar; la API sigue en modo degradado "
+            "y se recuperará cuando la base vuelva.",
+            exc_info=True,
+        )
+    except Exception:
+        logger.exception("DB initialization failed - check DATABASE_URL / connectivity")
+        if settings.is_production:
+            raise
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     settings = get_settings()
@@ -41,14 +66,7 @@ async def lifespan(app: FastAPI):
             "de tokens usan memoria volátil (se pierden al reiniciar). Configura REDIS_URL "
             "(p.ej. Upstash gratis) para persistencia real."
         )
-    try:
-        from app.db.init_db import init_db  # local import: avoids engine work at import time
-
-        init_db(seed=settings.seed_demo_data, refresh_demo=settings.demo_auto_refresh)
-    except Exception:
-        logger.exception("DB initialization failed - check DATABASE_URL / connectivity")
-        if settings.is_production:
-            raise
+    _initialize_database(settings)
     yield
 
 
