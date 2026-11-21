@@ -175,6 +175,12 @@ En la app instalada:
 
 - **Supabase pausa** proyectos gratuitos tras ~7 días sin uso. Si pasa, entre a
   supabase.com y pulse **Restore**; no se pierden datos.
+- **Si Supabase bloquea conexiones nuevas** (error `ECIRCUITBREAKER` en los
+  registros de Render, normalmente tras cambiar la contraseña de la base), la
+  API ya no se cae: arranca en modo degradado (`/health` responde
+  `database: down`), deja de reintentar en bucle y se recupera sola cuando el
+  bloqueo temporal expira (unos minutos). No hace falta reiniciar Render; si
+  pasados 10 minutos sigue igual, revise `DATABASE_URL` en Render.
 - **La base está blindada**: las tablas no son accesibles por la API pública de
   Supabase (se revocaron los permisos de `anon`/`authenticated`); solo entra la
   aplicación con su cadena de conexión, que vive únicamente en Render (variable

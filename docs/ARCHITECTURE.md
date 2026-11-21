@@ -151,7 +151,7 @@ Para Supabase/Neon basta apuntar `DATABASE_URL` a Postgres administrado.
 
 ## Pruebas
 
-- `backend/tests`: 55 pruebas (auth/seguridad, heurísticas geo, máquina de
+- `backend/tests`: 65 pruebas (auth/seguridad, heurísticas geo, máquina de
   estados, batch atómico, multi-unidad, rechazos).
 - `backend/scripts/smoke_test.py`: E2E con TestClient sobre SQLite que cubre
   guard de licencia, login, grace token, escaneo en vivo, idempotencia,
