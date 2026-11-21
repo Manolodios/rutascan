@@ -21,6 +21,11 @@ uploads/
 *.db
 *.sqlite3
 
+# --- Respaldos de base de datos (nunca versionar) ---------------------
+*.dump
+*.sql.gz
+backups/
+
 # --- Flutter / Dart -----------------------------------------------------
 mobile/.dart_tool/
 mobile/.packages

@@ -64,6 +64,20 @@ C:\Android\Sdk\build-tools\36.0.0\apksigner.bat verify --print-certs <apk>
 
 Debe mostrar `CN=RutaScan`. Si dice `CN=Android Debug`, **no publique** ese APK.
 
+## Publicar en GitHub Releases
+
+Los APK firmados también se publican como assets del release `v1.0.0` en
+<https://github.com/Manolodios/rutascan/releases/tag/v1.0.0>. Para actualizarlos:
+
+1. Compile y verifique la firma (arriba).
+2. Entre al release en GitHub → **Edit** → borre los assets viejos.
+3. Suba `uploads/RutaScan-Celular.apk` y `uploads/RutaScan-Celular-32bits.apk`.
+4. Actualice las notas si cambiaron las credenciales de demostración.
+
+> Si un teléfono tiene instalado un APK de depuración anterior, hay que
+> **desinstalarlo** antes de instalar el firmado: Android no permite actualizar
+> entre firmas distintas.
+
 ## Sin `key.properties`
 
 El build release queda **sin firmar** a propósito (Gradle avisa). No se cae a la

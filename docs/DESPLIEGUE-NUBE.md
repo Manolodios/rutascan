@@ -175,6 +175,17 @@ En la app instalada:
 
 - **Supabase pausa** proyectos gratuitos tras ~7 días sin uso. Si pasa, entre a
   supabase.com y pulse **Restore**; no se pierden datos.
+- **Respaldos: el plan gratuito de Supabase no incluye copias automáticas.**
+  Antes de vender, elija una de estas dos opciones y pruébela:
+  1. **Supabase Pro** (~25 USD/mes): copias diarias automáticas con retención
+     de 7 días. Es la opción más simple y la recomendada para producción.
+  2. **`pg_dump` programado** desde un PC con PostgreSQL instalado:
+     `pg_dump "<DATABASE_URL>" --no-owner --no-privileges -Fc -f rutascan-AAAAMMDD.dump`.
+     Guarde el archivo fuera del repositorio (contiene datos de clientes) y
+     pruebe la restauración al menos una vez.
+  El repositorio es público: **nunca** suba respaldos, `CLAVES.txt`, keystores
+  ni variables de entorno. Si quiere el código privado, cambie la visibilidad
+  del repositorio en GitHub; Render sigue desplegando igual.
 - **Si Supabase bloquea conexiones nuevas** (error `ECIRCUITBREAKER` en los
   registros de Render, normalmente tras cambiar la contraseña de la base), la
   API ya no se cae: arranca en modo degradado (`/health` responde
