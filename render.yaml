@@ -37,5 +37,9 @@ services:
         # Las credenciales de la demo son públicas: sin esto, cualquiera puede
         # entrar como ADMIN y borrar los datos que verá el siguiente prospecto.
         value: "true"
+      - key: DEMO_AUTO_REFRESH
+        # Mueve las fechas de la demo a "hoy" en cada arranque: el prospecto
+        # nunca debe ver la semana en cero ni una licencia vencida.
+        value: "true"
       - key: WEB_DIR
         value: ../web
