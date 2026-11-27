@@ -13,8 +13,21 @@ import threading
 import time
 from dataclasses import dataclass
 from typing import Any
+from urllib.parse import urlsplit, urlunsplit
 
 logger = logging.getLogger(__name__)
+
+
+def _redact_url(url: str) -> str:
+    """URL de Redis sin usuario ni contraseña, apta para los logs."""
+    try:
+        parts = urlsplit(url)
+    except ValueError:
+        return "redis (URL no válida)"
+    netloc = parts.netloc.rsplit("@", 1)[-1]
+    if not parts.scheme or not netloc:
+        return "redis (URL no válida)"
+    return urlunsplit((parts.scheme, netloc, parts.path, "", ""))
 
 
 @dataclass
@@ -40,10 +53,14 @@ class Cache:
             )
             client.ping()
             self._redis = client
-            logger.info("Cache: connected to Redis at %s", url)
+            logger.info("Cache: connected to Redis at %s", _redact_url(url))
         except Exception as exc:  # pragma: no cover - depends on environment
             self._redis = None
-            logger.warning("Cache: Redis unavailable (%s). Using in-memory fallback.", exc)
+            logger.warning(
+                "Cache: Redis unavailable (%s) at %s. Using in-memory fallback.",
+                type(exc).__name__,
+                _redact_url(url),
+            )
 
     @property
     def backend(self) -> str:
